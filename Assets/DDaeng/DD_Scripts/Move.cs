@@ -48,12 +48,12 @@ public class Move : MonoBehaviour
                 GameObject wave = GameObject.Instantiate(SoundWave);
                 if(gameObject.transform.localScale.x == -1)
                 {
-                    wave.transform.position = gameObject.transform.position + new Vector3(+1,0,0);
+                    wave.transform.position = gameObject.transform.position + new Vector3(-1,0,0);
 
                 }
                 else
                 {
-                    wave.transform.position = gameObject.transform.position + new Vector3(-1, 0, 0);
+                    wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
                 }
             }
         }
@@ -67,12 +67,12 @@ public class Move : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                gameObject.transform.localScale= new Vector3(-1,gameObject.transform.localScale.y,gameObject.transform.localScale.z);
+                gameObject.transform.localScale= new Vector3(+1,gameObject.transform.localScale.y,gameObject.transform.localScale.z);
                 gameObject.transform.position = new Vector3(position.x + 1f, position.y , position.z);
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                gameObject.transform.localScale = new Vector3(1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 gameObject.transform.position = new Vector3(position.x - 1f, position.y , position.z);
             }
             if (Input.GetKey(KeyCode.UpArrow))

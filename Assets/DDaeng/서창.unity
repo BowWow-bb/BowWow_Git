@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c94e77cedac87540a9f241f3a67d368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SoundWave: {fileID: 8517841167140229686, guid: 27609a775bef61e48ab1eb040979fdfc, type: 3}
 --- !u!1 &1956368841
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +465,10 @@ PrefabInstance:
     - target: {fileID: 7642227931250529783, guid: 089c16f54fa95124499da420115779fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.635
+      objectReference: {fileID: 0}
+    - target: {fileID: 7642227931250529783, guid: 089c16f54fa95124499da420115779fb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 089c16f54fa95124499da420115779fb, type: 3}

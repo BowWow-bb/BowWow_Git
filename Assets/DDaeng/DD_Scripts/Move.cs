@@ -61,6 +61,7 @@ public class Move : MonoBehaviour
                 }
             }
         }
+
         position = gameObject.transform.position;
     }
 }

@@ -22,7 +22,7 @@ public class Wave_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Mathf.Abs(DD.transform.position.x - gameObject.transform.position.x) > 20)
+        if(Mathf.Abs(DD.transform.position.x - gameObject.transform.position.x) > 30)
         {
             Destroy(gameObject);
         }

@@ -34,30 +34,20 @@ public class BigtolAi : MonoBehaviour
                 {
                     dir = new Vector3(dis_std, 0, 0);
                     transform.position -= dir * dis_v * Time.deltaTime;
-                    dis_tmp += dis_std * dis_v * Time.deltaTime;
-
-                    if (dis_tmp >= dis_std) //일정 이동거리 미도달
-                    {
-                        dis_tmp = 0.0f;
-                        break;
-                    }
+                    dis_tmp -= dis_std * dis_v * Time.deltaTime;
                 }
-   
+                dis_tmp = 0.0f;
+
             }
             else //오른쪽 이동
             {
                 while (dis_tmp < dis_std)
                 {
                     dir = new Vector3(dis_std, 0, 0);
-                    transform.position -= dir * dis_v * Time.deltaTime;
-                    dis_tmp -= dis_std * dis_v * Time.deltaTime;
-
-                    if (dis_tmp >= dis_std) //일정 이동거리 미도달
-                    {
-                        dis_tmp = 0.0f;
-                        break;
-                    }
+                    transform.position += dir * dis_v * Time.deltaTime;
+                    dis_tmp += dis_std * dis_v * Time.deltaTime;
                 }
+                dis_tmp = 0.0f;
             }
         }
     }

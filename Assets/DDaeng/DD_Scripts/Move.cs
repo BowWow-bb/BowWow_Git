@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
+    GameObject Ground;
     public GameObject SoundWave = null;
     Vector3 position;
     float G; // 중력 가속도
@@ -16,7 +17,8 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TimeScale = 1000.0f;
+        Ground = GameObject.FindWithTag("Ground");
+        TimeScale = 10000.0f;
         BallPower = 0;
         G = 9.8f / TimeScale;
         Velocityg = 0;
@@ -27,7 +29,22 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Velocityg -= G;
+        if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
+        {
+            Debug.Log("중더학;");
+            Velocityg -= G;
+            gameObject.transform.position = new Vector3(position.x, position.y+(Velocityg*0.1f), position.z);
+        }
+        else if(gameObject.transform.position.y < 3.2f)
+        {
+            gameObject.transform.position = new Vector3(position.x, 3.2f, position.z);
+        }
+        else
+        {
+            
+            Debug.Log("중초");
+            Velocityg = 0f;
+        }
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -41,7 +58,7 @@ public class Move : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            gameObject.transform.position = new Vector3(position.x, position.y + 1f + Velocityg, position.z);
+            gameObject.transform.position = new Vector3(position.x, position.y + 10f , position.z);
         }
 
         //음파 발사

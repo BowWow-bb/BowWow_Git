@@ -8,7 +8,6 @@ public class BigtolAi : MonoBehaviour
     static float hp_std;    //HP 손상 기준
 
     float dis_std;          //일정 이동거리
-    float dis_v;            //이동 속도
     float dis_tmp;          //이동 거리 확인 (일정 이동거리 도달 여부)
 
     Vector3 dir;            //이동 벡터
@@ -23,32 +22,38 @@ public class BigtolAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Vector3 tmp = new Vector3(3.0f, 0, 0);
+        //transform.position += tmp;
+
         if (hp == 100.0f) //손상 없는 경우
         {
             //좌우 랜덤으로 일정거리 이동
-            dir_ran = Random.Range(0, 2);   //0 또는 1을 랜덤으로 반환
+            if(dis_tmp==0.0f)   //이동 중일 경우 방향 전환 불가
+                dir_ran = Random.Range(0, 2);   //0 또는 1을 랜덤으로 반환
 
-            if (dir_ran == 0) //왼쪽 이동
+            if (dir_ran == 0)   //왼쪽 이동
             {
-                while (dis_tmp < dis_std)
+                if (transform.position.x - dis_std * Time.deltaTime < -50.0f)
+                    dis_tmp= 0.0f;
+                else
                 {
-                    dir = new Vector3(dis_std, 0, 0);
-                    transform.position -= dir * dis_v * Time.deltaTime;
-                    dis_tmp -= dis_std * dis_v * Time.deltaTime;
+                    transform.position = new Vector3(transform.position.x - dis_std * Time.deltaTime, transform.position.y, transform.position.z);
+                    dis_tmp += dis_std * Time.deltaTime;
                 }
-                dis_tmp = 0.0f;
-
             }
             else //오른쪽 이동
             {
-                while (dis_tmp < dis_std)
+                if (transform.position.x + dis_std * Time.deltaTime > 50.0f)
+                    dis_tmp = 0.0f;
+                else
                 {
-                    dir = new Vector3(dis_std, 0, 0);
-                    transform.position += dir * dis_v * Time.deltaTime;
-                    dis_tmp += dis_std * dis_v * Time.deltaTime;
+                    transform.position = new Vector3(transform.position.x + dis_std * Time.deltaTime, transform.position.y, transform.position.z);
+                    dis_tmp += dis_std * Time.deltaTime;
                 }
-                dis_tmp = 0.0f;
             }
+ 
+            if (dis_tmp > dis_std) //일정거리 이동 후 초기화
+                dis_tmp = 0.0f;
         }
     }
 
@@ -56,8 +61,7 @@ public class BigtolAi : MonoBehaviour
     {
         hp = 100.0f;
         hp_std = 55.0f;
-        dis_std = 5.0f;
-        dis_v = 0.9f;
+        dis_std = 7.0f;
         dis_tmp = 0.0f;
     }
 }

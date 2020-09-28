@@ -28,25 +28,29 @@ public class Move : MonoBehaviour
     void Update()
     {
         Velocityg -= G;
-       
-        if(Input.GetKey(KeyCode.LeftArrow))
+        //좌우이동
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            gameObject.transform.position = new Vector3(position.x+0.1f, position.y, position.z);
+            gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            gameObject.transform.position = new Vector3(position.x - 0.1f, position.y, position.z);
+            gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            gameObject.transform.position = new Vector3(position.x , position.y+0.1f, position.z );
+            gameObject.transform.position = new Vector3(position.x, position.y + 1f + Velocityg, position.z);
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        //음파 발사
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if(SoundWave !=null)
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
-                if(gameObject.transform.localScale.x == -1)
+                if(gameObject.transform.localScale.x < 0)
                 {
                     wave.transform.position = gameObject.transform.position + new Vector3(-1,0,0);
 
@@ -57,51 +61,6 @@ public class Move : MonoBehaviour
                 }
             }
         }
-        //if (Input.GetKey("s"))
-        //{
-        //    gameObject.transform.position = new Vector3(position.x + 0.1f, position.y, position.z);
-        //}
-        if (position.y >= 0)
-        {
-            //gameObject.transform.position = new Vector3(position.x, position.y + Velocityg, position.z);
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                gameObject.transform.localScale= new Vector3(+1,gameObject.transform.localScale.y,gameObject.transform.localScale.z);
-                gameObject.transform.position = new Vector3(position.x + 1f, position.y , position.z);
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-                gameObject.transform.position = new Vector3(position.x - 1f, position.y , position.z);
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                gameObject.transform.position = new Vector3(position.x, position.y + 1f + Velocityg, position.z);
-            }
-        }
-
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-           Debug.Log("그라운드 닿음");
-    }
-    void OnTriggerStay(Collider target)
-    {
-        Debug.Log("그라운드 위");
-        isGround = true;
-        jump_y = gameObject.transform.position.y;
-        if (target.tag == "Ground")
-        {
-            Velocityg += G;
-            gameObject.transform.position = new Vector3(position.x - 0.1f, (jump_y - Velocityg), position.z);
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        Debug.Log("그라운드 벗어남");
-        if (other.tag == "Ground")
-        isGround = false;
+        position = gameObject.transform.position;
     }
 }

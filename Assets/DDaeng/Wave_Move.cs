@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Wave_Move : MonoBehaviour
 {
+    GameObject DD;
     bool left;
     Vector3 position;
     float time = 0f;
@@ -11,7 +12,7 @@ public class Wave_Move : MonoBehaviour
     void Start()
     {
         position = gameObject.transform.position;
-        GameObject DD = GameObject.Find("DDaeng");
+        DD = GameObject.Find("DDaeng");
         if (DD.transform.position.x > position.x) // 음파가 왼쪽일때
             left = true;
         else
@@ -21,16 +22,20 @@ public class Wave_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.localRotation = Quaternion.Euler(0, time, 0);
+        if(Mathf.Abs(DD.transform.position.x - gameObject.transform.position.x) > 30)
+        {
+            Destroy(gameObject);
+        }
+        gameObject.transform.localRotation = Quaternion.Euler(time, time, 0);
         if (left) // 음파가 왼쪽일때
         {
-            gameObject.transform.position = new Vector3(position.x - 0.01f, position.y, position.z);
+            gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
         }
         else
         {
-            gameObject.transform.position = new Vector3(position.x + 0.01f, position.y, position.z);
+            gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
         }
         position = gameObject.transform.position;
-        time += 0.1f;
+        time += 3f;
     }
 }

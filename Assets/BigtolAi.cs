@@ -22,9 +22,6 @@ public class BigtolAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 tmp = new Vector3(3.0f, 0, 0);
-        //transform.position += tmp;
-
         if (hp == 100.0f) //손상 없는 경우
         {
             //좌우 랜덤으로 일정거리 이동
@@ -55,6 +52,13 @@ public class BigtolAi : MonoBehaviour
             if (dis_tmp > dis_std) //일정거리 이동 후 초기화
                 dis_tmp = 0.0f;
         }
+    
+        else if (hp < 100.0f) //손상된 경우 - 플레이어 향해 이동
+        {
+
+        }
+    
+    
     }
 
     void Init()

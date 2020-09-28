@@ -49,10 +49,10 @@ public class FireBballMove : MonoBehaviour
                 ball.transform.position = transform.position;   //미니 파이어볼 초기 위치 = 빅 파이어볼 현재 위치
                                                                 //ball.transform.LookAt(??); 360도를 10으로 나눠서 각 방향을 바라보게 설정하기
 
-                //float tmp_x = Random.Range(-10.0f, 10.0f);   //-10.0 ~ 10.0 랜덤 난수 발생
+                float tmp = Random.Range(-10.0f, 10.0f);   //-10.0 ~ 10.0 랜덤 난수 발생
                 //float tmp_y = Random.Range(-10.0f, 10.0f);   //-10.0 ~ 10.0 랜덤 난수 발생
                 //Vector3 dir = new Vector3(ball.transform.position.x + tmp_x, ball.transform.position.y + tmp_y, ball.transform.position.z);
-                //ball.transform.LookAt(dir);
+                ball.transform.LookAt(new Vector3(ball.transform.position.x + tmp,ball.transform.position.y+tmp,ball.transform.position.z)) ;
             }
             mini_flag = true;  //미니 파이어볼 생성 완료
         }

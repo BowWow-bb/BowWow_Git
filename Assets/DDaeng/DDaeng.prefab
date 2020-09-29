@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c94e77cedac87540a9f241f3a67d368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundWave: {fileID: 6102692799639788700, guid: 27609a775bef61e48ab1eb040979fdfc, type: 3}
+  SoundWave: {fileID: 8810596478605344045, guid: a35bfae4c1f2c234eb0262a6670c7312, type: 3}
 --- !u!1 &1072996421863582976
 GameObject:
   m_ObjectHideFlags: 0

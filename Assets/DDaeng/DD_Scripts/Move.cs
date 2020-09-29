@@ -35,7 +35,6 @@ public class Move : MonoBehaviour
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            Debug.Log("중더학;");
             Velocityg -= G;
             gameObject.transform.position = new Vector3(position.x, position.y+(Velocityg*0.1f), position.z);
         }
@@ -51,25 +50,15 @@ public class Move : MonoBehaviour
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (isUp)
-            {
-                if (jump_y < 10f)
-                {
-                    jump_y += 0.1f;
-                    gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
-                    gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-                }
-                else
-                {
-                    isUp = false;
-                    jump_y = 0;
-                }
-            }
-            else
+            if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
             {
                 gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-                gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
+                Debug.Log("중더학;");
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
+            gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -92,6 +81,11 @@ public class Move : MonoBehaviour
                 {
                     gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                     gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
+                }
+                if(Input.GetKey(KeyCode.LeftArrow))
+                {
+                    gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
+                    gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 }
             }
             else

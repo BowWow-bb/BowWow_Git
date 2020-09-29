@@ -13,7 +13,9 @@ public class Move : MonoBehaviour
     float BallPower; // 탄성에 의해 적용된 힘
     float TimeScale;//타임 스케일 조정
     float jump_y;
+    float past_y;
     bool isGround;
+    bool isUp;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,8 @@ public class Move : MonoBehaviour
         Velocityg = 0;
         position = gameObject.transform.position;
         position.y = 5;
+        isUp = false;
+        jump_y = 0;
     }
 
     // Update is called once per frame
@@ -31,7 +35,6 @@ public class Move : MonoBehaviour
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            Debug.Log("중더학;");
             Velocityg -= G;
             gameObject.transform.position = new Vector3(position.x, position.y+(Velocityg*0.1f), position.z);
         }
@@ -42,12 +45,18 @@ public class Move : MonoBehaviour
         else
         {
             
-            Debug.Log("중초");
             Velocityg = 0f;
         }
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
+            if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
+            {
+                gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                Debug.Log("중더학;");
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
+            }
             gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
             gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
         }
@@ -56,9 +65,34 @@ public class Move : MonoBehaviour
             gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
             gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
         }
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            gameObject.transform.position = new Vector3(position.x, position.y + 10f , position.z);
+
+            isUp = true;
+            past_y = gameObject.transform.position.y;
+        }
+        if(isUp)
+        {
+            if (jump_y < 10f)
+            {
+                jump_y += 0.1f;
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                    gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
+                }
+                if(Input.GetKey(KeyCode.LeftArrow))
+                {
+                    gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
+                    gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                }
+            }
+            else
+            {
+                isUp = false;
+                jump_y = 0;
+            }
         }
 
         //음파 발사

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Move : MonoBehaviour
     float past_y;
     bool isGround;
     bool isUp;
+    bool isDown;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,7 @@ public class Move : MonoBehaviour
         position = gameObject.transform.position;
         position.y = 5;
         isUp = false;
+        isDown = false;
         jump_y = 0;
     }
 
@@ -35,35 +38,47 @@ public class Move : MonoBehaviour
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
+            isDown = true;
             Velocityg -= G;
-            gameObject.transform.position = new Vector3(position.x, position.y+(Velocityg*0.1f), position.z);
+            gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
         }
-        else if(gameObject.transform.position.y < 3.2f)
+        else if (gameObject.transform.position.y < 3.2f)
         {
             gameObject.transform.position = new Vector3(position.x, 3.2f, position.z);
         }
         else
         {
-            
+
             Velocityg = 0f;
         }
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
+            if (isDown)
             {
                 gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-                Debug.Log("중더학;");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
-            gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-            gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
+            else
+            {
+                gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
+            }
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-            gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
+            if (isDown)
+            {
+                gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x + 0.05f, position.y + (Velocityg * 0.1f), position.z);
+            }
+            else
+            {
+                gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -72,7 +87,7 @@ public class Move : MonoBehaviour
             isUp = true;
             past_y = gameObject.transform.position.y;
         }
-        if(isUp)
+        if (isUp)
         {
             if (jump_y < 10f)
             {
@@ -82,10 +97,14 @@ public class Move : MonoBehaviour
                     gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                     gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
                 }
-                if(Input.GetKey(KeyCode.LeftArrow))
+                else if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
                     gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                }
+                else
+                {
+                    gameObject.transform.position = new Vector3(position.x, past_y + jump_y, position.z);
                 }
             }
             else
@@ -98,12 +117,12 @@ public class Move : MonoBehaviour
         //음파 발사
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(SoundWave !=null)
+            if (SoundWave != null)
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
-                if(gameObject.transform.localScale.x < 0)
+                if (gameObject.transform.localScale.x < 0)
                 {
-                    wave.transform.position = gameObject.transform.position + new Vector3(-1,0,0);
+                    wave.transform.position = gameObject.transform.position + new Vector3(-1, 0, 0);
 
                 }
                 else

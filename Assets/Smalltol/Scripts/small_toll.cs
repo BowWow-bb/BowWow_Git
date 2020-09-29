@@ -9,8 +9,10 @@ public class small_toll : MonoBehaviour
     Vector3 movement;
     int movementFlag = 0;//0: 정지, 1: 왼쪽, 2: 오른쪽 
 
-    //파이어볼 
+    //파이어볼
+    bool fireballmake=false;
     public GameObject fireballPrefab;//파이어볼 프리팹
+   
     public float RateMin = 0.5f;//일단 발사 주기 임의로 설정 
     public float RateMax = 3f;
 
@@ -56,11 +58,18 @@ public class small_toll : MonoBehaviour
         {
             moveVelocity = Vector3.right;
             transform.localScale = new Vector3(-1, 1, 1);
+            if(fireballmake == false)
+            {
+                FireballMake();//생성
+            }
         }
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
     void FireballMake()
     {
-        
+        GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성
+        ball.transform.position = new Vector3(transform.position.x, transform.position.y+0.5f, transform.position.z+20.0f);
+
+        fireballmake = true;
     }
 }

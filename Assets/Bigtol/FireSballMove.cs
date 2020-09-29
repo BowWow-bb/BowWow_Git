@@ -23,6 +23,6 @@ public class FireSballMove : MonoBehaviour
         //tmp_y= Random.Range(-10.0f, 10.0f);   //-10.0 ~ 10.0 랜덤 난수 발생
         //Vector3 dir = new Vector3(transform.position.x+tmp_x,transform.position.y+tmp_y,transform.position.z);
         //transform.position = (transform.forward * Time.deltaTime * v) + pos;
-        transform.position += transform.forward * Time.deltaTime * v;
+        //transform.position += transform.forward * Time.deltaTime * v;
     }
 }

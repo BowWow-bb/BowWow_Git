@@ -88,7 +88,11 @@ public class Move : MonoBehaviour
             if (jump_y < 10f)
             {
                 jump_y += 0.1f;
-                gameObject.transform.position = new Vector3(position.x, past_y + jump_y, position.z);
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                    gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
+                }
             }
             else
             {

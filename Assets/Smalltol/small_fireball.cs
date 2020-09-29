@@ -12,7 +12,7 @@ public class small_fireball : MonoBehaviour
     Vector3 me;
     Vector3 target;
 
-    public float movePower = 1f;
+    public float movePower = 30f;
     float gravity = 9.8f;
     float accel = 0f;//가속도
     float c = 0.7f;//탄성계수 

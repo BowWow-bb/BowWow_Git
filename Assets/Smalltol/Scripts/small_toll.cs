@@ -55,7 +55,7 @@ public class small_toll : MonoBehaviour
         target = DDaeng.transform.position;
         float distance = Vector3.Distance(target, transform.position);
 
-        //Debug.Log("땡이랑 거리: "+distance);
+        Debug.Log("땡이랑 거리: "+distance);
 
         if (distance<= d)//범위 내에 처음 들어오면
         {

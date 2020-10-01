@@ -12,7 +12,7 @@ public class small_fireball : MonoBehaviour
     Vector3 me;
     Vector3 target;
 
-    public float movePower = 30f;
+    public float movePower = 5f;
     float gravity = 9.8f;
     float accel = 0f;//가속도
     float c = 0.7f;//탄성계수 
@@ -23,6 +23,7 @@ public class small_fireball : MonoBehaviour
         smalltall = GameObject.Find("Smalltol");
         DDaeng = GameObject.Find("DDaeng");
 
+        target = DDaeng.transform.position;//생성 당시 땡이의 위치
         Destroy(gameObject, 5.0f);
     }
 
@@ -31,8 +32,7 @@ public class small_fireball : MonoBehaviour
     {
         ball = transform.position;//파이어볼의 위치
         me = smalltall.transform.position;//스몰톨의 위치 
-        target = DDaeng.transform.position;
-
+        
      
         //Debug.Log("player위치: " + target.x);//파이어볼이 생성될 때 플레이어의 위치
 

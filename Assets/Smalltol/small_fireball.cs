@@ -11,11 +11,17 @@ public class small_fireball : MonoBehaviour
     Vector3 ball;
     Vector3 me;
     Vector3 target;
+    Vector3 moveVelocity;//공이 나갈 방향 (파이어볼 속도)
 
-    public float movePower = 5f;
+    float maxh;
+    float minh;
+
+    float movePower = 50;//파이어볼 속력 
     float gravity = 9.8f;
     float accel = 0f;//가속도
-    float c = 0.7f;//탄성계수 
+    float c = 0.7f;//탄성계수
+
+    bool isUp = false;//처음 생성 시 y 증가 여부 
 
     // Start is called before the first frame update
     void Start()
@@ -24,30 +30,51 @@ public class small_fireball : MonoBehaviour
         DDaeng = GameObject.Find("DDaeng");
 
         target = DDaeng.transform.position;//생성 당시 땡이의 위치
-        Destroy(gameObject, 5.0f);
+        me = smalltall.transform.position;//생성 당시 스몰톨의 위치
+
+        moveVelocity = Vector3.zero;//공이 나갈 방향
+
+        maxh = smalltall.transform.position.y + 3;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
+        minh = smalltall.transform.position.y - 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함 
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         ball = transform.position;//파이어볼의 위치
-        me = smalltall.transform.position;//스몰톨의 위치 
-        
-     
-        //Debug.Log("player위치: " + target.x);//파이어볼이 생성될 때 플레이어의 위치
 
-        Vector3 moveVelocity = Vector3.zero;
-
-        //땡이가 왼쪽
+        //생성 당시에 땡이가 왼쪽
         if (target.x < me.x)
         {
-            moveVelocity = Vector3.left;
+            moveVelocity += Vector3.left * Time.deltaTime*movePower;//왼쪽으로 진행  
         }
-        //땡이가 오른쪽
+        //생성 당시에 땡이가 오른쪽
         if (target.x > me.x)
-        {
-            moveVelocity = Vector3.right;
+        { 
+            moveVelocity += Vector3.right * Time.deltaTime*movePower;//오른쪽으로 진행 
         }
-        transform.position += moveVelocity * movePower * Time.deltaTime*ball.y;
+
+        if(ball.y <= maxh && ball.y>= me.y && isUp == false)//초기 생성 시 파이어볼의 위치 증가 
+        {
+            ball.y += 4;
+            transform.position = new Vector3(me.x, ball.y, transform.position.z)+moveVelocity;
+            isUp = true;
+        }
+
+        accel += gravity*Time.deltaTime*movePower;//내려오는 속도 가속도 적용
+        ball.y -= accel * Time.deltaTime;
+        transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;
+
+        if (ball.y <= minh)//땅바닥에 닿았는지 파악해서 충격량 적용
+        {
+            Debug.Log("땅에 닿음");
+            ball.y = minh;
+            transform.position = new Vector3(me.x, ball.y, transform.position.z)+ moveVelocity;
+
+            accel = -1 * Mathf.Abs(accel) + gravity;
+            Destroy(gameObject, 0.7f);
+        }
     }
 }

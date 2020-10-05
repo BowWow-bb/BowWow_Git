@@ -237,4 +237,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smalltall: {fileID: 0}
   DDaeng: {fileID: 0}
-  movePower: 5
+  movePower: 10

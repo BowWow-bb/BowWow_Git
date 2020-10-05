@@ -64,7 +64,7 @@ public class small_toll : MonoBehaviour
             StopCoroutine("ChangeMovement");
         }
 
-        if (Enter == true && distance <= d)//범위 내에 계속 있으면 
+        if (Enter == true && distance <= d)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;
         }
@@ -120,7 +120,8 @@ public class small_toll : MonoBehaviour
     void FireballMake()
     {
         GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성
-        ball.transform.position = new Vector3(transform.position.x, transform.position.y+0.5f, transform.position.z+20.0f);//파이어볼 초기 위치 
+        ball.transform.position = new Vector3(transform.position.x,transform.position.y+0.5f, 10f);//파이어볼 초기 위치 
+        ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 
     }

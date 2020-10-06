@@ -38,9 +38,12 @@ public class Move : MonoBehaviour
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            isDown = true;
-            Velocityg -= G;
-            gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            if (isUp!)
+            {
+                isDown = true;
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            }
         }
         else if (gameObject.transform.position.y < 3.2f)
         {
@@ -91,7 +94,7 @@ public class Move : MonoBehaviour
         {
             if (jump_y < 16f)
             {
-                jump_y += 0.2f;
+                jump_y += 0.13f;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);

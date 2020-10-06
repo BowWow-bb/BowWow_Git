@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
-  bigfire: {fileID: 7228320105150815174, guid: a1df2e9ef41efaa4b857955a8c68be93, type: 3}
+  Bigfireball_Perfab: {fileID: 5437251765342582650, guid: efd908483b9198648900a209035ed161, type: 3}
   mini_crash: {fileID: 1561047238463789653, guid: 37804971081b31d40af2ef9bede142f4, type: 3}
   mini_summon: {fileID: 914888427360307362, guid: 90c3cb830dcca443faeea2969da20cfd, type: 3}
 --- !u!1 &1363817391689528396

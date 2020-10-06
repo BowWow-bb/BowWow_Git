@@ -38,7 +38,7 @@ public class Move : MonoBehaviour
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            if (isUp!)
+            if (!isUp)
             {
                 isDown = true;
                 Velocityg -= G;

@@ -309,6 +309,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DDaeng
       objectReference: {fileID: 0}
+    - target: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1072996421761502413, guid: 089c16f54fa95124499da420115779fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -40

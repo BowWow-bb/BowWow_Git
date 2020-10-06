@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 4241260110776276657, guid: e3a337f7c5cf14ca883a9b7bb559b78d, type: 3}
-  DDaeng: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
+  DDaeng: {fileID: 0}
   d: 20
   movePower: 5
   RateMin: 0.5

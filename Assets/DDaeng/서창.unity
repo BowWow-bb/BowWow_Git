@@ -146,6 +146,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: 2237812039654324997, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237812039654324997, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -21
+      objectReference: {fileID: 0}
     - target: {fileID: 2630333352458885354, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -400,11 +408,11 @@ PrefabInstance:
       objectReference: {fileID: 8810596478605344045, guid: a35bfae4c1f2c234eb0262a6670c7312, type: 3}
     - target: {fileID: 1072996421761502413, guid: 089c16f54fa95124499da420115779fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.41
+      value: -30.5
       objectReference: {fileID: 0}
     - target: {fileID: 1072996421761502413, guid: 089c16f54fa95124499da420115779fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.2
+      value: 22.4
       objectReference: {fileID: 0}
     - target: {fileID: 1072996421761502413, guid: 089c16f54fa95124499da420115779fb, type: 3}
       propertyPath: m_LocalPosition.z

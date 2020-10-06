@@ -15,9 +15,12 @@ public class Move : MonoBehaviour
     float TimeScale;//타임 스케일 조정
     float jump_y;
     float past_y;
+    float distance_floor;
+    int floor;
     bool isGround;
     bool isUp;
     bool isDown;
+    bool isFloor;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,15 +33,16 @@ public class Move : MonoBehaviour
         position = gameObject.transform.position;
         isUp = false;
         isDown = false;
+        isFloor = false;
         jump_y = 0;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            if (isUp!)
+            if (isUp == false)
             {
                 isDown = true;
                 Velocityg -= G;
@@ -54,6 +58,33 @@ public class Move : MonoBehaviour
             isDown = false;
             Velocityg = 0f;
         }
+        if (isDown)
+        {
+            floor = 150;
+            distance_floor = 0;
+            for (int i = 0; i < Floor.Length; i++)
+            {
+                if (gameObject.transform.position.x < Floor[i].transform.position.x + 9.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 9.5) { 
+                    
+                    if ((Floor[i].transform.position.y + 2.5f) < gameObject.transform.position.y)
+                    {
+                        if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
+                        {
+                            floor = i;
+                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                        }
+                    }
+                    
+                }
+            }
+            if (floor != 150)
+                isFloor = true;
+        }
+        if (isFloor)
+        {
+
+        }
+
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {

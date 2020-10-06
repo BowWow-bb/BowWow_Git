@@ -38,12 +38,25 @@ public class Move : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
+        if(isFloor)
+        {
+            if ((Floor[floor].transform.position.y + 2.5f) < gameObject.transform.position.y)
+            {
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            }
+            else
+            {
+                Velocityg = 0;
+            }
+        }
+        else if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
             if (isUp == false)
             {
+
                 isDown = true;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
@@ -79,10 +92,8 @@ public class Move : MonoBehaviour
             }
             if (floor != 150)
                 isFloor = true;
-        }
-        if (isFloor)
-        {
 
+            Debug.Log(isFloor);
         }
 
         //좌우이동

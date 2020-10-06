@@ -40,6 +40,27 @@ public class small_toll : MonoBehaviour
 
         yield return new WaitForSeconds(3f);//3초동안 실행 
 
+        StartCoroutine("ChangeMovement");//다른 움직임 또 하게 호출 
+    }
+
+    //스몰톨이 카메라 벗어나지 않게 제한 
+    IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
+    {
+        movementFlag = 1;
+        Debug.Log("코루틴 left");
+
+        yield return new WaitForSeconds(3f);
+
+        StartCoroutine("ChangeMovement");
+    }
+
+    IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
+    {
+        movementFlag = 2;
+        Debug.Log("코루틴 right");
+
+        yield return new WaitForSeconds(3f);
+
         StartCoroutine("ChangeMovement");
     }
 
@@ -94,9 +115,21 @@ public class small_toll : MonoBehaviour
             else if (target.x > me.x)//땡이가 오른쪽이면 
                 dist = "Right";
         }
-        else//거리 밖이면 
+        else//거리 밖이면 (평소)
         {
             movePower = 5;
+
+            if(me.x >= 40)
+            {
+                StopCoroutine("ChangeMovement");
+                StartCoroutine("ClipMovementleft");
+            }
+            else if(me.x <=-40)
+            {
+                StopCoroutine("ChangeMovement");
+                StartCoroutine("ClipMovementright");
+            }
+
             if (movementFlag == 1)
                 dist = "Left";
             else if (movementFlag == 2)

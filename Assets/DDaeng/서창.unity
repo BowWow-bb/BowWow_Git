@@ -130,6 +130,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 101257683086607976, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 307369769136353863, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 564348822988471730, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1308013406681534466, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 2630333352458885354, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -177,6 +193,18 @@ PrefabInstance:
     - target: {fileID: 3711903974596270386, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_Name
       value: Stage1_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315905766661459918, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7769599037247699443, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8270578887957314906, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edf550bce5680fa4c83fcced806df64c, type: 3}

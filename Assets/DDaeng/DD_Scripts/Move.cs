@@ -7,11 +7,11 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
     GameObject Ground;
+    GameObject[] Floor;
     public GameObject SoundWave = null;
     Vector3 position;
     float G; // 중력 가속도
     float Velocityg; // 떨어지는 속도
-    float BallPower; // 탄성에 의해 적용된 힘
     float TimeScale;//타임 스케일 조정
     float jump_y;
     float past_y;
@@ -22,12 +22,12 @@ public class Move : MonoBehaviour
     void Start()
     {
         Ground = GameObject.FindWithTag("Ground");
+        Floor = GameObject.FindGameObjectsWithTag("Floor");
+        Debug.Log("층 계수" + Floor.Length);
         TimeScale = 10000.0f;
-        BallPower = 0;
         G = 9.8f / TimeScale;
         Velocityg = 0;
         position = gameObject.transform.position;
-        position.y = 5;
         isUp = false;
         isDown = false;
         jump_y = 0;
@@ -48,7 +48,7 @@ public class Move : MonoBehaviour
         }
         else
         {
-
+            isDown = false;
             Velocityg = 0f;
         }
         //좌우이동
@@ -89,9 +89,9 @@ public class Move : MonoBehaviour
         }
         if (isUp)
         {
-            if (jump_y < 10f)
+            if (jump_y < 16f)
             {
-                jump_y += 0.1f;
+                jump_y += 0.2f;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
@@ -120,10 +120,11 @@ public class Move : MonoBehaviour
             if (SoundWave != null)
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
+                
                 if (gameObject.transform.localScale.x < 0)
                 {
-                    wave.transform.position = gameObject.transform.position + new Vector3(-1, 0, 0);
-
+                    wave.transform.position = transform.position + new Vector3(-1, 0, 0);
+                    wave.transform.parent = null;
                 }
                 else
                 {

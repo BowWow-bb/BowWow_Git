@@ -46,13 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbc86d168db2d4dc6b86cd89ade1d33d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballPrefab: {fileID: 4241260110776276657, guid: e3a337f7c5cf14ca883a9b7bb559b78d, type: 3}
+  fireballPrefab: {fileID: 8622010218810794259, guid: e3a337f7c5cf14ca883a9b7bb559b78d, type: 3}
   DDaeng: {fileID: 0}
   d: 20
-  movePower: 5
-  RateMin: 0.5
-  RateMax: 3
-  Rate: 0
 --- !u!1 &1791625555100240506
 GameObject:
   m_ObjectHideFlags: 0

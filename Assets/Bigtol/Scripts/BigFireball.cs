@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class BigFireball : MonoBehaviour
 {
-    public GameObject player = GameObject.Find("DDaeng");                   //플레이어 가져오기
     public GameObject Minifireball_Perfab;     //미니파이어볼 가져오기
 
     float t=0;                    //시간
@@ -34,6 +33,8 @@ public class BigFireball : MonoBehaviour
         mini_flag = false;
 
         height = transform.position.y;  //빅 파이어볼 초기 y좌표
+
+        GameObject player = GameObject.Find("DDaeng");
         PlayerPos = player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
     }
 

@@ -14,24 +14,19 @@ public class BigFireball : MonoBehaviour
     float move_v=0.03f;           //이동 속도
     float rot_v = 5000.0f;         //회전 속도
 
-    float G = 0.0098f;             //중력 가속도
-    float gv = 0;               //중력 가속도에 의한 속도
-    float ball_power = 0;       //탄성에 의해 적용된 힘
-    float E = 0.07f;             //탄성계수
-
     float height;      //높이 조절
     
 
-    int mini_n;            //미니 파이어볼 개수
-    int mini_cnt;           //미니 파이어볼 현재 생성개수
-    bool mini_flag;             //미니 파이어볼 생성 여부 true: 생성완료, false: 생성전
+    int mini_n;         //미니 파이어볼 개수
+    int mini_cnt;       //미니 파이어볼 현재 생성개수
+    bool mini_flag;     //미니 파이어볼 생성 여부 true: 생성완료, false: 생성전
              
-    Vector3 PlayerPos;          //플레이어 위치
+    Vector3 PlayerPos;  //플레이어 위치
 
     // Start is called before the first frame update
     void Start()
     {
-        mini_n = 7;
+        mini_n = 8;
         mini_cnt = 0;
         mini_flag = false;
 
@@ -46,27 +41,38 @@ public class BigFireball : MonoBehaviour
         {
             if(PlayerPos.x < transform.position.x)  //플레이어가 빅톨의 왼쪽에 위치
             {
-                float fpower = ball_power - gv;
-                height += fpower;
-                gv += G;
+                //계속 내려감
+                
+                //바닥에 닿은 경우 운동방향 바꿔줌
 
-                if (height< 4.0f) //바닥에 닿은 경우
-                {
+             
+
+
+
+
+
+                //float fpower = ball_power - gv;
+                //height += fpower;
+                //gv += G;
+
+                //if (height< 4.0f) //바닥에 닿은 경우
+                //{
                     
-                    height = 4.0f;
-                    gv = 0;
-                    ball_power = -fpower * E;
-                }
-                transform.position = new Vector3(transform.position.x - t * move_v, height, transform.position.z);
-                transform.Rotate(0, 0, -t * rot_v);   //반시계 방향으로 속도만큼 회전
+                //    height = 4.0f;
+                //    gv = 0;
+                //    ball_power = -fpower * E;
+                //}
+                //transform.position = new Vector3(transform.position.x - t * move_v, height, transform.position.z);
+                //transform.Rotate(0, 0, -t * rot_v);   //반시계 방향으로 속도만큼 회전
 
-                move_tmp += t * move_v;
-                t += 0.1f;
+                //move_tmp += t * move_v;
+                //t += 0.1f;
             }
-            //else if (PlayerPos.x > transform.position.x) //플레이어가 빅톨의 오른쪽에 위치
-            //{
-            //    
-            //}
+            else if (PlayerPos.x > transform.position.x) //플레이어가 빅톨의 오른쪽에 위치
+            {
+                
+            }
+            //위치가 같은경우는..?
 
             //if (Mathf.Abs(transform.position.x) > 48)   //벽 경계를 넘어서는 경우 폭팔
             //    move_tmp = move;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmalltolMove : MonoBehaviour
+public class CrashSmalltol : MonoBehaviour
 {
     public GameObject player;
     Vector3 player_pos;

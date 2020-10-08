@@ -30,6 +30,8 @@ public class small_toll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DDaeng = GameObject.Find("DDaeng");
+
         timeAfter = 0f;
         Rate = Random.Range(RateMin, RateMax);
 
@@ -56,7 +58,7 @@ public class small_toll : MonoBehaviour
 
             Debug.Log("timeball: " + timeball);
 
-            if (timeball >= 0.3f)
+            if (timeball >= 0.25f)
             {
                 FireballMake();
 
@@ -137,7 +139,7 @@ public class small_toll : MonoBehaviour
         {
             if (isTracing)//일정 거리 내이면 추적 
             {
-                movePower = 10;//추적 시에 속도 빠르게
+                movePower = 12;//추적 시에 속도 빠르게
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {

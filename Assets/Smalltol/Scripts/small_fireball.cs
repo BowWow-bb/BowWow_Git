@@ -26,7 +26,7 @@ public class small_fireball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        smalltall = GameObject.Find("Smalltol");
+        smalltall = GameObject.Find("Smalltol_stage2");
         DDaeng = GameObject.Find("DDaeng");
 
         target = DDaeng.transform.position;//생성 당시 땡이의 위치

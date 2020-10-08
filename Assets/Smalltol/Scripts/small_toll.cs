@@ -17,13 +17,15 @@ public class small_toll : MonoBehaviour
     float RateMax = 3f;//최대 생성 주기
     float Rate;
 
-    private float timeAfter;//발사 후 지난 시간 
+    private float timeAfter;//발사 후 지난 시간
+    float timeball;
 
     int movementFlag = 0;//0: 정지, 1: 왼쪽, 2: 오른쪽
+    string dist = "";//이동 방향 
 
     bool isTracing = false;//거리 내에 들어와서 유지 중인 상태 
     bool Enter = false;//거리 내에 들어오면 (처음)
-
+    bool isStop = false;//멈췄다가 파이어볼 쏘기 
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +38,36 @@ public class small_toll : MonoBehaviour
 
     IEnumerator ChangeMovement()
     {
-        movementFlag = Random.Range(0, 3);//움직임 설정 랜덤 
+        movementFlag = Random.Range(1, 3);//움직임 설정 랜덤 
 
         yield return new WaitForSeconds(3f);//3초동안 실행 
 
         StartCoroutine("ChangeMovement");//다른 움직임 또 하게 호출 
+    }
+
+    IEnumerator MoveStop()
+    {
+        timeball = 0;
+        while (true)
+        {
+            timeball += Time.deltaTime;
+
+            transform.position += Vector3.zero;
+
+            Debug.Log("timeball: " + timeball);
+
+            if (timeball >= 0.3f)
+            {
+                FireballMake();
+
+                timeAfter = 0;
+                isStop = false;
+
+                break;
+            }
+            yield return null;
+        }
+        
     }
 
     //스몰톨이 카메라 벗어나지 않게 제한 
@@ -68,6 +95,7 @@ public class small_toll : MonoBehaviour
     void FixedUpdate()
     {
         timeAfter += Time.deltaTime;//시간 갱신
+        //timeball += Time.deltaTime;
 
         Distance();
         Move();
@@ -78,7 +106,7 @@ public class small_toll : MonoBehaviour
         target = DDaeng.transform.position;
         float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
 
-        Debug.Log("땡이랑 거리: " + distance);
+        //Debug.Log("땡이랑 거리: " + distance);
 
         if (distance <= d)//범위 내에 처음 들어오면
         {
@@ -105,58 +133,81 @@ public class small_toll : MonoBehaviour
         me = transform.position;
 
         Vector3 moveVelocity = Vector3.zero;
-        string dist = "";
-
-        if (isTracing)//일정 거리 내이면 추적 
+        if(isStop ==false)
         {
-            movePower = 10;//추적 시에 속도 빠르게 
-            if (target.x < me.x)//땡이가 왼쪽이면 
-                dist = "Left";
-            else if (target.x > me.x)//땡이가 오른쪽이면 
-                dist = "Right";
-        }
-        else//거리 밖이면 (평소)
-        {
-            movePower = 5;
+            if (isTracing)//일정 거리 내이면 추적 
+            {
+                movePower = 10;//추적 시에 속도 빠르게
 
-            if(me.x >= 40)
-            {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementleft");
-            }
-            else if(me.x <=-40)
-            {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementright");
-            }
-
-            if (movementFlag == 1)
-                dist = "Left";
-            else if (movementFlag == 2)
-                dist = "Right";
-            else//멈춘 상태이면 
-            {
-                if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
+                if (target.x < me.x)//땡이가 왼쪽이면
                 {
-                    timeAfter = 0f;
-                    FireballMake();
+
+                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
+                    {
+                        isStop = true;//멈춤 후 공격 
+                    }
+                    else
+                    {
+                        dist = "Left";
+                    }
+
                 }
+
+                else if (target.x > me.x)//땡이가 오른쪽이면
+                {
+
+                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
+                    {
+                        isStop = true;
+                    }
+                    else
+                    {
+                        dist = "Right";
+                    }
+                }
+
             }
-            //Debug.Log("movementFlag = " + movementFlag);
+            else//거리 밖이면 (평소)
+            {
+                movePower = 5;
+
+                if (me.x >= 40)
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementleft");
+                }
+                else if (me.x <= -40)
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementright");
+                }
+
+                if (movementFlag == 1)
+                    dist = "Left";
+                else if (movementFlag == 2)
+                    dist = "Right";
+
+            }
+            //좌우 이동 
+            if (dist == "Left")
+            {
+                moveVelocity = Vector3.left;
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else if (dist == "Right")
+            {
+                moveVelocity = Vector3.right;
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            transform.position += moveVelocity * movePower * Time.deltaTime;
         }
 
-        if (dist == "Left")
+        else//정지 상태인 경우 
         {
-            moveVelocity = Vector3.left;
-            transform.localScale = new Vector3(1, 1, 1);
+            StartCoroutine("MoveStop");
         }
-        else if (dist == "Right")
-        {
-            moveVelocity = Vector3.right;
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        transform.position += moveVelocity * movePower * Time.deltaTime;
     }
+
     void FireballMake()
     {
         GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성

@@ -35,9 +35,7 @@ public class small_fireball : MonoBehaviour
         moveVelocity = Vector3.zero;//공이 나갈 방향
 
         maxh = smalltall.transform.position.y + 3;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
-        minh = smalltall.transform.position.y - 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함 
-
-        
+        minh = smalltall.transform.position.y - 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
     }
 
     // Update is called once per frame
@@ -69,7 +67,7 @@ public class small_fireball : MonoBehaviour
 
         if (ball.y <= minh)//땅바닥에 닿았는지 파악해서 충격량 적용
         {
-            Debug.Log("땅에 닿음");
+            //Debug.Log("땅에 닿음");
             ball.y = minh;
             transform.position = new Vector3(me.x, ball.y, transform.position.z)+ moveVelocity;
 

@@ -134,11 +134,12 @@ public class Move : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (!isUp && !isDown)
+            if ((!isUp && !isDown)||isFloor)
             {
                 isUp = true;
                 past_y = gameObject.transform.position.y;
             }
+            
         }
         if (isUp)
         {

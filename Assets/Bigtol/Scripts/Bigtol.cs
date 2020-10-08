@@ -6,8 +6,8 @@ public class Bigtol : MonoBehaviour
 {
     public GameObject player;
     public GameObject Bigfireball_Perfab;
-    public GameObject mini_crash;
-    public GameObject mini_summon;
+    public GameObject Raintol_Perfab;
+    public GameObject Summon_Perfab;
 
     float hp;                //HP
     //static float hp_std;   //HP 손상 기준
@@ -19,8 +19,10 @@ public class Bigtol : MonoBehaviour
     Vector3 dir;            //이동 벡터
     int move_dir;           //랜덤 이동방향 0:왼쪽, 1:오른쪽
 
-    bool minitol_crash;     //크래쉬 커맨드 미니톨 생성여부
+    bool minitol_rain;      //레인 커맨드 미니톨 생성여부
+    int raintol_n=5;          //레인 미니톨 생성 개수
     bool minitol_summon;    //서먼테크 미니톨 생성여부
+    int summon_n=5;           //서먼 미니톨 생성 개수
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,7 @@ public class Bigtol : MonoBehaviour
         //hp_std = 55.0f;
         move = 7.0f;
         move_tmp = 0.0f;
-        minitol_crash = false;
+        minitol_rain = false;
         minitol_summon = false;
     }
 
@@ -91,23 +93,23 @@ public class Bigtol : MonoBehaviour
             bigfireball.transform.parent = null;    //독립된 개체
         }
 
-        //if(hp<크래쉬 커맨드 생성 기준) -> 미니톨 소환 후, 돌진 (조건문 나중에 만들자..)
-        if (Input.GetKeyDown(KeyCode.X) && !minitol_crash)
+        //if(hp<레인 커맨드 생성 기준) -> 껍데기 미니톨 소환 후 비처럼 떨어져~ (조건문 나중에 만들자..)
+        if (Input.GetKeyDown(KeyCode.X) && !minitol_rain)
         {
-            for(int i=0; i<5; i++)
+            for(int i=0; i<raintol_n; i++)  //시간차이 두고 복제 해보기..
             {
-                GameObject crash_tol = GameObject.Instantiate(mini_crash); //미니톨 생성
-                crash_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치
+                GameObject rain_tol = GameObject.Instantiate(Raintol_Perfab); //미니톨 생성
+                rain_tol.transform.position = player.transform.position;   //미니톨 초기 위치 = 플레이어 현재 위치
             }
-            minitol_crash = true;
+            minitol_rain = true;
         }
 
         //if(hp<서먼 테크 생성 기준) -> 미니톨 소환 후(조건문 나중에 만들자..)
         if (Input.GetKeyDown(KeyCode.C) && !minitol_summon)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < summon_n; i++)
             {
-                GameObject summon_tol = GameObject.Instantiate(mini_summon); //미니톨 생성
+                GameObject summon_tol = GameObject.Instantiate(Summon_Perfab); //미니톨 생성
                 summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치
             }
             minitol_summon = true;

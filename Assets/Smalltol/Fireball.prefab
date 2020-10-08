@@ -235,5 +235,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db65d60ca324649e193c4141403fafa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smalltall: {fileID: 0}
-  DDaeng: {fileID: 0}
+  smalltall: {fileID: 914888427360307362, guid: 90c3cb830dcca443faeea2969da20cfd, type: 3}
+  DDaeng: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}

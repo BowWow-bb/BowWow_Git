@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 3709858361416909752}
   - component: {fileID: -9010626234645579002}
   m_Layer: 0
-  m_Name: Smalltol_shell
+  m_Name: RainSmalltoll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5867c85e0286ee4abc91692d0a44cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
+  Player: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
 --- !u!1 &1832122886382665621
 GameObject:
   m_ObjectHideFlags: 0

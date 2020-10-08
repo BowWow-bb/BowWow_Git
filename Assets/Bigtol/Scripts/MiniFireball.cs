@@ -12,7 +12,6 @@ public class MiniFireball : MonoBehaviour
     {
         t = 0;
         Pos = transform.position;   //생성 초기위치
-
         angle = Random.Range(0, 180);
 
         float x = Mathf.Cos(angle * Mathf.PI / 180.0f) * 8 + Pos.x;
@@ -34,7 +33,7 @@ public class MiniFireball : MonoBehaviour
         if (Mathf.Abs(transform.position.x) > 48 || transform.position.y > 48)  //벽 경계 벗어날 시 소멸
             Destroy(gameObject);
 
-        t += 0.02f;
+        t += 0.01f;
 
     }
 }

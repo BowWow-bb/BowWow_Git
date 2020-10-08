@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+
+//고칠꺼 겁나 많음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
 public class BigFireball : MonoBehaviour
 {
-    public GameObject player;                   //플레이어 가져오기
+    public GameObject player = GameObject.Find("DDaeng");                   //플레이어 가져오기
     public GameObject Minifireball_Perfab;     //미니파이어볼 가져오기
 
     float t=0;                    //시간
     float move=20;                //일정 이동거리
     float move_tmp=0;             //현재 이동 거리(일정 이동거리 도달 여부)
     float move_v=0.03f;           //이동 속도
-    float rot_v = 5000.0f;         //회전 속도
+    float rot_v = 5000.0f;        //회전 속도
 
-    float height;      //높이 조절
+    float height;                 //높이 조절
     
 
     int mini_n;         //미니 파이어볼 개수
@@ -44,11 +47,6 @@ public class BigFireball : MonoBehaviour
                 //계속 내려감
                 
                 //바닥에 닿은 경우 운동방향 바꿔줌
-
-             
-
-
-
 
 
                 //float fpower = ball_power - gv;

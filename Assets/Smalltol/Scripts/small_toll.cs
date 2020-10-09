@@ -118,7 +118,7 @@ public class small_toll : MonoBehaviour
     void Distance()
     {
         target = DDaeng.transform.position;
-        float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
+        float distance = Vector3.Distance(target, transform.position);//땡이와 스몰톨 거리 구하는 함수 
 
         //Debug.Log("땡이랑 거리: " + distance);
 
@@ -128,8 +128,7 @@ public class small_toll : MonoBehaviour
             Debug.Log("범위 내에 들어옴");
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
-
-        if (Enter == true && distance <= d)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance >7)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;
         }
@@ -139,6 +138,21 @@ public class small_toll : MonoBehaviour
             Enter = false;
             isTracing = false;
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
+        }
+
+        if(distance<=6)
+        {
+            st.gameObject.SetActive(true);
+            isTracing = false;
+            if (target.x < me.x)
+            {
+                StartCoroutine("ClipMovementright");
+            }
+
+            else if (target.x > me.x)
+            {
+                StartCoroutine("ClipMovementleft");
+            }
         }
     }
 
@@ -189,7 +203,6 @@ public class small_toll : MonoBehaviour
                         dist = "Right";
                     }
                 }
-
             }
             else//거리 밖이면 (평소)
             {

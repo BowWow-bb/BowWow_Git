@@ -79,7 +79,7 @@ public class small_toll_stage1 : MonoBehaviour
         target = DDaeng.transform.position;
         float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
 
-        Debug.Log("땡이랑 거리: " + distance);
+        //Debug.Log("땡이랑 거리: " + distance);
 
         if (distance <= d)//범위 내에 처음 들어오면
         {

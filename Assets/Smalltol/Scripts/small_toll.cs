@@ -43,7 +43,7 @@ public class small_toll : MonoBehaviour
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
         Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정
 
-        st = smalltoll.transform.FindChild("warning");
+        st = smalltoll.transform.FindChild("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");
@@ -51,9 +51,10 @@ public class small_toll : MonoBehaviour
 
     IEnumerator ChangeMovement()
     {
-        movementFlag = Random.Range(1, 3);//움직임 설정 랜덤 
+        movementFlag = Random.Range(1, 3);//움직임 설정 랜덤
+        float movetime = Random.Range(2f, 3f);
 
-        yield return new WaitForSeconds(3f);//3초동안 실행 
+        yield return new WaitForSeconds(movetime);//랜덤 초 동안 실행 
 
         StartCoroutine("ChangeMovement");//다른 움직임 또 하게 호출 
     }
@@ -67,7 +68,7 @@ public class small_toll : MonoBehaviour
 
             transform.position += Vector3.zero;
 
-            Debug.Log("timeball: " + timeball);
+            //Debug.Log("timeball: " + timeball);
 
             if (timeball >= 0.25f)//0.25초 지나 정지했다가 
             {

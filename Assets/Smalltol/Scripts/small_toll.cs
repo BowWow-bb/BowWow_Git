@@ -6,6 +6,8 @@ public class small_toll : MonoBehaviour
 {
     public GameObject fireballPrefab;//파이어볼 프리팹
     public GameObject DDaeng;//땡이
+    public GameObject smalltoll;//스몰톨
+    Transform st;
 
     Vector3 target;//땡이 위치
     Vector3 me;//스몰톨 위치 
@@ -39,7 +41,10 @@ public class small_toll : MonoBehaviour
         DDaeng = GameObject.Find("DDaeng");
 
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
-        Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정 
+        Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정
+
+        st = smalltoll.transform.FindChild("warning");
+        st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");
     }
@@ -145,6 +150,8 @@ public class small_toll : MonoBehaviour
         {
             if (isTracing || isHeart)//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
             {
+                st.gameObject.SetActive(true);
+
                 movePower = 12;//추적 시에 속도 빠르게
 
                 if (target.x < me.x)//땡이가 왼쪽이면
@@ -185,6 +192,8 @@ public class small_toll : MonoBehaviour
             }
             else//거리 밖이면 (평소)
             {
+                st.gameObject.SetActive(false);
+
                 movePower = 5;
 
                 if (me.x >= 40)

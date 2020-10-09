@@ -23,10 +23,16 @@ public class small_toll_stage1 : MonoBehaviour
     public int HP;//현재 체력
     public int Power_run;//런크래쉬 공격력
 
+    public GameObject smalltoll;//스몰톨
+    Transform st;
+
     // Start is called before the first frame update
     void Start()
     {
         DDaeng = GameObject.Find("DDaeng");
+
+        st = smalltoll.transform.FindChild("warning");
+        st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");
     }
@@ -73,7 +79,7 @@ public class small_toll_stage1 : MonoBehaviour
         target = DDaeng.transform.position;
         float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
 
-        Debug.Log("땡이랑 거리: " + distance);
+        //Debug.Log("땡이랑 거리: " + distance);
 
         if (distance <= d)//범위 내에 처음 들어오면
         {
@@ -103,6 +109,8 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (isTracing)//일정 거리 내이면 추적 
         {
+            st.gameObject.SetActive(true);
+
             movePower = 12;//추적 시에 속도 빠르게
 
             if (target.x < me.x)//땡이가 왼쪽이면
@@ -132,6 +140,8 @@ public class small_toll_stage1 : MonoBehaviour
         }
         else//거리 밖이면 (평소)
         {
+            st.gameObject.SetActive(false);
+
             movePower = 5;
 
             if (me.x >= 40)

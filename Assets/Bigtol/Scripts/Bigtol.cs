@@ -20,7 +20,7 @@ public class Bigtol : MonoBehaviour
     int raintol_n;          //레인 미니톨 생성 개수
     int summon_n;           //서먼 미니톨 생성 개수
 
-    float t;    //타이머
+    float t;                //타이머
 
     // Start is called before the first frame update
     void Start()
@@ -68,21 +68,23 @@ public class Bigtol : MonoBehaviour
                 move_tmp += move * Time.deltaTime * move_v;  //현재 이동거리 업데이트
             }
         }
-
-        if (move_tmp > move)    //일정거리 이동 완료한 경우
-            move_tmp = 0.0f;    //현재 이동거리 초기화
-
+        
         if (hp < 100.0f && Mathf.Abs(transform.position.x-Player.transform.position.x) < 20.0f) //손상된 경우 + 일정반경 내에 있는 경우 - 플레이어 향해 이동
         {
             if (Player.transform.position.x < transform.position.x && transform.position.x - move * Time.deltaTime * move_v > -43.0f)   //플레이어가 빅톨의 왼쪽에 위치, 왼쪽 벽 경계 이동제한
             {
                 transform.position = new Vector3(transform.position.x - move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
+                move_tmp += move * Time.deltaTime * move_v;  //현재 이동거리 업데이트
             }
             else if(Player.transform.position.x > transform.position.x && transform.position.x + move * Time.deltaTime * move_v < 43.0f)  //플레이어가 빅톨의 오른쪽에 위치, 오른쪽 벽 경계 이동제한
             {
                 transform.position = new Vector3(transform.position.x + move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
+                move_tmp += move * Time.deltaTime * move_v;  //현재 이동거리 업데이트
             }
         }
+
+        if (move_tmp > move)    //일정거리 이동 완료한 경우
+            move_tmp = 0.0f;    //현재 이동거리 초기화
 
         //1. 파이어볼 스킬
         //if (hp < 빅파이어볼 생성 기준) -> 빅파이어볼 생성(조건문 나중에 만들자..)
@@ -100,7 +102,7 @@ public class Bigtol : MonoBehaviour
         //if(hp<레인 커맨드 생성 기준) -> 껍데기 미니톨 소환 후 비처럼 떨어져~ (조건문 나중에 만들자..)
         if (Input.GetKeyDown(KeyCode.X))
         {
-            for(int i=0; i<raintol_n; i++)  //시간차이 두고 복제 해보기..
+            for(int i=0; i<raintol_n; i++)
             {
                 GameObject rain_tol = GameObject.Instantiate(Raintol_Perfab); //미니톨 생성
                 rain_tol.transform.position = Player.gameObject.transform.position; //미니톨 초기 위치 = 플레이어 현재 위치   
@@ -114,14 +116,19 @@ public class Bigtol : MonoBehaviour
         {
             for (int i = 0; i < summon_n; i++)
             {
-                //코루틴 사용해보기 !!
                 GameObject summon_tol = GameObject.Instantiate(Summon_Perfab); //미니톨 생성
                 summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치 
                 summon_tol.transform.parent = null;    //독립된 개체
+                StartCoroutine(SummonDelay());//미니톨 생성시간 달리하기
             }
         }
         //크래쉬 커맨드, 서먼 테크 실행주기 생각해보기.. (현재 한번 실행 후 flag로 인해 끝남)
 
+    }
+
+    IEnumerator SummonDelay()
+    {
+        yield return new WaitForSeconds(0.5f);  //미니톨 생성후 일정시간 대기
     }
 }
 

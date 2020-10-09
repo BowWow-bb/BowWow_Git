@@ -141,10 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411b1ffdbc2a57a46946f248904934a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
   Bigfireball_Perfab: {fileID: 5437251765342582650, guid: efd908483b9198648900a209035ed161, type: 3}
   Raintol_Perfab: {fileID: 1561047238463789653, guid: 37804971081b31d40af2ef9bede142f4, type: 3}
-  Summon_Perfab: {fileID: 914888427360307362, guid: 90c3cb830dcca443faeea2969da20cfd, type: 3}
+  Summon_Perfab: {fileID: 2195296922463712211, guid: 3f74b2b7607984ede944ee08579318cc, type: 3}
 --- !u!1 &1363817391689528396
 GameObject:
   m_ObjectHideFlags: 0

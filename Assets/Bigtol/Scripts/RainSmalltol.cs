@@ -6,16 +6,16 @@ public class RainSmalltol : MonoBehaviour
 {
     float x_min;    //생성 x좌표 최소
     float x_max;    //생성 x좌표 최대
-
     float height;   //생성 높이
-
-    bool up_flag;   //튀어오를지 유무
+    
+    bool up_flag;   //튀어오르기 유무
     float t;        //타이머
 
     // Start is called before the first frame update
     void Start()
     {
-        height = Random.Range(30.0f, 45.0f);  //떨어지는 높이 설정
+        height = Random.Range(30.0f, 45.0f); //생성 높이 랜덤 설정
+
         up_flag = false;
         t = 0;
 

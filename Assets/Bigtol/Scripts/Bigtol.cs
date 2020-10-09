@@ -8,7 +8,7 @@ public class Bigtol : MonoBehaviour
     public GameObject Raintol_Perfab;
     public GameObject Summon_Perfab;
 
-    float hp;                //HP
+    public float hp;                //HP
 
     float move;             //일정 이동거리
     float move_tmp;         //현재 이동 거리(일정 이동거리 도달 여부)
@@ -93,7 +93,7 @@ public class Bigtol : MonoBehaviour
             GameObject bigfireball = GameObject.Instantiate(Bigfireball_Perfab); //빅파이어볼 생성
 
             //빅파이어볼 초기 위치 = 빅톨 현재 위치 (파이어볼의 크기 고려해 위로 이동)
-            bigfireball.transform.position = new Vector3(transform.position.x, transform.position.y + 4.0f, transform.position.z);
+            bigfireball.transform.position = new Vector3(transform.position.x, transform.position.y + 6.0f, transform.position.z);
             bigfireball.transform.parent = null;    //독립된 개체
         }
 
@@ -128,7 +128,7 @@ public class Bigtol : MonoBehaviour
 
     IEnumerator SummonDelay()
     {
-        yield return new WaitForSeconds(0.5f);  //미니톨 생성후 일정시간 대기
+        yield return new WaitForSeconds(0.1f);  //미니톨 생성후 일정시간 대기
     }
 }
 

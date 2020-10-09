@@ -17,6 +17,7 @@ public class Wave_Move : MonoBehaviour
             left = true;
         else
             left = false;
+        
     }
 
     // Update is called once per frame

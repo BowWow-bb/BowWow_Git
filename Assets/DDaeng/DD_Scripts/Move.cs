@@ -29,7 +29,7 @@ public class Move : MonoBehaviour
         Floor = GameObject.FindGameObjectsWithTag("Floor");
         Debug.Log("층 계수" + Floor.Length);
         TimeScale = 10000.0f;
-        G = 9.8f / TimeScale;
+        G = 98f / TimeScale;
         Velocityg = 0;
         position = gameObject.transform.position;
         isUp = false;
@@ -43,19 +43,27 @@ public class Move : MonoBehaviour
     {
         if (isFloor)
         {
-            if ((Floor[floor].transform.position.y + 2.5f) < gameObject.transform.position.y)
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y ) > 2.5f)
             {
+                Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.5f)
+            {
+                Debug.Log("dd");
+                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y +2.5f, position.z);
+            }
             else
             {
+                Debug.Log(floor);
+                gameObject.transform.position = new Vector3(position.x, 10f, position.z);
                 Velocityg = 0;
             }
         }
         if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
         {
-            if (!isUp)
+            if (!isUp )
             {
                 isDown = true;
                 Velocityg -= G;
@@ -71,7 +79,7 @@ public class Move : MonoBehaviour
             isDown = false;
             Velocityg = 0f;
         }
-        if (isDown)
+        if (isDown && !isUp && !isFloor)
         {
             distance_floor = 0;
             int cnt = 0;
@@ -86,13 +94,14 @@ public class Move : MonoBehaviour
                         {
                             floor = i;
                             distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            
                             cnt++;
                         }
                         else if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
                         {
                             floor = i;
                             distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
-                            Debug.Log(floor);
+                            
                         }
                     }
 
@@ -100,7 +109,6 @@ public class Move : MonoBehaviour
             }
             if (floor != 150)
                 isFloor = true;
-            Debug.Log(isFloor);
         }
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -134,7 +142,7 @@ public class Move : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if ((!isUp && !isDown)||isFloor)
+            if (!isUp ||( isDown&& !isFloor ) )
             {
                 isUp = true;
                 past_y = gameObject.transform.position.y;
@@ -145,7 +153,7 @@ public class Move : MonoBehaviour
         {
             if (jump_y < 16f)
             {
-                jump_y += 0.03f;
+                jump_y += 0.3f;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
@@ -163,6 +171,7 @@ public class Move : MonoBehaviour
             }
             else
             {
+                isFloor = false;
                 isUp = false;
                 jump_y = 0;
             }
@@ -188,6 +197,8 @@ public class Move : MonoBehaviour
         }
 
         position = gameObject.transform.position;
-
+        Debug.Log("다운 : " + isDown);
+        Debug.Log("up : " + isUp);
+        
     }
 }

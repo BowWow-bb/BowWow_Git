@@ -15,25 +15,31 @@ public class small_toll : MonoBehaviour
 
     float RateMin = 0.5f;//최소 생성 주기 
     float RateMax = 3f;//최대 생성 주기
-    float Rate;
+    float Rate;//파이어볼 생성 주기 
 
     private float timeAfter;//발사 후 지난 시간
-    float timeball;
+    float timeball;//파이어볼 생성에 필요한 시간 
 
     int movementFlag = 0;//0: 정지, 1: 왼쪽, 2: 오른쪽
     string dist = "";//이동 방향 
 
     bool isTracing = false;//거리 내에 들어와서 유지 중인 상태 
     bool Enter = false;//거리 내에 들어오면 (처음)
-    bool isStop = false;//멈췄다가 파이어볼 쏘기 
+    bool isStop = false;//멈췄다가 파이어볼 쏘기
+    bool isHeart = false;//플레이어에게 공격 받음 여부 
+
+    public int HPMax;//최대 체력
+    public int HP;//현재 체력
+    public int Power_run;//런크래쉬 공격력
+    public int Power_fireball;//파이어볼 공격력
 
     // Start is called before the first frame update
     void Start()
     {
         DDaeng = GameObject.Find("DDaeng");
 
-        timeAfter = 0f;
-        Rate = Random.Range(RateMin, RateMax);
+        timeAfter = 0f;//파이어볼 생성 시간 초기화 
+        Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정 
 
         StartCoroutine("ChangeMovement");
     }
@@ -58,16 +64,16 @@ public class small_toll : MonoBehaviour
 
             Debug.Log("timeball: " + timeball);
 
-            if (timeball >= 0.25f)
+            if (timeball >= 0.25f)//0.25초 지나 정지했다가 
             {
-                FireballMake();
+                FireballMake();//파이어볼 발사 
 
                 timeAfter = 0;
                 isStop = false;
 
                 break;
             }
-            yield return null;
+            yield return null;//다시 움직임 시작 
         }
         
     }
@@ -99,11 +105,11 @@ public class small_toll : MonoBehaviour
         timeAfter += Time.deltaTime;//시간 갱신
         //timeball += Time.deltaTime;
 
-        Distance();
-        Move();
+        Distance();//거리 파악. 트리거 대신 
+        Move();//거리 파악 후 움직임, 파이어볼 발사 
     }
 
-    void Distance()//거리 파악. 트리거 대신 
+    void Distance()
     {
         target = DDaeng.transform.position;
         float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
@@ -126,7 +132,7 @@ public class small_toll : MonoBehaviour
         {
             Enter = false;
             isTracing = false;
-            StartCoroutine("ChangeMovement");
+            StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
     }
 
@@ -137,12 +143,16 @@ public class small_toll : MonoBehaviour
         Vector3 moveVelocity = Vector3.zero;
         if(isStop ==false)
         {
-            if (isTracing)//일정 거리 내이면 추적 
+            if (isTracing || isHeart)//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
             {
                 movePower = 12;//추적 시에 속도 빠르게
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
+                    if(isHeart)
+                    {
+                        StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
+                    }
 
                     if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
                     {
@@ -157,6 +167,10 @@ public class small_toll : MonoBehaviour
 
                 else if (target.x > me.x)//땡이가 오른쪽이면
                 {
+                    if(isHeart)
+                    {
+                        StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
+                    }
 
                     if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
                     {
@@ -208,6 +222,16 @@ public class small_toll : MonoBehaviour
         {
             StartCoroutine("MoveStop");
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        HP -= damage;
+    }
+
+    void Die()//체력 0일 경우
+    {
+        
     }
 
     void FireballMake()

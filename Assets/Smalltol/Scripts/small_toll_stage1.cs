@@ -17,6 +17,11 @@ public class small_toll_stage1 : MonoBehaviour
 
     bool isTracing = false;//거리 내에 들어와서 유지 중인 상태 
     bool Enter = false;//거리 내에 들어오면 (처음)
+    bool isHeart = false;
+
+    public int HPMax;//최대 체력
+    public int HP;//현재 체력
+    public int Power_run;//런크래쉬 공격력
 
     // Start is called before the first frame update
     void Start()
@@ -102,12 +107,26 @@ public class small_toll_stage1 : MonoBehaviour
 
             if (target.x < me.x)//땡이가 왼쪽이면
             {
-                dist = "Left";
+                if (isHeart)
+                {
+                    StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
+                }
+                else
+                {
+                    dist = "Left";
+                }
             }
 
             else if (target.x > me.x)//땡이가 오른쪽이면
             {
-                dist = "Right";
+                if (isHeart)
+                {
+                    StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
+                }
+                else
+                {
+                    dist = "Right";
+                }
             }
 
         }

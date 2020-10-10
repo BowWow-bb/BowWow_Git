@@ -45,7 +45,7 @@ public class small_toll : MonoBehaviour
 
         HP = HPMax;//체력 설정 
 
-        st = smalltoll.transform.FindChild("warning");//warning 활성/비활성화 위함
+        st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");

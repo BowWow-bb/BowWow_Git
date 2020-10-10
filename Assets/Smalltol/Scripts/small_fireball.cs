@@ -19,7 +19,7 @@ public class small_fireball : MonoBehaviour
     float movePower = 60;//파이어볼 속력 
     float gravity = 9.8f;
     float accel = 0f;//가속도
-    float c = 0.7f;//탄성계수
+    //float c = 0.7f;//탄성계수
 
     bool isUp = false;//처음 생성 시 y 증가 여부 
 

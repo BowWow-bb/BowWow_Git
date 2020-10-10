@@ -41,7 +41,7 @@ public class small_toll_stage1 : MonoBehaviour
         timeAfter = 0f;
         Rate = Random.Range(RateMin, RateMax);
 
-        st = smalltoll.transform.FindChild("warning");
+        st = smalltoll.transform.Find("warning");
         st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");

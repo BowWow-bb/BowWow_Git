@@ -27,7 +27,7 @@ public class small_fireball : MonoBehaviour
     void Start()
     {
         smalltall = GameObject.Find("Smalltol_stage2");
-        DDaeng = GameObject.Find("DDaeng_2");
+        DDaeng = GameObject.Find("DDaeng");
 
         target = DDaeng.transform.position;//생성 당시 땡이의 위치
         me = smalltall.transform.position;//생성 당시 스몰톨의 위치

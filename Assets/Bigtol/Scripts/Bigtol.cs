@@ -9,6 +9,7 @@ public class Bigtol : MonoBehaviour
     public GameObject Summon_Perfab;
 
     float hp;                //HP
+    float hpbar_tmp;            //hp바 감소 정도
 
     float move;             //일정 이동거리
     float move_tmp;         //현재 이동 거리(일정 이동거리 도달 여부)
@@ -23,7 +24,9 @@ public class Bigtol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = 100.0f;
+        hp = 100;
+        hpbar_tmp = GameObject.FindWithTag("BigtolHp").transform.localScale.x / 100.0f;
+
         move = 7.0f;
         move_tmp = 0;
         move_v = 0.8f;
@@ -35,10 +38,15 @@ public class Bigtol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        GameObject hp_bar = GameObject.FindWithTag("BigtolHp");
         GameObject Player = GameObject.Find("DDaeng");
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
-            hp -= 0.1f;
+        {
+            hp -= 1.0f;
+            hpMove(hp_bar,hp);
+        }
+            
 
         //손상없거나 + 일정반경 내에 플레이어가 없는 경우 - 좌우 랜덤 이동
         if (move_tmp == 0.0f)   //랜덤 방향 이동 완료된 경우
@@ -120,6 +128,26 @@ public class Bigtol : MonoBehaviour
         }
         //크래쉬 커맨드, 서먼 테크 실행주기 생각해보기.. (현재 한번 실행 후 flag로 인해 끝남)
 
+    }
+    void hpMove(GameObject hp_bar, float hp) 
+    {
+        float hp_delta = 100.0f - hp;
+        float move = hpbar_tmp * hp_delta;
+        Debug.Log("move: " + move);
+
+        Vector3 Scale = hp_bar.transform.localScale;
+        Scale.x -= move;
+        hp_bar.transform.localScale = Scale;
+
+        Vector3 Pos = hp_bar.transform.position;
+        Pos.x -= move / 2.0f;
+        Debug.Log("move/2: " + move/2.0f);
+        hp_bar.transform.position = Pos;
+
+        //hp 원상태 =100
+        //hp -1 => - hp바 길이(=scale.x)/100
+        //            => 스케일 조정한 길이의 1/2만큼 위치이동
+        //            => hp바 위치(=Position.x) - -hp바 길이(= scale.x) / 100 /2
     }
 
     IEnumerator SummonDelay()

@@ -35,7 +35,7 @@ public class RainSmalltol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject Player = GameObject.Find("DDaeng");
+        GameObject Player = GameObject.Find("DDaeng_2");
 
         Vector3 pos = transform.position;   //현재 위치
 

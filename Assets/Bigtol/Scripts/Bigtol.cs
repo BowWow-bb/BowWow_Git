@@ -8,7 +8,7 @@ public class Bigtol : MonoBehaviour
     public GameObject Raintol_Perfab;
     public GameObject Summon_Perfab;
 
-    public float hp;                //HP
+    float hp;                //HP
 
     float move;             //일정 이동거리
     float move_tmp;         //현재 이동 거리(일정 이동거리 도달 여부)
@@ -39,7 +39,7 @@ public class Bigtol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject Player = GameObject.Find("DDaeng");
+        GameObject Player = GameObject.Find("DDaeng_2");
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
             hp -= 0.1f;

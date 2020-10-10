@@ -49,7 +49,7 @@ public class BigFireball : MonoBehaviour
         E = 0.9f;
         now_force = 0;
 
-        GameObject Player = GameObject.Find("DDaeng");
+        GameObject Player = GameObject.Find("DDaeng_2");
         PlayerPos = Player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
     }
 

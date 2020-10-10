@@ -30,7 +30,7 @@ public class small_toll : MonoBehaviour
     bool isStop = false;//멈췄다가 파이어볼 쏘기
     bool isHeart = false;//플레이어에게 공격 받음 여부 
 
-    public int HPMax;//최대 체력
+    public int HPMax = 100;//최대 체력
     public int HP;//현재 체력
     public int Power_run;//런크래쉬 공격력
     public int Power_fireball;//파이어볼 공격력
@@ -38,10 +38,12 @@ public class small_toll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DDaeng = GameObject.Find("DDaeng");
+        DDaeng = GameObject.Find("DDaeng_2");
 
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
         Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정
+
+        HP = HPMax;//체력 설정 
 
         st = smalltoll.transform.FindChild("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
@@ -52,7 +54,7 @@ public class small_toll : MonoBehaviour
     IEnumerator ChangeMovement()
     {
         movementFlag = Random.Range(1, 3);//움직임 설정 랜덤
-        float movetime = Random.Range(2f, 3f);
+        float movetime = Random.Range(RateMin,RateMax);
 
         yield return new WaitForSeconds(movetime);//랜덤 초 동안 실행 
 
@@ -260,7 +262,7 @@ public class small_toll : MonoBehaviour
     void FireballMake()
     {
         GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성
-        ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 10f);//파이어볼 초기 위치 
+        ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 15f);//파이어볼 초기 위치 z:15
         ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 

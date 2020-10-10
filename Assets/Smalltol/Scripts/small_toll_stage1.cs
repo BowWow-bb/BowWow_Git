@@ -36,7 +36,7 @@ public class small_toll_stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DDaeng = GameObject.Find("DDaeng");
+        DDaeng = GameObject.Find("DDaeng_2");
 
         timeAfter = 0f;
         Rate = Random.Range(RateMin, RateMax);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class small_fireball : MonoBehaviour
+public class small_fireball_stage2 : MonoBehaviour
 {
     //파이어볼 움직임
     public GameObject smalltall;//스몰톨 가져오기
@@ -16,7 +16,7 @@ public class small_fireball : MonoBehaviour
     float maxh;
     float minh;
 
-    float movePower = 60;//파이어볼 속력 
+    float movePower = 100;//파이어볼 속력 
     float gravity = 9.8f;
     float accel = 0f;//가속도
     float c = 0.7f;//탄성계수
@@ -34,8 +34,8 @@ public class small_fireball : MonoBehaviour
 
         moveVelocity = Vector3.zero;//공이 나갈 방향
 
-        maxh = smalltall.transform.position.y + 3;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
-        minh = smalltall.transform.position.y - 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
+        maxh = smalltall.transform.position.y + 5;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
+        minh = smalltall.transform.position.y;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
     }
 
     // Update is called once per frame
@@ -46,22 +46,22 @@ public class small_fireball : MonoBehaviour
         //생성 당시에 땡이가 왼쪽
         if (target.x < me.x)
         {
-            moveVelocity += Vector3.left * Time.deltaTime*movePower;//왼쪽으로 진행  
+            moveVelocity += Vector3.left * Time.deltaTime * movePower;//왼쪽으로 진행  
         }
         //생성 당시에 땡이가 오른쪽
         if (target.x > me.x)
-        { 
-            moveVelocity += Vector3.right * Time.deltaTime*movePower;//오른쪽으로 진행 
+        {
+            moveVelocity += Vector3.right * Time.deltaTime * movePower;//오른쪽으로 진행 
         }
 
-        if(ball.y <= maxh && ball.y>= me.y && isUp == false)//초기 생성 시 파이어볼의 위치 증가 
+        if (ball.y <= maxh && ball.y >= me.y && isUp == false)//초기 생성 시 파이어볼의 위치 증가 
         {
-            ball.y += 4;
-            transform.position = new Vector3(me.x, ball.y, transform.position.z)+moveVelocity;
+            ball.y += 5;//공 올려주기 
+            transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;
             isUp = true;
         }
 
-        accel += gravity*Time.deltaTime*movePower;//내려오는 속도 가속도 적용
+        accel += gravity * Time.deltaTime * movePower;//내려오는 속도 가속도 적용
         ball.y -= accel * Time.deltaTime;
         transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;
 
@@ -69,7 +69,7 @@ public class small_fireball : MonoBehaviour
         {
             //Debug.Log("땅에 닿음");
             ball.y = minh;
-            transform.position = new Vector3(me.x, ball.y, transform.position.z)+ moveVelocity;
+            transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;
 
             accel = -1 * Mathf.Abs(accel) + gravity;
             Destroy(gameObject, 0.7f);

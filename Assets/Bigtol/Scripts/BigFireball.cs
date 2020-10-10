@@ -20,7 +20,6 @@ public class BigFireball : MonoBehaviour
     
 
     int mini_n;         //미니 파이어볼 개수
-    int mini_cnt;       //미니 파이어볼 현재 생성개수
     bool mini_flag;     //미니 파이어볼 생성 여부 true: 생성완료, false: 생성전
 
     float G; //중력
@@ -42,14 +41,13 @@ public class BigFireball : MonoBehaviour
         height = transform.position.y;  //빅 파이어볼 초기 y좌표
 
         mini_n = 8;
-        mini_cnt = 0;
         mini_flag = false;
 
         G = 0.098f; 
         E = 0.9f;
         now_force = 0;
 
-        GameObject Player = GameObject.Find("DDaeng_2");
+        GameObject Player = GameObject.Find("DDaeng");
         PlayerPos = Player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
     }
 

@@ -20,8 +20,6 @@ public class Bigtol : MonoBehaviour
     int raintol_n;          //레인 미니톨 생성 개수
     int summon_n;           //서먼 미니톨 생성 개수
 
-    float t;                //타이머
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +30,6 @@ public class Bigtol : MonoBehaviour
 
         raintol_n = 3;
         summon_n = 3;
-
-        t = 0;
     }
 
     // Update is called once per frame

@@ -35,7 +35,7 @@ public class Bigtol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject Player = GameObject.Find("DDaeng_2");
+        GameObject Player = GameObject.Find("DDaeng");
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
             hp -= 0.1f;

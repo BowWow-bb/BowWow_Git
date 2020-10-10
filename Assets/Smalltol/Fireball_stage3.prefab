@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 8280360440672926448}
   - component: {fileID: 6712953707362633883}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: Fireball_stage3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,4 +236,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smalltall: {fileID: 914888427360307362, guid: 90c3cb830dcca443faeea2969da20cfd, type: 3}
-  DDaeng: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
+  DDaeng: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}

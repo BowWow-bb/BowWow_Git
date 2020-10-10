@@ -38,7 +38,7 @@ public class small_toll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DDaeng = GameObject.Find("DDaeng_2");
+        DDaeng = GameObject.Find("DDaeng");
 
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
         Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정

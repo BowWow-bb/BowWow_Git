@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,6 +9,7 @@ public class Move : MonoBehaviour
     GameObject Ground;
     GameObject[] Floor;
     public GameObject SoundWave = null;
+    public GameObject bone = null;
     Vector3 position;
     float G; // 중력 가속도
     float Velocityg; // 떨어지는 속도
@@ -22,6 +22,7 @@ public class Move : MonoBehaviour
     bool isUp;
     bool isDown;
     bool isFloor;
+    bool onFloor;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +35,7 @@ public class Move : MonoBehaviour
         position = gameObject.transform.position;
         isUp = false;
         isDown = false;
+        onFloor = false;
         jump_y = 0;
         floor = 150;
     }
@@ -41,45 +43,46 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFloor)
+
+        if (gameObject.transform.position.y - Ground.transform.position.y > 3f)
         {
-            if ((gameObject.transform.position.y - Floor[floor].transform.position.y ) > 2.5f)
+            if (!isUp && !onFloor )
             {
-                Debug.Log("ddd");
-                Velocityg -= G;
-                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
-            }
-            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.5f)
-            {
-                Debug.Log("dd");
-                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y +2.5f, position.z);
-            }
-            else
-            {
-                Debug.Log(floor);
-                gameObject.transform.position = new Vector3(position.x, 10f, position.z);
-                Velocityg = 0;
-            }
-        }
-        if (gameObject.transform.position.y - Ground.transform.position.y > 3.2f)
-        {
-            if (!isUp )
-            {
+                Debug.Log(onFloor);
                 isDown = true;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
         }
-        else if (gameObject.transform.position.y < 3.2f)
+        else if (gameObject.transform.position.y < 3f)
         {
-            gameObject.transform.position = new Vector3(position.x, 3.2f, position.z);
+            Debug.Log("t");
+            gameObject.transform.position = new Vector3(position.x, 3f, position.z);
         }
         else
         {
+            Debug.Log("ttt");
             isDown = false;
             Velocityg = 0f;
         }
-        if (isDown && !isUp && !isFloor)
+        if (isFloor)
+        {
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.5f)
+            {
+                Debug.Log("ddd");
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            }
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 2.5f)
+            {
+                Debug.Log("dd");
+                onFloor = true;
+                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 2.5f, position.z);
+                Velocityg = 0;
+            }
+
+        }
+        if (isDown && !isUp && !isFloor )
         {
             distance_floor = 0;
             int cnt = 0;
@@ -108,20 +111,31 @@ public class Move : MonoBehaviour
                 }
             }
             if (floor != 150)
+            {
                 isFloor = true;
+            }
+        }
+        if(onFloor)
+        {
+            if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) > 9.5f)
+            {
+                onFloor = false;
+                isFloor = false;
+                floor = 150;
+            }
         }
         //좌우이동
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (isDown)
             {
-                gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
             }
         }
@@ -129,13 +143,13 @@ public class Move : MonoBehaviour
         {
             if (isDown)
             {
-                gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x + 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
             }
         }
@@ -153,16 +167,16 @@ public class Move : MonoBehaviour
         {
             if (jump_y < 16f)
             {
-                jump_y += 0.3f;
+                jump_y += 0.1f;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    gameObject.transform.localScale = new Vector3(+4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                    gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                     gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
-                    gameObject.transform.localScale = new Vector3(-4, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                    gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 }
                 else
                 {
@@ -195,10 +209,28 @@ public class Move : MonoBehaviour
                 }
             }
         }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            if(bone !=null)
+            {
+                GameObject Bone = GameObject.Instantiate(bone);
+                if (gameObject.transform.localScale.x < 0)
+                {
+                    Bone.transform.position = transform.position + new Vector3(-1, 0, 0);
+                    Bone.transform.parent = null;
+                }
+                else
+                {
+                    Bone.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+                }
+            }
+        }
+
 
         position = gameObject.transform.position;
         Debug.Log("다운 : " + isDown);
         Debug.Log("up : " + isUp);
-        
+        Debug.Log("florr :" + isFloor);
+        Debug.Log(floor + "ON?? : " + onFloor);
     }
 }

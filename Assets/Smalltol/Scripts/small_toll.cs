@@ -127,14 +127,6 @@ public class small_toll : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //h
-        if (Input.GetKeyDown(KeyCode.O)) //임시로 hp 감소효과 주기-확인용임 나중에스킬에다가적용하셈!
-        {
-            HP -= 1.0f; //스킬에따른 손상값:1.0f
-            hpMove(hp_bar, 1.0f);   //함수 두번째 파라미터: 손상값
-        }
-        //
-
         timeAfter += Time.deltaTime;//시간 갱신
         //timeball += Time.deltaTime;
 

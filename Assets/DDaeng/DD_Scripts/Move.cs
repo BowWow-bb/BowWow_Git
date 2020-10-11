@@ -10,6 +10,8 @@ public class Move : MonoBehaviour
     GameObject[] Floor;
     public GameObject SoundWave = null;
     public GameObject bone = null;
+    public GameObject DamageText;
+    public Transform head;//데미지 텍스트 뜨는 위치 
     Vector3 position;
     float G; // 중력 가속도
     float Velocityg; // 떨어지는 속도
@@ -48,7 +50,7 @@ public class Move : MonoBehaviour
         {
             if (!isUp && !onFloor )
             {
-                Debug.Log(onFloor);
+                //Debug.Log(onFloor);
                 isDown = true;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
@@ -56,12 +58,12 @@ public class Move : MonoBehaviour
         }
         else if (gameObject.transform.position.y < 3f)
         {
-            Debug.Log("t");
+           // Debug.Log("t");
             gameObject.transform.position = new Vector3(position.x, 3f, position.z);
         }
         else
         {
-            Debug.Log("ttt");
+           // Debug.Log("ttt");
             isDown = false;
             Velocityg = 0f;
         }
@@ -69,13 +71,13 @@ public class Move : MonoBehaviour
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.5f)
             {
-                Debug.Log("ddd");
+             //   Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
             else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 2.5f)
             {
-                Debug.Log("dd");
+              //  Debug.Log("dd");
                 onFloor = true;
                 gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 2.5f, position.z);
                 Velocityg = 0;
@@ -228,9 +230,15 @@ public class Move : MonoBehaviour
 
 
         position = gameObject.transform.position;
-        Debug.Log("다운 : " + isDown);
-        Debug.Log("up : " + isUp);
-        Debug.Log("florr :" + isFloor);
-        Debug.Log(floor + "ON?? : " + onFloor);
+        //Debug.Log("다운 : " + isDown);
+        //Debug.Log("up : " + isUp);
+        //Debug.Log("florr :" + isFloor);
+        //Debug.Log(floor + "ON?? : " + onFloor);
+    }
+    public void TakeDamage(int damage)//몬스터들한테 맞기위함 
+    {
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
     }
 }

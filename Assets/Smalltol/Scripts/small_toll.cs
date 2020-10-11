@@ -135,7 +135,7 @@ public class small_toll : MonoBehaviour
     }
 
     //h
-    void hpMove(GameObject hp_bar, float hp_delta)
+    void hpMove(float hp_delta)
     {
         float move = ((HPMax-HP) + hp_delta) * hpbar_tmp;
 

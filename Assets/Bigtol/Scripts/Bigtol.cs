@@ -45,13 +45,12 @@ public class Bigtol : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject hp_bar = GameObject.FindWithTag("BigtolHp");
         GameObject Player = GameObject.Find("DDaeng");
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
         {
             HP -= 1.0f;
-            hpMove(hp_bar,1.0f);
+            hpMove(1.0f);
         }
             
         //손상없거나 + 일정반경 내에 플레이어가 없는 경우 - 좌우 랜덤 이동
@@ -139,7 +138,7 @@ public class Bigtol : MonoBehaviour
         }
     }
 
-    void hpMove(GameObject hp_bar, float hp_delta) 
+    void hpMove(float hp_delta) 
     {
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
 

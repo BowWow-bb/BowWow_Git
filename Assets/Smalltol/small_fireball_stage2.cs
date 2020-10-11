@@ -42,7 +42,7 @@ public class small_fireball_stage2 : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)
         {
-            Debug.Log("충돌");
+            DDaeng.GetComponent<Move>().TakeDamage(10);//공격
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
             dd.hpMove(10.0f);
    

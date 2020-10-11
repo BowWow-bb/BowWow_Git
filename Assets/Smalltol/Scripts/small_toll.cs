@@ -179,7 +179,16 @@ public class small_toll : MonoBehaviour
         if(distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 (닿았다면)
         {
             st.gameObject.SetActive(true);
-            DDaeng.GetComponent<Move>().TakeDamage(10);//몸빵 공격 
+            DDaeng.GetComponent<Move>().TakeDamage(10);//몸빵 공격
+
+            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
+            dd.hpMove(10.0f);
+
+            if (dd.HP == 0)
+            {
+                Destroy(DDaeng);
+            }
+
 
             isTracing = false;
             if (target.x < me.x)

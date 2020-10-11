@@ -117,6 +117,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (distance <= d)//범위 내에 처음 들어오면
         {
+            st.gameObject.SetActive(true);
             Enter = true;
             Debug.Log("범위 내에 들어옴");
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
@@ -129,6 +130,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (isTracing == true && distance > d)//거리 벗어나면 
         {
+            st.gameObject.SetActive(false);
             Enter = false;
             isTracing = false;
             StartCoroutine("ChangeMovement");
@@ -136,8 +138,15 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (distance <= 6)//공격 범위 내이면 
         {
-            st.gameObject.SetActive(true);
-            DDaeng.GetComponent<Move>().TakeDamage(10);//공격
+            DDaeng.GetComponent<Move>().TakeDamage(5);//공격
+
+            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
+            dd.hpMove(5.0f);
+
+            if (dd.HP == 0)
+            {
+                Destroy(DDaeng);
+            }
 
             isTracing = false;
 
@@ -161,8 +170,6 @@ public class small_toll_stage1 : MonoBehaviour
         {
             if (isTracing)//일정 거리 내이면 추적 
             {
-                st.gameObject.SetActive(true);
-
                 movePower = 12;//추적 시에 속도 빠르게
 
                 if (target.x < me.x)//땡이가 왼쪽이면

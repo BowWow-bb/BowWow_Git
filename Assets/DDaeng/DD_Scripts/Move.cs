@@ -10,6 +10,8 @@ public class Move : MonoBehaviour
     GameObject[] Floor;
     public GameObject SoundWave = null;
     public GameObject bone = null;
+    public GameObject DamageText;
+    public Transform head;//데미지 텍스트 뜨는 위치 
     Vector3 position;
     float G; // 중력 가속도
     float Velocityg; // 떨어지는 속도
@@ -232,5 +234,11 @@ public class Move : MonoBehaviour
         Debug.Log("up : " + isUp);
         Debug.Log("florr :" + isFloor);
         Debug.Log(floor + "ON?? : " + onFloor);
+    }
+    public void TakeDamage(int damage)//몬스터들한테 맞기위함 
+    {
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
     }
 }

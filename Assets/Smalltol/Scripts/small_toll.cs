@@ -30,20 +30,37 @@ public class small_toll : MonoBehaviour
     bool isStop = false;//멈췄다가 파이어볼 쏘기
     bool isHeart = false;//플레이어에게 공격 받음 여부 
 
-    public int HPMax = 100;//최대 체력
-    public int HP;//현재 체력
+    public float HPMax = 100.0f;//최대 체력  
+    public float HP;//현재 체력
+
+    //h
+    GameObject hp_bar;  //hp바
+    float hpbar_sx;     //hp바 스케일 x값
+    float hpbar_tx;     //hp바 위치 x값
+    float hpbar_tmp;    //hp바 감소 정도
+    string tag_name;    //hp바 태그
+    //
+
     public int Power_run;//런크래쉬 공격력
     public int Power_fireball;//파이어볼 공격력
 
     // Start is called before the first frame update
     void Start()
     {
+        //h
+        HP = HPMax;//체력 설정 
+        tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
+        hp_bar = GameObject.FindWithTag(tag_name);
+
+        hpbar_sx = GameObject.FindWithTag(tag_name).transform.localScale.x;
+        hpbar_tx = GameObject.FindWithTag(tag_name).transform.localPosition.x;
+        hpbar_tmp = hpbar_sx / HPMax;
+        //
+
         DDaeng = GameObject.Find("DDaeng");
 
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
         Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정
-
-        HP = HPMax;//체력 설정 
 
         st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
@@ -110,12 +127,33 @@ public class small_toll : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //h
+        if (Input.GetKeyDown(KeyCode.O)) //임시로 hp 감소효과 주기-확인용임 나중에스킬에다가적용하셈!
+        {
+            HP -= 1.0f; //스킬에따른 손상값:1.0f
+            hpMove(hp_bar, 1.0f);   //함수 두번째 파라미터: 손상값
+        }
+        //
+
         timeAfter += Time.deltaTime;//시간 갱신
         //timeball += Time.deltaTime;
 
         Distance();//거리 파악. 트리거 대신 
         Move();//거리 파악 후 움직임, 파이어볼 발사 
     }
+
+    //h
+    void hpMove(GameObject hp_bar, float hp_delta)
+    {
+        float move = ((HPMax-HP) + hp_delta) * hpbar_tmp;
+
+        Vector3 Scale = hp_bar.transform.localScale;
+        hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
+
+        Vector3 Pos = hp_bar.transform.localPosition;
+        hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
+    }
+    //
 
     void Distance()
     {

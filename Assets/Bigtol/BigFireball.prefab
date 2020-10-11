@@ -105,6 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4108174879929020316}
   - component: {fileID: 7295594471981507774}
+  - component: {fileID: -92818671513463776}
   m_Layer: 0
   m_Name: BigFireball
   m_TagString: Untagged
@@ -140,10 +141,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6c08196c68b3940aac9f421fced71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bt: {fileID: 707000922411409920, guid: 15c22c815d9730a44879aff52cea8d0d, type: 3}
-  player: {fileID: 1072996421761502409, guid: 089c16f54fa95124499da420115779fb, type: 3}
   Minifireball_Perfab: {fileID: 8504930283267733822, guid: 0f12968a2cd369e489961105ebf189ad, type: 3}
-  Ground: {fileID: 8412501056750831766, guid: b28f71269ed87b947bc984bbaed67047, type: 3}
+--- !u!65 &-92818671513463776
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437251765342582650}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7327639176008513895
 GameObject:
   m_ObjectHideFlags: 0

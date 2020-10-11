@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 6086452343418651050}
   m_Layer: 0
   m_Name: Smalltol_stage1
-  m_TagString: Untagged
+  m_TagString: Smalltol_stage1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7fd87275d1d490f9abcab2fbaa5903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DDaeng: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
+  DDaeng: {fileID: 4905388451839237879, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
   d: 20
   HPMax: 0
   HP: 0

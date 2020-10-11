@@ -9,6 +9,10 @@ TagManager:
   - Floor
   - smalltall
   - BigtolHp
+  - SmalltolHp
+  - SummontolHp0
+  - SummontolHp1
+  - SummontolHp2
   layers:
   - Default
   - TransparentFX

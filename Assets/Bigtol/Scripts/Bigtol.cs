@@ -8,10 +8,12 @@ public class Bigtol : MonoBehaviour
     public GameObject Raintol_Perfab;
     public GameObject Summon_Perfab;
 
-    float hp;                //HP
-    float hpbar_sx;          //hp바 스케일 x값
+    float HP;               //HP
+    float HPMax = 100.0f;   //최대 체력
+    GameObject hp_bar;  //hp바
+    float hpbar_sx;         //hp바 스케일 x값
     float hpbar_tx;         //hp바 위치 x값
-    float hpbar_tmp;         //hp바 감소 정도
+    float hpbar_tmp;        //hp바 감소 정도
 
     float move;             //일정 이동거리
     float move_tmp;         //현재 이동 거리(일정 이동거리 도달 여부)
@@ -26,10 +28,11 @@ public class Bigtol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = 100;
+        HP= HPMax;
+        hp_bar = GameObject.FindWithTag("BigtolHp");
         hpbar_sx = GameObject.FindWithTag("BigtolHp").transform.localScale.x;
         hpbar_tx = GameObject.FindWithTag("BigtolHp").transform.localPosition.x;
-        hpbar_tmp = hpbar_sx / 100.0f;
+        hpbar_tmp = hpbar_sx / HPMax;
 
         move = 7.0f;
         move_tmp = 0;
@@ -47,7 +50,7 @@ public class Bigtol : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
         {
-            hp -= 1.0f;
+            HP -= 1.0f;
             hpMove(hp_bar,1.0f);
         }
             
@@ -76,7 +79,7 @@ public class Bigtol : MonoBehaviour
             }
         }
         
-        if (hp < 100.0f && Mathf.Abs(transform.position.x-Player.transform.position.x) < 20.0f) //손상된 경우 + 일정반경 내에 있는 경우 - 플레이어 향해 이동
+        if (HP < 100.0f && Mathf.Abs(transform.position.x-Player.transform.position.x) < 20.0f) //손상된 경우 + 일정반경 내에 있는 경우 - 플레이어 향해 이동
         {
             if (Player.transform.position.x < transform.position.x && transform.position.x - move * Time.deltaTime * move_v > -43.0f)   //플레이어가 빅톨의 왼쪽에 위치, 왼쪽 벽 경계 이동제한
             {
@@ -126,6 +129,11 @@ public class Bigtol : MonoBehaviour
                 GameObject summon_tol = GameObject.Instantiate(Summon_Perfab); //미니톨 생성
                 summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치 
                 summon_tol.transform.parent = null;    //독립된 개체
+
+                string tag_name = ("SummontolHp"+i).ToString();
+                summon_tol.transform.Find("HpBar").transform.Find("Hp").tag= tag_name;
+                //Debug.Log(summon_tol.transform.Find("HpBar").transform.Find("Hp").tag);
+
                 StartCoroutine(SummonDelay());//미니톨 생성시간 달리하기
             }
         }
@@ -133,7 +141,7 @@ public class Bigtol : MonoBehaviour
 
     void hpMove(GameObject hp_bar, float hp_delta) 
     {
-        float move = ((100.0f - hp) + hp_delta) * hpbar_tmp;
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

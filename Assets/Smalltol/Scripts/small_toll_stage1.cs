@@ -137,9 +137,9 @@ public class small_toll_stage1 : MonoBehaviour
         if (distance <= 6)//공격 범위 내이면 
         {
             st.gameObject.SetActive(true);
-            isTracing = false;
-
             DDaeng.GetComponent<Move>().TakeDamage(10);//공격
+
+            isTracing = false;
 
             if (target.x < me.x)
             {
@@ -229,12 +229,12 @@ public class small_toll_stage1 : MonoBehaviour
             if (dist == "Left")
             {
                 moveVelocity = Vector3.left;
-                transform.localScale = new Vector3(1, 1, 1);
+                //transform.localScale = new Vector3(1, 1, 1);
             }
             else if (dist == "Right")
             {
                 moveVelocity = Vector3.right;
-                transform.localScale = new Vector3(-1, 1, 1);
+                //transform.localScale = new Vector3(-1, 1, 1);
             }
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }

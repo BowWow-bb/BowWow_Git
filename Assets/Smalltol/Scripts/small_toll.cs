@@ -57,7 +57,7 @@ public class small_toll : MonoBehaviour
         hpbar_tmp = hpbar_sx / HPMax;
         //
 
-        DDaeng = GameObject.Find("DDaeng");
+        DDaeng = GameObject.Find("DDaeng");//하이라키 내에서 찾기 위함 
 
         timeAfter = 0f;//파이어볼 생성 시간 초기화 
         Rate = Random.Range(RateMin, RateMax);//처음 파이어볼 생성 주기 설정
@@ -128,14 +128,13 @@ public class small_toll : MonoBehaviour
     void FixedUpdate()
     {
         timeAfter += Time.deltaTime;//시간 갱신
-        //timeball += Time.deltaTime;
 
         Distance();//거리 파악. 트리거 대신 
         Move();//거리 파악 후 움직임, 파이어볼 발사 
     }
 
     //h
-    void hpMove(GameObject hp_bar, float hp_delta)
+    void hpMove(float hp_delta)
     {
         float move = ((HPMax-HP) + hp_delta) * hpbar_tmp;
 
@@ -172,9 +171,11 @@ public class small_toll : MonoBehaviour
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
 
-        if(distance<=6)
+        if(distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 
         {
             st.gameObject.SetActive(true);
+            DDaeng.GetComponent<Move>().TakeDamage(20);//몸빵 공격 
+
             isTracing = false;
             if (target.x < me.x)
             {
@@ -263,12 +264,12 @@ public class small_toll : MonoBehaviour
             if (dist == "Left")
             {
                 moveVelocity = Vector3.left;
-                transform.localScale = new Vector3(1, 1, 1);
+                //transform.localScale = new Vector3(1, 1, 1);
             }
             else if (dist == "Right")
             {
                 moveVelocity = Vector3.right;
-                transform.localScale = new Vector3(-1, 1, 1);
+                //transform.localScale = new Vector3(-1, 1, 1);
             }
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }

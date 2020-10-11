@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2026194497451868402}
   m_Layer: 0
   m_Name: Bigtol
-  m_TagString: Untagged
+  m_TagString: Bigtol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

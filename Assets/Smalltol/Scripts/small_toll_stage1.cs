@@ -134,10 +134,12 @@ public class small_toll_stage1 : MonoBehaviour
             StartCoroutine("ChangeMovement");
         }
 
-        if (distance <= 6)
+        if (distance <= 6)//공격 범위 내이면 
         {
             st.gameObject.SetActive(true);
             isTracing = false;
+
+            DDaeng.GetComponent<Move>().TakeDamage(10);//공격
 
             if (target.x < me.x)
             {

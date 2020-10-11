@@ -442,6 +442,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5971370201511391746, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
+      propertyPath: bone
+      value: 
+      objectReference: {fileID: 3829114340317951901, guid: b529d5317904c594aaacf6af32005a5a, type: 3}
+    - target: {fileID: 5971370201511391747, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
       propertyPath: m_Name
       value: DDaeng

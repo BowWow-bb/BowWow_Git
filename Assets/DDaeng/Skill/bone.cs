@@ -6,6 +6,7 @@ public class bone : MonoBehaviour
 {
     bool left;
     bool arrival;
+    bool spin;
     GameObject DD;
     Vector3 position;
     float check;
@@ -18,7 +19,7 @@ public class bone : MonoBehaviour
         check = gameObject.transform.position.x;
         position = gameObject.transform.position;
         arrival = false;
-
+        spin = false;
         DD = GameObject.Find("DDaeng");
 
 
@@ -53,18 +54,23 @@ public class bone : MonoBehaviour
         }
         else
         {
-            if (check <= 20f)
+            if (check <= 20f&& !spin)
             {
                 gameObject.transform.position = new Vector3(position.x + 3 * Mathf.Cos(rotate), position.y + 3 * Mathf.Sin(rotate), 0);
                 check += 0.1f;
             }
             else if (check == 20f)
-                check = 0;
-            else
             {
+                check = 0;
+                spin = true;
                 position = gameObject.transform.position;
-                check += 0.1f;
-               // gameObject.transform.position = new Vector3(DD.transform.position.x);
+            }
+            else 
+            {
+                if (position.x+check <= DD.transform.position.x && DD.transform.position.x>0) {
+                    gameObject.transform.position = new Vector3(position.x + check, 0, 0);
+                    check += 0.1f;
+                }
             }
         }
 

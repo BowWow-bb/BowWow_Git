@@ -174,12 +174,12 @@ public class Move : MonoBehaviour
                 jump_y += 0.1f;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                    left = false;
                     gameObject.transform.position = new Vector3(position.x + 0.05f, past_y + jump_y, position.z);
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    gameObject.transform.position = new Vector3(position.x - 0.05f, past_y + jump_y, position.z);
+                    left = true;
                     gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 }
                 else

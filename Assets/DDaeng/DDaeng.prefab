@@ -243,6 +243,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2021439630213852154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5121804240295524664}
+  m_Layer: 0
+  m_Name: head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5121804240295524664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021439630213852154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.3, y: 6.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3026818631872111004}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4685537372178858506
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +387,7 @@ Transform:
   - {fileID: 7578162052185970856}
   - {fileID: 2719272549464930584}
   - {fileID: 3252449894135449225}
+  - {fileID: 5121804240295524664}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -374,6 +405,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoundWave: {fileID: 8810596478605344045, guid: a35bfae4c1f2c234eb0262a6670c7312, type: 3}
   bone: {fileID: 0}
+  DamageText: {fileID: 3081082159912447374, guid: 18990fc5420934c108be3fb2f13e8023, type: 3}
+  head: {fileID: 5121804240295524664}
 --- !u!65 &1168873275736833161
 BoxCollider:
   m_ObjectHideFlags: 0

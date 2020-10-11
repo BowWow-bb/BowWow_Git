@@ -13,6 +13,7 @@ public class small_fireball_stage2 : MonoBehaviour
     Vector3 target;
     Vector3 moveVelocity;//공이 나갈 방향 (파이어볼 속도)
 
+
     float maxh;
     float minh;
 

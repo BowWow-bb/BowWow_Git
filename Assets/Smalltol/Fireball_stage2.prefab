@@ -200,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8280360440672926448}
   - component: {fileID: 5269498170376341720}
+  - component: {fileID: 3076888219802578236}
   m_Layer: 0
   m_Name: Fireball_stage2
   m_TagString: Untagged
@@ -237,3 +238,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smalltall: {fileID: 266613069773289779, guid: 3f74b2b7607984ede944ee08579318cc, type: 3}
   DDaeng: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
+--- !u!65 &3076888219802578236
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622010218810794259}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 25}
+  m_Center: {x: 0, y: 0, z: 0}

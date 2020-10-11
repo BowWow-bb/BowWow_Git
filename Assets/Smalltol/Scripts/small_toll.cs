@@ -28,7 +28,8 @@ public class small_toll : MonoBehaviour
     bool isTracing = false;//거리 내에 들어와서 유지 중인 상태 
     bool Enter = false;//거리 내에 들어오면 (처음)
     bool isStop = false;//멈췄다가 파이어볼 쏘기
-    bool isHeart = false;//플레이어에게 공격 받음 여부 
+    bool isHeart = false;//플레이어에게 공격 받음 여부
+    bool isBall = false;//공 한번만 
 
     public float HPMax = 100.0f;//최대 체력  
     public float HP;//현재 체력
@@ -89,9 +90,9 @@ public class small_toll : MonoBehaviour
 
             //Debug.Log("timeball: " + timeball);
 
-            if (timeball >= 0.25f)//0.25초 지나 정지했다가 
+            if (timeball >= 0.25f && isBall ==false)//0.25초 지나 정지했다가 
             {
-                FireballMake();//파이어볼 발사 
+                FireballMake();//파이어볼 발사
 
                 timeAfter = 0;
                 isStop = false;
@@ -99,17 +100,20 @@ public class small_toll : MonoBehaviour
                 break;
             }
             yield return null;//다시 움직임 시작 
-        }
-        
+        }  
+    }
+    IEnumerator FireballDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
     }
 
     //스몰톨이 카메라 벗어나지 않게 제한 
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
     {
         movementFlag = 1;
-        Debug.Log("코루틴 left");
+        //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine("ChangeMovement");
     }
@@ -117,9 +121,9 @@ public class small_toll : MonoBehaviour
     IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
     {
         movementFlag = 2;
-        Debug.Log("코루틴 right");
+        //Debug.Log("코루틴 right");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine("ChangeMovement");
     }
@@ -134,7 +138,7 @@ public class small_toll : MonoBehaviour
     }
 
     //h
-    void hpMove(float hp_delta)
+    public void hpMove(float hp_delta)
     {
         float move = ((HPMax-HP) + hp_delta) * hpbar_tmp;
 
@@ -149,17 +153,18 @@ public class small_toll : MonoBehaviour
     void Distance()
     {
         target = DDaeng.transform.position;
-        float distance = Vector3.Distance(target, transform.position);//땡이와 스몰톨 거리 구하는 함수 
+        
+        float distance = Mathf.Abs(DDaeng.transform.position.x - transform.position.x);//땡이위치 - 스몰톨 위치 절댓(x값만)
 
         //Debug.Log("땡이랑 거리: " + distance);
 
         if (distance <= d)//범위 내에 처음 들어오면
         {
             Enter = true;
-            Debug.Log("범위 내에 들어옴");
+            //Debug.Log("범위 내에 들어옴");
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
-        if (Enter == true && distance <= d && distance >7)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance >8)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
         {
             isTracing = true;
         }
@@ -171,10 +176,10 @@ public class small_toll : MonoBehaviour
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
 
-        if(distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 
+        if(distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 (닿았다면)
         {
             st.gameObject.SetActive(true);
-            DDaeng.GetComponent<Move>().TakeDamage(20);//몸빵 공격 
+            DDaeng.GetComponent<Move>().TakeDamage(10);//몸빵 공격 
 
             isTracing = false;
             if (target.x < me.x)
@@ -186,6 +191,7 @@ public class small_toll : MonoBehaviour
             {
                 StartCoroutine("ClipMovementleft");
             }
+            
         }
     }
 
@@ -211,11 +217,12 @@ public class small_toll : MonoBehaviour
 
                     if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
                     {
+                        isBall = false;
                         isStop = true;//멈춤 후 공격 
                     }
                     else
                     {
-                        dist = "Left";
+                        dist = "Left";//왼쪽으로 가라 
                     }
 
                 }
@@ -292,10 +299,14 @@ public class small_toll : MonoBehaviour
 
     void FireballMake()
     {
+
         GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성
+        isBall = true;
+
         ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 15f);//파이어볼 초기 위치 z:15
         ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 
+
     }
 }

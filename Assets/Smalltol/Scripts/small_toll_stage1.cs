@@ -122,7 +122,7 @@ public class small_toll_stage1 : MonoBehaviour
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d && distance > 7)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 8)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;
         }

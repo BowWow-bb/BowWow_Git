@@ -14,7 +14,6 @@ public class BigFireball : MonoBehaviour
     float move;                //일정 이동거리
     float move_tmp;             //현재 이동 거리(일정 이동거리 도달 여부)
     float move_v;           //좌우 이동 속도
-    float rot_v;        //회전 속도
 
     float height;                 //높이 조절
     
@@ -36,7 +35,6 @@ public class BigFireball : MonoBehaviour
         move = 35;                 
         move_tmp = 0;             
         move_v = 0.8f;           
-        rot_v = 5000.0f;
 
         height = transform.position.y;  //빅 파이어볼 초기 y좌표
 
@@ -74,12 +72,23 @@ public class BigFireball : MonoBehaviour
                     transform.position = Pos;
                     now_force = now_force * E * (-1);
                 }
-                
-                transform.Rotate(0, 0, -t * rot_v);   //반시계 방향으로 속도만큼 회전
             }
             else if (PlayerPos.x > transform.position.x) //플레이어가 빅톨의 오른쪽에 위치
             {
-                
+                //계속 내려감
+                now_force += G * t;
+                Pos.y -= now_force;
+                transform.position = new Vector3(Pos.x + t * move_v, Pos.y, Pos.z);
+
+                move_tmp += t * move_v;
+
+                //바닥에 닿은 경우 운동방향 바꿔줌
+                if (transform.position.y < 3.3) //바닥과 충돌한 경우
+                {
+                    Pos.y = 3.3f;
+                    transform.position = Pos;
+                    now_force = now_force * E * (-1);
+                }
             }
 
             //위치가 같은경우는..?
@@ -88,7 +97,7 @@ public class BigFireball : MonoBehaviour
         }
         else if(!mini_flag) //이동 완료
         {
-            Destroy(gameObject, 0.0001f);  //**초뒤 빅파이어볼 비활성화
+            Destroy(gameObject, 0.00001f);  //**초뒤 빅파이어볼 비활성화
             for(int i=0; i<mini_n; i++)
             {
                 GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 n개 생성
@@ -104,31 +113,15 @@ public class BigFireball : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
-            if (other.tag == "DDaeng")
+            Debug.Log("땡이충돌 !");
+            Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
+            DDaeng.hpMove(10.0f);
+            Debug.Log(DDaeng.HP);
+            if (DDaeng.HP == 0)
             {
-                Debug.Log("땡이충돌 !");
-                //Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
-                //DDaeng.hpMove(DDaeng.hp_bar, 10.0f);
-                //if (DDaeng.HP == 0)
-                    Destroy(other.gameObject, 0);
-
+                move_tmp = move;
+                Destroy(other.gameObject, 0);
             }
         }
     }
-    void OnTriggerStay(Collider other)  //충돌 중 일 때
-    {
-        if (other.gameObject.GetComponent<Move>() != null)
-        {
-            if (other.tag == "DDaeng")
-            {
-                Debug.Log("땡이충돌 !");
-                //Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
-                //DDaeng.hpMove(DDaeng.hp_bar, 10.0f);
-                //if (DDaeng.HP == 0)
-                   Destroy(other.gameObject, 0);
-
-            }
-        }
-    }
-
 }

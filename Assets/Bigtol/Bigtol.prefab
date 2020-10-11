@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2026194497451868403}
   - component: {fileID: 2026194497451868402}
+  - component: {fileID: 6700785083717623344}
   m_Layer: 0
   m_Name: Bigtol
   m_TagString: Bigtol
@@ -81,6 +82,19 @@ MonoBehaviour:
   Bigfireball_Perfab: {fileID: 5437251765342582650, guid: efd908483b9198648900a209035ed161, type: 3}
   Raintol_Perfab: {fileID: 1561047238463789653, guid: 37804971081b31d40af2ef9bede142f4, type: 3}
   Summon_Perfab: {fileID: 266613069773289779, guid: 3f74b2b7607984ede944ee08579318cc, type: 3}
+--- !u!65 &6700785083717623344
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026194497451868401}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2026194497725821996
 GameObject:
   m_ObjectHideFlags: 0

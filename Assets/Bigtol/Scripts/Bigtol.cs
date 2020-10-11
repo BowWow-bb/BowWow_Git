@@ -49,7 +49,6 @@ public class Bigtol : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
         {
-            HP -= 1.0f;
             hpMove(1.0f);
         }
             
@@ -138,8 +137,9 @@ public class Bigtol : MonoBehaviour
         }
     }
 
-    void hpMove(float hp_delta) 
+    public void hpMove(float hp_delta) 
     {
+        HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
 
         Vector3 Scale = hp_bar.transform.localScale;

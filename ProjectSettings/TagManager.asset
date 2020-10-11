@@ -16,6 +16,7 @@ TagManager:
   - DDaeng
   - Bigtol
   - Smalltol_stage1
+  - DDaengHp
   layers:
   - Default
   - TransparentFX

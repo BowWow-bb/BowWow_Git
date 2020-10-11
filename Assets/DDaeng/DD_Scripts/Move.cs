@@ -26,9 +26,27 @@ public class Move : MonoBehaviour
     bool isFloor;
     bool onFloor;
     bool left;
+
+    //h
+    public float HP;               //HP
+    float HPMax = 100.0f;   //최대 체력
+    GameObject hp_bar;  //hp바
+    float hpbar_sx;         //hp바 스케일 x값
+    float hpbar_tx;         //hp바 위치 x값
+    float hpbar_tmp;        //hp바 감소 정도
+    //
+
     // Start is called before the first frame update
     void Start()
     {
+        //h
+        HP = HPMax;
+        hp_bar = GameObject.FindWithTag("DDaengHp");
+        hpbar_sx = GameObject.FindWithTag("DDaengHp").transform.localScale.x;
+        hpbar_tx = GameObject.FindWithTag("DDaengHp").transform.localPosition.x;
+        hpbar_tmp = hpbar_sx / HPMax;
+        //
+
         left = true;
         Ground = GameObject.FindWithTag("Ground");
         Floor = GameObject.FindGameObjectsWithTag("Floor");
@@ -47,7 +65,6 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (gameObject.transform.position.y - Ground.transform.position.y > 3f)
         {
             if (!isUp && !onFloor )
@@ -239,6 +256,20 @@ public class Move : MonoBehaviour
         //Debug.Log("florr :" + isFloor);
         //Debug.Log(floor + "ON?? : " + onFloor);
     }
+
+    //h
+    public void hpMove(float hp_delta)
+    {
+        HP -= hp_delta;
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+
+        Vector3 Scale = hp_bar.transform.localScale;
+        hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
+
+        Vector3 Pos = hp_bar.transform.localPosition;
+        hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
+    }
+    //
     public void TakeDamage(int damage)//몬스터들한테 맞기위함 
     {
         GameObject damageText = Instantiate(DamageText);

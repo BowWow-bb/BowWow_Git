@@ -25,9 +25,11 @@ public class Move : MonoBehaviour
     bool isDown;
     bool isFloor;
     bool onFloor;
+    bool left;
     // Start is called before the first frame update
     void Start()
     {
+        left = true;
         Ground = GameObject.FindWithTag("Ground");
         Floor = GameObject.FindGameObjectsWithTag("Floor");
         Debug.Log("층 계수" + Floor.Length);
@@ -131,13 +133,13 @@ public class Move : MonoBehaviour
         {
             if (isDown)
             {
-                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                left = true;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                left = true;
                 gameObject.transform.position = new Vector3(position.x - 0.05f, position.y, position.z);
             }
         }
@@ -145,13 +147,13 @@ public class Move : MonoBehaviour
         {
             if (isDown)
             {
-                gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                left = false;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x + 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {
-                gameObject.transform.localScale = new Vector3(+1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                left = false;
                 gameObject.transform.position = new Vector3(position.x + 0.05f, position.y, position.z);
             }
         }
@@ -200,7 +202,7 @@ public class Move : MonoBehaviour
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
 
-                if (gameObject.transform.localScale.x < 0)
+                if (left)
                 {
                     wave.transform.position = transform.position + new Vector3(-1, 0, 0);
                     wave.transform.parent = null;
@@ -208,6 +210,7 @@ public class Move : MonoBehaviour
                 else
                 {
                     wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+                    wave.transform.parent = null;
                 }
             }
         }
@@ -216,7 +219,8 @@ public class Move : MonoBehaviour
             if(bone !=null)
             {
                 GameObject Bone = GameObject.Instantiate(bone);
-                if (gameObject.transform.localScale.x < 0)
+                
+                if (left)
                 {
                     Bone.transform.position = transform.position + new Vector3(-1, 0, 0);
                     Bone.transform.parent = null;

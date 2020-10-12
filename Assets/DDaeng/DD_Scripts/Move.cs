@@ -270,7 +270,7 @@ public class Move : MonoBehaviour
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
     }
     //
-    public void TakeDamage(int damage)//몬스터들한테 맞기위함 
+    public void TakeDamage(int damage)//몬스터 들한테 맞기위함 
     {
         GameObject damageText = Instantiate(DamageText);
         damageText.transform.position = head.position;

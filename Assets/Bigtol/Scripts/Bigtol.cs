@@ -7,8 +7,11 @@ public class Bigtol : MonoBehaviour
     public GameObject Bigfireball_Perfab;
     public GameObject Raintol_Perfab;
     public GameObject Summon_Perfab;
+    public GameObject DamageText;
 
-    float HP;               //HP
+    public Transform head;//데미지 텍스트 뜨는 위치 
+
+    public float HP;               //HP
     float HPMax = 100.0f;   //최대 체력
     GameObject hp_bar;  //hp바
     float hpbar_sx;         //hp바 스케일 x값
@@ -157,6 +160,13 @@ public class Bigtol : MonoBehaviour
     IEnumerator SummonDelay()
     {
         yield return new WaitForSeconds(0.1f);  //미니톨 생성후 일정시간 대기
+    }
+
+    public void TakeDamage(int damage)//땡이한테 맞기위함 
+    {
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
     }
 }
 

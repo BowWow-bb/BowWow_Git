@@ -115,6 +115,8 @@ public class BigFireball : MonoBehaviour
         {
             Debug.Log("땡이충돌 !");
             Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
+
+            DDaeng.TakeDamage(10);//데미지 텍스트 뜨기 위함 
             DDaeng.hpMove(10.0f);
             Debug.Log(DDaeng.HP);
             if (DDaeng.HP == 0)

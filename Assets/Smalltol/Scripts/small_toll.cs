@@ -7,6 +7,9 @@ public class small_toll : MonoBehaviour
     public GameObject fireballPrefab;//파이어볼 프리팹
     public GameObject DDaeng;//땡이
     public GameObject smalltoll;//스몰톨
+    public GameObject DamageText;
+
+    public Transform head;//데미지 텍스트 뜨는 위치 
     Transform st;
 
     Vector3 target;//땡이 위치
@@ -29,7 +32,8 @@ public class small_toll : MonoBehaviour
     bool Enter = false;//거리 내에 들어오면 (처음)
     bool isStop = false;//멈췄다가 파이어볼 쏘기
     bool isHeart = false;//플레이어에게 공격 받음 여부
-    bool isBall = false;//공 한번만 
+    bool isBall = false;//공 한번만
+    bool isAttack = false;//근접 공 여부 
 
     public float HPMax = 100.0f;//최대 체력  
     public float HP;//현재 체력
@@ -102,10 +106,6 @@ public class small_toll : MonoBehaviour
             yield return null;//다시 움직임 시작 
         }  
     }
-    IEnumerator FireballDelay()
-    {
-        yield return new WaitForSeconds(0.1f);
-    }
 
     //스몰톨이 카메라 벗어나지 않게 제한 
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
@@ -154,19 +154,23 @@ public class small_toll : MonoBehaviour
     {
         target = DDaeng.transform.position;
         
-        float distance = Mathf.Abs(DDaeng.transform.position.x - transform.position.x);//땡이위치 - 스몰톨 위치 절댓(x값만)
-
-        //Debug.Log("땡이랑 거리: " + distance);
+        float distance = Mathf.Abs(DDaeng.transform.position.x - transform.position.x);//땡이위치 - 스몰톨 위치 절댓(x값만)
 
         if (distance <= d)//범위 내에 처음 들어오면
         {
             Enter = true;
-            //Debug.Log("범위 내에 들어옴");
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
-        if (Enter == true && distance <= d && distance >8)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
+
+        if (Enter == true && distance <= d && distance >9.5)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
         {
             isTracing = true;
+            isAttack = false;
+        }
+
+        if (distance <= 10)//빠르게 움직여서 근접 공격 
+        {
+            isAttack = true;
         }
 
         if (isTracing == true && distance > d)//거리 벗어나면 
@@ -176,21 +180,22 @@ public class small_toll : MonoBehaviour
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
 
-        if(distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 (닿았다면)
+        if (distance<=6)//크러쉬커맨드? 그거 공격범위 내이면 (닿았다면)
         {
+            isAttack = false;
+            isTracing = false;
+
             st.gameObject.SetActive(true);
-            DDaeng.GetComponent<Move>().TakeDamage(10);//몸빵 공격
+            DDaeng.GetComponent<Move>().TakeDamage(5);//몸빵 공격
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
-            dd.hpMove(10.0f);
+            dd.hpMove(5.0f);
 
             if (dd.HP == 0)
             {
                 Destroy(DDaeng);
             }
 
-
-            isTracing = false;
             if (target.x < me.x)
             {
                 StartCoroutine("ClipMovementright");
@@ -207,7 +212,7 @@ public class small_toll : MonoBehaviour
     void Move()
     {
         me = transform.position;
-
+        Debug.Log("movePower: " + movePower);
         Vector3 moveVelocity = Vector3.zero;
         if(isStop ==false)
         {
@@ -215,7 +220,15 @@ public class small_toll : MonoBehaviour
             {
                 st.gameObject.SetActive(true);
 
-                movePower = 12;//추적 시에 속도 빠르게
+                if (isAttack)
+                {
+                    movePower = 50;
+                    isAttack = false;
+                }
+                else
+                {
+                    movePower = 12;//추적 시에 속도 빠르게
+                }
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
@@ -296,9 +309,11 @@ public class small_toll : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage)//땡이한테 맞기위함 
     {
-        HP -= damage;
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
     }
 
     void Die()//체력 0일 경우

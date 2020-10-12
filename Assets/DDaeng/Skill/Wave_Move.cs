@@ -38,5 +38,47 @@ public class Wave_Move : MonoBehaviour
         }
         position = gameObject.transform.position;
         time += 3f;
+    } 
+
+    void OnTriggerEnter(Collider other)//몬스터 때리기 
+    {
+        if (other.gameObject.GetComponent<small_toll>() != null)
+        {
+
+            small_toll monster = other.GetComponent<small_toll>();
+
+            monster.TakeDamage(10);//공격
+            
+            monster.hpMove(10.0f);
+
+            if (monster.HP == 0)
+            {
+                //Destroy(other.gameObject);
+            }
+        }
+        if(other.gameObject.GetComponent<small_toll_stage1>() != null)
+        {
+            small_toll_stage1 monster = other.GetComponent<small_toll_stage1>();
+            monster.TakeDamage(10);
+
+            monster.hpMove(10.0f);
+
+            if (monster.HP == 0)
+            {
+                //Destroy(other.gameObject);
+            }
+        }
+        if(other.gameObject.GetComponent<Bigtol>()!= null)
+        {
+            Bigtol monster = other.GetComponent<Bigtol>();
+            monster.TakeDamage(10);
+
+            monster.hpMove(10.0f);
+
+            if (monster.HP == 0)
+            {
+                //Destroy(other.gameObject);
+            }
+        }
     }
 }

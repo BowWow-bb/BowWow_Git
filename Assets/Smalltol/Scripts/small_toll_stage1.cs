@@ -5,6 +5,9 @@ using UnityEngine;
 public class small_toll_stage1 : MonoBehaviour
 {
     public GameObject DDaeng;//땡이
+    public GameObject DamageText;
+
+    public Transform head;//데미지 텍스트 뜨는 위치 
 
     Vector3 target;//땡이 위치
     Vector3 me;//스몰톨 위치 
@@ -25,10 +28,19 @@ public class small_toll_stage1 : MonoBehaviour
     bool Enter = false;//거리 내에 들어오면 (처음)
     bool isHeart = false;
     bool isStop = false;
+    bool isAttack = false;//공격 여부 
 
     public int HPMax;//최대 체력
     public int HP;//현재 체력
     public int Power_run;//런크래쉬 공격력
+
+    //h
+    GameObject hp_bar;  //hp바
+    float hpbar_sx;     //hp바 스케일 x값
+    float hpbar_tx;     //hp바 위치 x값
+    float hpbar_tmp;    //hp바 감소 정도
+    string tag_name;    //hp바 태그
+    //
 
     public GameObject smalltoll;//스몰톨
     Transform st;
@@ -36,6 +48,16 @@ public class small_toll_stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*//h
+        HP = HPMax;//체력 설정 
+        tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
+        hp_bar = GameObject.FindWithTag(tag_name);
+
+        hpbar_sx = GameObject.FindWithTag(tag_name).transform.localScale.x;
+        hpbar_tx = GameObject.FindWithTag(tag_name).transform.localPosition.x;
+        hpbar_tmp = hpbar_sx / HPMax;
+        //*/
+
         DDaeng = GameObject.Find("DDaeng");
 
         timeAfter = 0f;
@@ -81,7 +103,7 @@ public class small_toll_stage1 : MonoBehaviour
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
     {
         movementFlag = 1;
-        Debug.Log("코루틴 left");
+        //Debug.Log("코루틴 left");
 
         yield return new WaitForSeconds(3f);
 
@@ -91,7 +113,7 @@ public class small_toll_stage1 : MonoBehaviour
     IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
     {
         movementFlag = 2;
-        Debug.Log("코루틴 right");
+        //Debug.Log("코루틴 right");
 
         yield return new WaitForSeconds(3f);
 
@@ -106,6 +128,19 @@ public class small_toll_stage1 : MonoBehaviour
         Move();
     }
 
+    //h
+    public void hpMove(float hp_delta)
+    {
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+
+        Vector3 Scale = hp_bar.transform.localScale;
+        hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
+
+        Vector3 Pos = hp_bar.transform.localPosition;
+        hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
+    }
+    //
+
     void Distance()//거리 파악. 트리거 대신 
     {
         target = DDaeng.transform.position;
@@ -119,13 +154,13 @@ public class small_toll_stage1 : MonoBehaviour
         {
             st.gameObject.SetActive(true);
             Enter = true;
-            Debug.Log("범위 내에 들어옴");
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d && distance > 8)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 9.5)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;
+            isAttack = false;
         }
 
         if (isTracing == true && distance > d)//거리 벗어나면 
@@ -136,8 +171,16 @@ public class small_toll_stage1 : MonoBehaviour
             StartCoroutine("ChangeMovement");
         }
 
+        if( distance <=10)//빠르게 움직
+        {
+            isAttack = true;
+        }
+
         if (distance <= 6)//공격 범위 내이면 
         {
+            isAttack = false;//공격 후
+            isTracing = false;
+
             DDaeng.GetComponent<Move>().TakeDamage(5);//공격
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
@@ -147,8 +190,6 @@ public class small_toll_stage1 : MonoBehaviour
             {
                 Destroy(DDaeng);
             }
-
-            isTracing = false;
 
             if (target.x < me.x)
             {
@@ -160,17 +201,28 @@ public class small_toll_stage1 : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
 
+            
+
         }
     }
 
     void Move()
     {
+        Debug.Log("movePower: " + movePower);
         Vector3 moveVelocity = Vector3.zero;
         if(isStop == false)
         {
             if (isTracing)//일정 거리 내이면 추적 
             {
-                movePower = 12;//추적 시에 속도 빠르게
+                if(isAttack)
+                {
+                    movePower = 50;
+                    isAttack = false;
+                }
+                else
+                {
+                    movePower = 12;//추적 시에 속도 빠르게
+                }
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
@@ -250,6 +302,12 @@ public class small_toll_stage1 : MonoBehaviour
             StartCoroutine("MoveStop");
         }
     }
-        
+
+    public void TakeDamage(int damage)//땡이한테 맞기위함 
+    {
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
+    }
 
 }

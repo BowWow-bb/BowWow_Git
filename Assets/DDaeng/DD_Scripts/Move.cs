@@ -21,11 +21,13 @@ public class Move : MonoBehaviour
     int floor;
     float jump_y;
     float past_y;
-    bool isGround;
+    float big;
+    float time;
     bool isUp;
     bool isDown;
     bool isFloor;
     bool onFloor;
+    bool isbig;
     bool left;
 
     //h
@@ -46,8 +48,9 @@ public class Move : MonoBehaviour
         hpbar_sx = GameObject.FindWithTag("DDaengHp").transform.localScale.x;
         hpbar_tx = GameObject.FindWithTag("DDaengHp").transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
-        //
-
+        //\
+        isbig = false;
+        big = 1f;
         left = true;
         Ground = GameObject.FindWithTag("Ground");
         Floor = GameObject.FindGameObjectsWithTag("Floor");
@@ -61,12 +64,37 @@ public class Move : MonoBehaviour
         onFloor = false;
         jump_y = 0;
         floor = 150;
+        time = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.y - Ground.transform.position.y > 3f)
+        if(isbig)
+        {
+            if (gameObject.transform.position.y - Ground.transform.position.y > 6.5f)
+            {
+                if (!isUp && !onFloor)
+                {
+                    //Debug.Log(onFloor);
+                    isDown = true;
+                    Velocityg -= G;
+                    gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+                }
+            }
+            else if (gameObject.transform.position.y < 6.5f)
+            {
+                // Debug.Log("t");
+                gameObject.transform.position = new Vector3(position.x, 6.5f, position.z);
+            }
+            else
+            {
+                // Debug.Log("ttt");
+                isDown = false;
+                Velocityg = 0f;
+            }
+        }
+        else if (gameObject.transform.position.y - Ground.transform.position.y > 3f)
         {
             if (!isUp && !onFloor )
             {
@@ -249,7 +277,38 @@ public class Move : MonoBehaviour
                 }
             }
         }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            isbig = true;
+            time = 0;
+        }
+        if (isbig)
+        {
+            if (time >= 20f)
+            {
+                if (big > 1.0f)
+                {
+                    big -= 0.01f;
+                    transform.localScale = new Vector3(big, big, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                    isbig = false;
+                }
+            }
+            else if (big < 4f)
+            {
+                transform.localScale = new Vector3(big, big, 1);
+                big += 0.01f;
+            }
 
+            else
+            {
+                Debug.Log("?");
+                time += 0.01f;
+            }
+        }
 
         position = gameObject.transform.position;
         //Debug.Log("다운 : " + isDown);
@@ -257,7 +316,11 @@ public class Move : MonoBehaviour
         //Debug.Log("florr :" + isFloor);
         //Debug.Log(floor + "ON?? : " + onFloor);
     }
+    public void BigBo()
+    {
 
+    }
+    
     //h
     public void hpMove(float hp_delta)
     {

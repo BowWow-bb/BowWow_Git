@@ -11,10 +11,16 @@ public class bone : MonoBehaviour
     Vector3 position;
     float check;
     float rotate;
+    float velocity;
+    float accelaration;
+    Vector3 trace;
+
     // Start is called before the first frame update
     void Start()
     {
         //-45 45
+
+        accelaration = 0.1f;
         rotate = 0;
         check = gameObject.transform.position.x;
         position = gameObject.transform.position;
@@ -61,19 +67,38 @@ public class bone : MonoBehaviour
             }
             else if (check > 20f &&!spin)
             {
-                Debug.Log("Ds");
+                gameObject.transform.position = new Vector3(position.x + 3 * Mathf.Cos(rotate), position.y + 3 * Mathf.Sin(rotate), 0);
                 check = 0f;
                 spin = true;
                 position = gameObject.transform.position;
             }
-            else 
+            else if(spin)
             {
-                if (position.x+check <= DD.transform.position.x && DD.transform.position.x>0) {
-                    DD = GameObject.Find("DDaeng");
-                    gameObject.transform.position = new Vector3(position.x + check, 0, 0);
-                   // Debug.Log("D");
-                    check += 0.001f;
+             //  DD = GameObject.Find("DDaeng");
+                //trace.x = (DD.transform.position.x - gameObject.transform.position.x) / Mathf.Sqrt(Mathf.Pow((DD.transform.position.x - gameObject.transform.position.x), 2) + Mathf.Pow((DD.transform.position.y - gameObject.transform.position.y), 2));
+                //trace.y = (DD.transform.position.y - gameObject.transform.position.y) / Mathf.Sqrt(Mathf.Pow((DD.transform.position.x - gameObject.transform.position.x), 2) + Mathf.Pow((DD.transform.position.y - gameObject.transform.position.y), 2));
+                //trace.z = 0;
+                trace = (DD.transform.position - transform.position).normalized;
+                velocity = velocity + accelaration * check;
+                float distance = Vector3.Distance(DD.transform.position, transform.position);
+                if (distance <= 1f)
+                {
+                    Debug.Log('x');
+                    Destroy(gameObject, 0);
                 }
+                else if (distance > 0)
+                {
+                  //  Debug.Log('x');
+                    gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
+                        , transform.position.y + (trace.y * velocity),0);
+                    check += 0.00001f;
+                    Debug.Log(distance);
+                }
+
+                //if (position.x+check <= DD.transform.position.x && DD.transform.position.x>0) {
+                //    gameObject.transform.position = trace*check;
+                //    check += 0.1f;
+                //}
             }
         }
 

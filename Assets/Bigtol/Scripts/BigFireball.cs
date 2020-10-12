@@ -113,7 +113,6 @@ public class BigFireball : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
-            Debug.Log("땡이충돌 !");
             Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
 
             DDaeng.TakeDamage(10);//데미지 텍스트 뜨기 위함 

@@ -932,6 +932,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4137296928917589912}
     m_Modifications:
+    - target: {fileID: 4526420232022532219, guid: c43cb9eeb7a522d438b7386c96fae93e, type: 3}
+      propertyPath: m_TagString
+      value: SmalltolHp
+      objectReference: {fileID: 0}
     - target: {fileID: 7245406580557610396, guid: c43cb9eeb7a522d438b7386c96fae93e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

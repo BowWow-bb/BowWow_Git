@@ -191,7 +191,7 @@ public class small_toll : MonoBehaviour
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
             dd.hpMove(5.0f);
 
-            if (dd.HP == 0)
+            if (dd.HP <= 0)
             {
                 Destroy(DDaeng);
             }
@@ -205,7 +205,6 @@ public class small_toll : MonoBehaviour
             {
                 StartCoroutine("ClipMovementleft");
             }
-            
         }
     }
 

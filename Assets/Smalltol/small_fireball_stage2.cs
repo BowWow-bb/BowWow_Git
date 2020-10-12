@@ -46,7 +46,7 @@ public class small_fireball_stage2 : MonoBehaviour
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
             dd.hpMove(10.0f);
    
-            if (dd.HP == 0)
+            if (dd.HP <= 0)
             {
                 Destroy(other.gameObject);
             }

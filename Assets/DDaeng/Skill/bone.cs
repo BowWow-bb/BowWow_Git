@@ -59,17 +59,20 @@ public class bone : MonoBehaviour
                 gameObject.transform.position = new Vector3(position.x + 3 * Mathf.Cos(rotate), position.y + 3 * Mathf.Sin(rotate), 0);
                 check += 0.1f;
             }
-            else if (check == 20f)
+            else if (check > 20f &&!spin)
             {
-                check = 0;
+                Debug.Log("Ds");
+                check = 0f;
                 spin = true;
                 position = gameObject.transform.position;
             }
             else 
             {
                 if (position.x+check <= DD.transform.position.x && DD.transform.position.x>0) {
+                    DD = GameObject.Find("DDaeng");
                     gameObject.transform.position = new Vector3(position.x + check, 0, 0);
-                    check += 0.1f;
+                   // Debug.Log("D");
+                    check += 0.001f;
                 }
             }
         }

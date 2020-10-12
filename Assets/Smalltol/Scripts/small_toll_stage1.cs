@@ -17,7 +17,8 @@ public class small_toll_stage1 : MonoBehaviour
     float movePower = 5f;//움직이는 속력
     float RateMin = 0.5f;//최소 생성 주기 
     float RateMax = 3f;//최대 생성 주기
-    float Rate;//파이어볼 생성 주기 
+    float Rate;//파이어볼 생성 주기
+    float Ypos;
 
     private float timeAfter;//발사 후 지난 시간
 
@@ -28,7 +29,8 @@ public class small_toll_stage1 : MonoBehaviour
     bool Enter = false;//거리 내에 들어오면 (처음)
     bool isHeart = false;
     bool isStop = false;
-    bool isAttack = false;//공격 여부 
+    bool isAttack = false;//공격 여부
+    bool isY = false;//y값 비교, 추적, 공격 여부 
 
     public int HPMax;//최대 체력
     public int HP;//현재 체력
@@ -48,6 +50,8 @@ public class small_toll_stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Debug.Log("위치: " + gameObject.transform.position);world 좌표임
+
         /*//h
         HP = HPMax;//체력 설정 
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
@@ -105,7 +109,7 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 1;
         //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         StartCoroutine("ChangeMovement");
     }
@@ -115,14 +119,14 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 2;
         //Debug.Log("코루틴 right");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         StartCoroutine("ChangeMovement");
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    { 
         timeAfter += Time.deltaTime;//시간 갱신
         Distance();
         Move();
@@ -146,37 +150,48 @@ public class small_toll_stage1 : MonoBehaviour
         target = DDaeng.transform.position;
         me = transform.position;
 
-        float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수 
+        float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수
+        Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
+
+        if (Ypos <= 5)
+        {
+            isY = true;
+        }
+        else
+        {
+            isY = false;
+        }
 
         //Debug.Log("땡이랑 거리: " + distance);
 
-        if (distance <= d)//범위 내에 처음 들어오면
+        if (distance <= d && isY)//범위 내에 처음 들어오면
         {
             st.gameObject.SetActive(true);
             Enter = true;
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d && distance > 9.5)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 9.5 && isY)//들어 온 상태이고 범위 내에 계속 있으면 
         {
-            isTracing = true;
+            isTracing = true;//추격 중 
             isAttack = false;
         }
 
-        if (isTracing == true && distance > d)//거리 벗어나면 
+        if (isTracing == true && distance > d && isY)//거리 벗어나면 
         {
             st.gameObject.SetActive(false);
             Enter = false;
             isTracing = false;
+            isY = false;
             StartCoroutine("ChangeMovement");
         }
 
-        if( distance <=10)//빠르게 움직
+        if( distance <=10 && isY)//빠르게 움직
         {
             isAttack = true;
         }
 
-        if (distance <= 6)//공격 범위 내이면 
+        if (distance <= 6 && isY)//공격 범위 내이면 
         {
             isAttack = false;//공격 후
             isTracing = false;
@@ -200,21 +215,29 @@ public class small_toll_stage1 : MonoBehaviour
             {
                 StartCoroutine("ClipMovementleft");
             }
-
-            
-
         }
     }
 
     void Move()
     {
-        Debug.Log("movePower: " + movePower);
+        //Debug.Log("movePower: " + movePower);
         Vector3 moveVelocity = Vector3.zero;
-        if(isStop == false)
+
+        if (isStop == false)
         {
-            if (isTracing)//일정 거리 내이면 추적 
+            if (isTracing && isY)//일정 거리 내이면 추적
             {
-                if(isAttack)
+                //추격 중에 Y값 조건 체크 
+                if (Ypos <= 5)
+                {
+                    isY = true;
+                }
+                else
+                {
+                    isY = false;
+                }
+
+                if (isAttack)
                 {
                     movePower = 50;
                     isAttack = false;
@@ -303,6 +326,20 @@ public class small_toll_stage1 : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag =="miniwall")
+        {
+            if(other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+            {
+                StartCoroutine("ClipMovementright");
+            }
+            else if(other.gameObject.transform.position.x > transform.position.x)
+            {
+                StartCoroutine("ClipMovementleft");
+            }
+        }
+    }
     public void TakeDamage(int damage)//땡이한테 맞기위함 
     {
         GameObject damageText = Instantiate(DamageText);

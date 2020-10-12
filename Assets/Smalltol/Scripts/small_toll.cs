@@ -59,7 +59,7 @@ public class small_toll : MonoBehaviour
         hp_bar = GameObject.FindWithTag(tag_name);
 
         hpbar_sx = GameObject.FindWithTag(tag_name).transform.localScale.x;
-        Debug.Log("hpbar_sx : " + hpbar_sx);
+        //Debug.Log("hpbar_sx : " + hpbar_sx);
         hpbar_tx = GameObject.FindWithTag(tag_name).transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
         //
@@ -213,7 +213,7 @@ public class small_toll : MonoBehaviour
     void Move()
     {
         me = transform.position;
-        Debug.Log("movePower: " + movePower);
+        //Debug.Log("movePower: " + movePower);
         Vector3 moveVelocity = Vector3.zero;
         if(isStop ==false)
         {

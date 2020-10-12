@@ -30,7 +30,8 @@ public class small_toll_stage1 : MonoBehaviour
     bool isHeart = false;
     bool isStop = false;
     bool isAttack = false;//공격 여부
-    bool isY = false;//y값 비교, 추적, 공격 여부 
+    bool isY = false;//y값 비교, 추적, 공격 여부
+    bool isWall = false;//벽 파악 
 
     public int HPMax;//최대 체력
     public int HP;//현재 체력
@@ -164,7 +165,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         //Debug.Log("땡이랑 거리: " + distance);
 
-        if (distance <= d && isY)//범위 내에 처음 들어오면
+        if (distance <= d && isY && !isWall)//범위 내에 처음 들어오면. 벽이랑 접해있지 않을 때 
         {
             st.gameObject.SetActive(true);
             Enter = true;
@@ -330,6 +331,7 @@ public class small_toll_stage1 : MonoBehaviour
     {
         if (other.gameObject.tag =="miniwall")
         {
+            isWall = true;
             if(other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
             {
                 StartCoroutine("ClipMovementright");
@@ -338,6 +340,21 @@ public class small_toll_stage1 : MonoBehaviour
             {
                 StartCoroutine("ClipMovementleft");
             }
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "miniwall")
+        {
+            isWall = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "miniwall")
+        {
+            Debug.Log("벽 트리거 끝");
+            isWall = false;//벽이 없음 
         }
     }
     public void TakeDamage(int damage)//땡이한테 맞기위함 

@@ -187,7 +187,7 @@ public class small_toll_stage1 : MonoBehaviour
             StartCoroutine("ChangeMovement");
         }
 
-        if( distance <=10 && isY)//빠르게 움직
+        if(distance <=10 && isY)//빠르게 움직
         {
             isAttack = true;
         }
@@ -226,7 +226,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (isStop == false)
         {
-            if (isTracing && isY)//일정 거리 내이면 추적
+            if (isTracing && isY &&!isWall)//일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
             {
                 //추격 중에 Y값 조건 체크 
                 if (Ypos <= 5)
@@ -361,7 +361,7 @@ public class small_toll_stage1 : MonoBehaviour
     {
         if (other.gameObject.tag == "miniwall")
         {
-            Debug.Log("벽 트리거 끝");
+            //Debug.Log("벽 트리거 끝");
             isWall = false;//벽이 없음 
         }
     }

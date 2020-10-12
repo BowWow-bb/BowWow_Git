@@ -115,24 +115,42 @@ public class Move : MonoBehaviour
             isDown = false;
             Velocityg = 0f;
         }
-        if (isFloor)
+
+        if(isbig && isFloor)
         {
-            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.5f)
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 6f)
+            {
+                //   Debug.Log("ddd");
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            }
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 6f)
+            {
+                //  Debug.Log("dd");
+                onFloor = true;
+                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 6f, position.z);
+                Velocityg = 0;
+            }
+        }
+        else if (isFloor)
+        {
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.3f)
             {
              //   Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
-            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 2.5f)
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 2.3f)
             {
               //  Debug.Log("dd");
                 onFloor = true;
-                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 2.5f, position.z);
+                gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 2.3f, position.z);
                 Velocityg = 0;
             }
 
         }
-        if (isDown && !isUp && !isFloor )
+
+        if(isbig)
         {
             distance_floor = 0;
             int cnt = 0;
@@ -141,7 +159,40 @@ public class Move : MonoBehaviour
                 if (gameObject.transform.position.x < Floor[i].transform.position.x + 9.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 9.5)
                 {
 
-                    if ((Floor[i].transform.position.y + 2.5f) < gameObject.transform.position.y)
+                    if ((Floor[i].transform.position.y + 6f) < gameObject.transform.position.y)
+                    {
+                        if (cnt == 0)
+                        {
+                            floor = i;
+                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+
+                            cnt++;
+                        }
+                        else if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
+                        {
+                            floor = i;
+                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+
+                        }
+                    }
+
+                }
+            }
+            if (floor != 150)
+            {
+                isFloor = true;
+            }
+        }
+        else if (isDown && !isUp && !isFloor )
+        {
+            distance_floor = 0;
+            int cnt = 0;
+            for (int i = 0; i < Floor.Length; i++)
+            {
+                if (gameObject.transform.position.x < Floor[i].transform.position.x + 9.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 9.5)
+                {
+
+                    if ((Floor[i].transform.position.y + 2.3f) < gameObject.transform.position.y)
                     {
                         if (cnt ==0)
                         {
@@ -181,7 +232,13 @@ public class Move : MonoBehaviour
             {
                 left = true;
                 Velocityg -= G;
-                gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
+                if (position.y + (Velocityg * 0.1f) <=3f)
+                {
+                    gameObject.transform.position = new Vector3(position.x - 0.05f,3f, position.z);
+                }
+                else
+                    gameObject.transform.position = new Vector3(position.x - 0.05f, position.y + (Velocityg * 0.1f), position.z);
+                
             }
             else
             {
@@ -195,7 +252,12 @@ public class Move : MonoBehaviour
             {
                 left = false;
                 Velocityg -= G;
-                gameObject.transform.position = new Vector3(position.x + 0.05f, position.y + (Velocityg * 0.1f), position.z);
+                if (position.y + (Velocityg * 0.1f) <= 3f)
+                {
+                    gameObject.transform.position = new Vector3(position.x - 0.05f, 3f, position.z);
+                }
+                else
+                    gameObject.transform.position = new Vector3(position.x + 0.05f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {

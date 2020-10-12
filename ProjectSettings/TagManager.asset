@@ -17,6 +17,7 @@ TagManager:
   - Bigtol
   - Smalltol_stage1
   - DDaengHp
+  - miniwall
   layers:
   - Default
   - TransparentFX

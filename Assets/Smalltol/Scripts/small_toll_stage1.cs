@@ -344,9 +344,17 @@ public class small_toll_stage1 : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "miniwall")
+        if(other.gameObject.tag == "miniwall")
         {
             isWall = true;
+            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+            {
+                StartCoroutine("ClipMovementright");
+            }
+            else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
+            {
+                StartCoroutine("ClipMovementleft");
+            }
         }
     }
     private void OnTriggerExit(Collider other)

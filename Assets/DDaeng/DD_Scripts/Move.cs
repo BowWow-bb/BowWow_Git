@@ -32,7 +32,7 @@ public class Move : MonoBehaviour
 
     //h
     public float HP;               //HP
-    float HPMax = 100.0f;   //최대 체력
+    float HPMax = 400.0f;   //최대 체력
     GameObject hp_bar;  //hp바
     float hpbar_sx;         //hp바 스케일 x값
     float hpbar_tx;         //hp바 위치 x값

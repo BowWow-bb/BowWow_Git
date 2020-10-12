@@ -97,7 +97,7 @@ public class BigFireball : MonoBehaviour
         }
         else if(!mini_flag) //이동 완료
         {
-            Destroy(gameObject, 0.00001f);  //**초뒤 빅파이어볼 비활성화
+            Destroy(gameObject, 0.000001f);  //**초뒤 빅파이어볼 비활성화
             for(int i=0; i<mini_n; i++)
             {
                 GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 n개 생성
@@ -113,12 +113,11 @@ public class BigFireball : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
-            Move DDaeng = GameObject.Find("DDaeng").GetComponent<Move>();
+            Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
 
-            DDaeng.TakeDamage(10);//데미지 텍스트 뜨기 위함 
-            DDaeng.hpMove(10.0f);
-            Debug.Log(DDaeng.HP);
-            if (DDaeng.HP == 0)
+            DD.TakeDamage(10);//데미지 텍스트 뜨기 위함 
+            DD.hpMove(10.0f);
+            if (DD.HP <= 0)
             {
                 move_tmp = move;
                 Destroy(other.gameObject, 0);

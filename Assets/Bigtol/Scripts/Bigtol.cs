@@ -12,7 +12,7 @@ public class Bigtol : MonoBehaviour
     public Transform head;//데미지 텍스트 뜨는 위치 
 
     public float HP;               //HP
-    float HPMax = 100.0f;   //최대 체력
+    float HPMax = 400.0f;   //최대 체력
     GameObject hp_bar;  //hp바
     float hpbar_sx;         //hp바 스케일 x값
     float hpbar_tx;         //hp바 위치 x값
@@ -41,19 +41,14 @@ public class Bigtol : MonoBehaviour
         move_tmp = 0;
         move_v = 0.8f;
 
-        raintol_n = 3;
-        summon_n = 3;
+        raintol_n = 5;
+        summon_n = 4;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         GameObject Player = GameObject.Find("DDaeng");
-
-        if (Input.GetKeyDown(KeyCode.A)) //임시로 hp 감소효과 주기
-        {
-            hpMove(1.0f);
-        }
             
         //손상없거나 + 일정반경 내에 플레이어가 없는 경우 - 좌우 랜덤 이동
         if (move_tmp == 0.0f)   //랜덤 방향 이동 완료된 경우
@@ -61,7 +56,7 @@ public class Bigtol : MonoBehaviour
 
         if (move_dir == 0)  //왼쪽 이동
         {
-            if (transform.position.x - move * Time.deltaTime * move_v < -43.0f)  //왼쪽 벽 경계 이동제한
+            if (transform.position.x - move * Time.deltaTime * move_v < -56.5f)  //왼쪽 벽 경계 이동제한
                 move_tmp = 0.0f;
             else
             {
@@ -71,7 +66,7 @@ public class Bigtol : MonoBehaviour
         }
         else  //오른쪽 이동
         {
-            if (transform.position.x + move * Time.deltaTime * move_v > 43.0f)   //오른쪽 벽 경계 이동제한
+            if (transform.position.x + move * Time.deltaTime * move_v > 56.5f)   //오른쪽 벽 경계 이동제한
                 move_tmp = 0.0f;
             else
             {

@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(curTime >= spawnTime && enemyCount < maxCount)//한 번 생성 된 후 다시 생성 안됨 
+        if(enemyCount < maxCount)//한 번 생성 된 후 다시 생성 안됨 
         {
             int x = Random.Range(0, spawnPoints.Length);
             if(!isSpawn[x])
@@ -37,7 +37,6 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnSmalltoll_stage1(int x)
     {
-        curTime = 0;
         enemyCount++;
         Instantiate(smalltoll_stage1, spawnPoints[x]);
         isSpawn[x] = true;//같은 자리에 생성 안되게 

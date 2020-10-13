@@ -110,7 +110,7 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 1;
         //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         StartCoroutine("ChangeMovement");
     }
@@ -120,7 +120,7 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 2;
         //Debug.Log("코루틴 right");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         StartCoroutine("ChangeMovement");
     }
@@ -172,7 +172,7 @@ public class small_toll_stage1 : MonoBehaviour
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d && distance > 9.5 && isY)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 9 && isY)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;//추격 중 
             isAttack = false;
@@ -187,7 +187,7 @@ public class small_toll_stage1 : MonoBehaviour
             StartCoroutine("ChangeMovement");
         }
 
-        if(distance <=10 && isY)//빠르게 움직
+        if(distance <=11 && isY)//빠르게 움직
         {
             isAttack = true;
         }
@@ -197,9 +197,18 @@ public class small_toll_stage1 : MonoBehaviour
             isAttack = false;//공격 후
             isTracing = false;
 
-            DDaeng.GetComponent<Move>().TakeDamage(5);//공격
+            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();//땡이 스크립트 가져오기
+            
+            if (target.x>me.x)//땡이가 오른쪽이면 
+            {
+                dd.head.position = DDaeng.GetComponent<Move>().headleft.position;
+            }
+            else
+            {
+                dd.head.position = DDaeng.GetComponent<Move>().headright.position;//기본 head
+            }
 
-            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
+            dd.TakeDamage(5);//공격
             dd.hpMove(5.0f);
 
             if (dd.HP <= 0)
@@ -207,13 +216,14 @@ public class small_toll_stage1 : MonoBehaviour
                 Destroy(DDaeng);
             }
 
-            if (target.x < me.x)
+            if (target.x < me.x)//땡이가 왼쪽이면 
             {
                 StartCoroutine("ClipMovementright");
             }
 
-            else if (target.x > me.x)
+            else if (target.x > me.x)//땡이가 오른쪽이면 
             {
+               
                 StartCoroutine("ClipMovementleft");
             }
         }
@@ -226,8 +236,13 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (isStop == false)
         {
-            if (isTracing && isY &&!isWall)//일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
+            if (isTracing && isY &&!isWall || isHeart)//일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
             {
+                if (timeAfter >= Rate)
+                {
+                    isStop = true;//멈춤 후 공격 
+                }
+
                 //추격 중에 Y값 조건 체크 
                 if (Ypos <= 5)
                 {
@@ -240,6 +255,11 @@ public class small_toll_stage1 : MonoBehaviour
 
                 if (isAttack)
                 {
+                    if (timeAfter >= Rate)
+                    {
+                        isStop = true;//멈춤 후 공격 
+                    }
+
                     movePower = 50;
                     isAttack = false;
                 }
@@ -250,16 +270,10 @@ public class small_toll_stage1 : MonoBehaviour
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
-                    if (isHeart)
+                    if (isHeart)//맞았으면 
                     {
                         StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
                     }
-
-                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
-                    {
-                        isStop = true;//멈춤 후 공격 
-                    }
-                    
                     else
                     {
                         dist = "Left";
@@ -272,12 +286,6 @@ public class small_toll_stage1 : MonoBehaviour
                     {
                         StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
                     }
-
-                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
-                    {
-                        isStop = true;//멈춤 후 공격 
-                    }
-
                     else
                     {
                         dist = "Right";

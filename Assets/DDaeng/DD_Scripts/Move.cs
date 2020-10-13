@@ -8,11 +8,13 @@ public class Move : MonoBehaviour
 {
     GameObject Ground;
     GameObject[] Floor;
+
     public GameObject SoundWave = null;
     public GameObject bone = null;
     public GameObject DamageText;
     public Transform head;//데미지 텍스트 뜨는 위치
-    public Transform headleft;//데미지 텍스트 반전 위함 
+    public Transform headleft;//데미지 텍스트 반전 위함
+    public Transform headright;
     Vector3 position;
     float G; // 중력 가속도
     float Velocityg; // 떨어지는 속도
@@ -398,8 +400,10 @@ public class Move : MonoBehaviour
     //
     public void TakeDamage(int damage)//몬스터 들한테 맞기위함 
     {
+        
         GameObject damageText = Instantiate(DamageText);
-        damageText.transform.position = head.position;
+
+        damageText.transform.position = head.position;//기본 head : 오른쪽 
         damageText.GetComponent<DamageText>().damage = damage;
     }
 }

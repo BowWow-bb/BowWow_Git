@@ -164,8 +164,6 @@ public class small_toll_stage1 : MonoBehaviour
             isY = false;
         }
 
-        //Debug.Log("땡이랑 거리: " + distance);
-
         if (distance <= d && isY && !isWall)//범위 내에 처음 들어오면. 벽이랑 접해있지 않을 때 
         {
             st.gameObject.SetActive(true);
@@ -223,8 +221,7 @@ public class small_toll_stage1 : MonoBehaviour
             }
 
             else if (target.x > me.x)//땡이가 오른쪽이면 
-            {
-               
+            { 
                 StartCoroutine("ClipMovementleft");
             }
         }
@@ -336,16 +333,23 @@ public class small_toll_stage1 : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int damage)//땡이한테 맞기위함 
+    {
+        GameObject damageText = Instantiate(DamageText);
+        damageText.transform.position = head.position;
+        damageText.GetComponent<DamageText>().damage = damage;
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag =="miniwall")
+        if (other.gameObject.tag == "miniwall")
         {
             isWall = true;
-            if(other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
             {
                 StartCoroutine("ClipMovementright");
             }
-            else if(other.gameObject.transform.position.x > transform.position.x)
+            else if (other.gameObject.transform.position.x > transform.position.x)
             {
                 StartCoroutine("ClipMovementleft");
             }
@@ -353,7 +357,7 @@ public class small_toll_stage1 : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag == "miniwall")
+        if (other.gameObject.tag == "miniwall")
         {
             isWall = true;
             if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
@@ -374,11 +378,4 @@ public class small_toll_stage1 : MonoBehaviour
             isWall = false;//벽이 없음 
         }
     }
-    public void TakeDamage(int damage)//땡이한테 맞기위함 
-    {
-        GameObject damageText = Instantiate(DamageText);
-        damageText.transform.position = head.position;
-        damageText.GetComponent<DamageText>().damage = damage;
-    }
-
 }

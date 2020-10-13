@@ -36,22 +36,9 @@ public class small_fireball_stage2 : MonoBehaviour
         moveVelocity = Vector3.zero;//공이 나갈 방향
 
         maxh = smalltall.transform.position.y + 5;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
-        minh = smalltall.transform.position.y;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
+        minh = smalltall.transform.position.y + 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<Move>() != null)
-        {
-            DDaeng.GetComponent<Move>().TakeDamage(10);//공격
-            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
-            dd.hpMove(10.0f);
-   
-            if (dd.HP <= 0)
-            {
-                Destroy(other.gameObject);
-            }
-        }
-    }
+    
     // Update is called once per frame
     void Update()
     {

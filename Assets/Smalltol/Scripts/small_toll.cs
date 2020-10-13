@@ -142,8 +142,8 @@ public class small_toll : MonoBehaviour
     //h
     public void hpMove(float hp_delta)
     {
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
         HP -= hp_delta;
-        float move = ((HPMax-HP) + hp_delta) * hpbar_tmp;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

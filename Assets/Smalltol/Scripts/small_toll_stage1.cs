@@ -34,7 +34,7 @@ public class small_toll_stage1 : MonoBehaviour
     bool isWall = false;//벽 파악 
 
     public int HPMax;//최대 체력
-    public int HP;//현재 체력
+    public float HP;//현재 체력
     public int Power_run;//런크래쉬 공격력
 
     //h
@@ -138,6 +138,7 @@ public class small_toll_stage1 : MonoBehaviour
     public void hpMove(float hp_delta)
     {
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+        HP -= hp_delta;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

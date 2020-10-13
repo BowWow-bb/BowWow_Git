@@ -126,7 +126,7 @@ public class Bigtol : MonoBehaviour
                 summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치 
                 summon_tol.transform.parent = null;    //독립된 개체
 
-                string tag_name = ("SummontolHp"+i).ToString();
+                string tag_name = ("tolHp"+i).ToString();
                 summon_tol.transform.Find("HpBar").transform.Find("Hp").tag= tag_name;
                 //Debug.Log(summon_tol.transform.Find("HpBar").transform.Find("Hp").tag);
 
@@ -137,8 +137,8 @@ public class Bigtol : MonoBehaviour
 
     public void hpMove(float hp_delta) 
     {
-        HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+        HP -= hp_delta;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

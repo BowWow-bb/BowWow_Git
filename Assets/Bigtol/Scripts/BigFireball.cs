@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-
-//고칠꺼 겁나 많음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
 public class BigFireball : MonoBehaviour
 {
     public GameObject Minifireball_Perfab;     //미니파이어볼 가져오기
+
+    int power;      //공격력
 
     float t;                    //시간
     float move;                //일정 이동거리
@@ -26,11 +25,14 @@ public class BigFireball : MonoBehaviour
     float now_force;    //현재 공이 받고 있는 힘
 
              
-    Vector3 PlayerPos;  //플레이어 위치
+    Vector3 PlayerPos;  //플레이어 초기 위치
+    Vector3 BallPos;    //파이어볼 초기 위치
 
     // Start is called before the first frame update
     void Start()
     {
+        power = 20;
+
         t = 0;                    
         move = 35;                 
         move_tmp = 0;             
@@ -38,7 +40,7 @@ public class BigFireball : MonoBehaviour
 
         height = transform.position.y;  //빅 파이어볼 초기 y좌표
 
-        mini_n = 8;
+        mini_n = 5;
         mini_flag = false;
 
         G = 0.098f; 
@@ -47,6 +49,7 @@ public class BigFireball : MonoBehaviour
 
         GameObject Player = GameObject.Find("DDaeng");
         PlayerPos = Player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
+        BallPos = transform.position;   //파이어볼 생성 초기 위치
     }
 
     // Update is called once per frame 
@@ -56,7 +59,7 @@ public class BigFireball : MonoBehaviour
 
         if (move_tmp < move)  //일정거리 이동 못한 경우
         {
-            if(PlayerPos.x < transform.position.x)  //플레이어가 빅톨의 왼쪽에 위치
+            if(PlayerPos.x < BallPos.x)  //플레이어가 빅톨의 왼쪽에 위치
             {
                 //계속 내려감
                 now_force += G * t;
@@ -73,7 +76,7 @@ public class BigFireball : MonoBehaviour
                     now_force = now_force * E * (-1);
                 }
             }
-            else if (PlayerPos.x > transform.position.x) //플레이어가 빅톨의 오른쪽에 위치
+            else if (PlayerPos.x > BallPos.x) //플레이어가 빅톨의 오른쪽에 위치
             {
                 //계속 내려감
                 now_force += G * t;
@@ -113,14 +116,16 @@ public class BigFireball : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
+            Destroy(gameObject);    //파이어볼 사라짐
+
+            Debug.Log("빅파이어볼 맞음");
             Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
 
-            DD.TakeDamage(10);//데미지 텍스트 뜨기 위함 
-            DD.hpMove(10.0f);
+            DD.TakeDamage(power);//데미지 텍스트 뜨기 위함 
+            DD.hpMove(power);
             if (DD.HP <= 0)
             {
                 move_tmp = move;
-                Destroy(other.gameObject, 0);
             }
         }
     }

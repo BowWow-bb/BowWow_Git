@@ -33,8 +33,8 @@ public class Move : MonoBehaviour
     bool left;
 
     //h
-    public float HP;               //HP
-    float HPMax = 400.0f;   //최대 체력
+    public int HP;        //HP
+    int HPMax;            //최대 체력
     GameObject hp_bar;  //hp바
     float hpbar_sx;         //hp바 스케일 x값
     float hpbar_tx;         //hp바 위치 x값
@@ -45,6 +45,7 @@ public class Move : MonoBehaviour
     void Start()
     {
         //h
+        HPMax = 400;
         HP = HPMax;
         hp_bar = GameObject.FindWithTag("DDaengHp");
         hpbar_sx = GameObject.FindWithTag("DDaengHp").transform.localScale.x;
@@ -386,10 +387,16 @@ public class Move : MonoBehaviour
     }
     
     //h
-    public void hpMove(float hp_delta)
+    public void hpMove(int hp_delta)
     {
+        if (HP <= 0)
+            Destroy(gameObject);
+
         HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+
+        if (HP <= 0)
+            Destroy(gameObject);
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

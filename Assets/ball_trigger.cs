@@ -10,12 +10,7 @@ public class ball_trigger : MonoBehaviour
         {
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
             dd.TakeDamage(10);
-            dd.hpMove(10.0f);
-
-            if (dd.HP <= 0)
-            { 
-                Destroy(other.gameObject);
-            }
+            dd.hpMove(10);
         }
     }
 }

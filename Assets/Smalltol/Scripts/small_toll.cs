@@ -39,8 +39,8 @@ public class small_toll : MonoBehaviour
     bool isY = false;//y값 비교, 추적, 공격 여부
     bool isWall = false;//벽 파악 
 
-    public float HPMax = 100.0f;//최대 체력  
-    public float HP;//현재 체력
+    public int HP;        //HP
+    int HPMax;            //최대 체력
 
     //h
     GameObject hp_bar;  //hp바
@@ -57,7 +57,8 @@ public class small_toll : MonoBehaviour
     void Start()
     {
         //h
-        HP = HPMax;//체력 설정 
+        HPMax = 200;
+        HP = HPMax;
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);
 
@@ -134,10 +135,16 @@ public class small_toll : MonoBehaviour
     }
 
     //h
-    public void hpMove(float hp_delta)
+    public void hpMove(int hp_delta)
     {
-        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+        if (HP <= 0)
+            Destroy(gameObject);
+
         HP -= hp_delta;
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+
+        if (HP <= 0)
+            Destroy(gameObject);
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
@@ -219,11 +226,7 @@ public class small_toll : MonoBehaviour
             if(isAttack_once)//한 번 만 공격 
             {
                 dd.TakeDamage(5);//텍스트 데미지 
-                dd.hpMove(5.0f);
-            }
-            if (dd.HP <= 0)
-            {
-                Destroy(DDaeng);
+                dd.hpMove(5);
             }
             isAttack_once = false;
         }

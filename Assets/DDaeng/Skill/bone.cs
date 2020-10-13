@@ -111,34 +111,19 @@ public class bone : MonoBehaviour
         {
             small_toll monster = other.GetComponent<small_toll>();
             monster.TakeDamage(10);//공격         
-            monster.hpMove(10.0f);
-
-            if (monster.HP <= 0)
-            {
-                Destroy(other.gameObject);
-            }
+            monster.hpMove(10);
         }
         if (other.gameObject.GetComponent<small_toll_stage1>() != null)  //스테이지1 몬스터와 충돌한 경우
         {
             small_toll_stage1 monster = other.GetComponent<small_toll_stage1>();
             monster.TakeDamage(10);
-            monster.hpMove(10.0f);
-
-            if (monster.HP <= 0)
-            {
-                Destroy(other.gameObject);
-            }
+            monster.hpMove(10);
         }
         if (other.gameObject.GetComponent<Bigtol>() != null)
         {
             Bigtol monster = other.GetComponent<Bigtol>();
             monster.TakeDamage(10);
-            monster.hpMove(10.0f);
-
-            if (monster.HP <= 0)
-            {
-                Destroy(other.gameObject);
-            }
+            monster.hpMove(10);
         }
     }
 }

@@ -30,6 +30,7 @@ public class small_toll_stage1 : MonoBehaviour
     bool isHeart = false;
     bool isStop = false;
     bool isAttack = false;//공격 여부
+    bool isAttack_once = false;//근접 공격 한번만 적용
     bool isY = false;//y값 비교, 추적, 공격 여부
     bool isWall = false;//벽 파악 
 
@@ -86,23 +87,10 @@ public class small_toll_stage1 : MonoBehaviour
 
     IEnumerator MoveStop()
     {
-        time = 0;
-        while (true)
-        {
-            time += Time.deltaTime;
-            transform.position += Vector3.zero;
+        yield return new WaitForSeconds(0.25f);
 
-            //Debug.Log("timeball: " + timeball);
-
-            if (time >= 0.25f)//0.25초 지나 정지했다가 
-            {
-                timeAfter = 0;
-                isStop = false;
-
-                break;
-            }
-            yield return null;//다시 움직임 시작 
-        }
+        timeAfter = 0;
+        isStop = false;
 
     }
     //스몰톨이 카메라 벗어나지 않게 제한 
@@ -198,7 +186,18 @@ public class small_toll_stage1 : MonoBehaviour
             isTracing = false;
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();//땡이 스크립트 가져오기
-            
+
+            if (target.x < me.x)//땡이가 왼쪽이면 
+            {
+                StartCoroutine("ClipMovementright");
+            }
+
+            else if (target.x > me.x)//땡이가 오른쪽이면 
+            {
+                StartCoroutine("ClipMovementleft");
+            }
+
+            //데미지 텍스트 설정 
             if (target.x>me.x)//땡이가 오른쪽이면 
             {
                 dd.head.position = DDaeng.GetComponent<Move>().headleft.position;
@@ -208,23 +207,17 @@ public class small_toll_stage1 : MonoBehaviour
                 dd.head.position = DDaeng.GetComponent<Move>().headright.position;//기본 head
             }
 
-            dd.TakeDamage(5);//공격
-            dd.hpMove(5.0f);
+            if (isAttack_once)//한 번 만 공격 
+            {
+                dd.TakeDamage(5);//텍스트 데미지 
+                dd.hpMove(5.0f);
+            }
 
             if (dd.HP <= 0)
             {
                 Destroy(DDaeng);
             }
-
-            if (target.x < me.x)//땡이가 왼쪽이면 
-            {
-                StartCoroutine("ClipMovementright");
-            }
-
-            else if (target.x > me.x)//땡이가 오른쪽이면 
-            { 
-                StartCoroutine("ClipMovementleft");
-            }
+            isAttack_once = false;
         }
     }
 
@@ -319,17 +312,16 @@ public class small_toll_stage1 : MonoBehaviour
             if (dist == "Left")
             {
                 moveVelocity = Vector3.left;
-                //transform.localScale = new Vector3(1, 1, 1);
             }
             else if (dist == "Right")
             {
                 moveVelocity = Vector3.right;
-                //transform.localScale = new Vector3(-1, 1, 1);
             }
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }
         else//정지 상태인 경우 
         {
+            movePower = 0;
             StartCoroutine("MoveStop");
         }
     }
@@ -355,6 +347,10 @@ public class small_toll_stage1 : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
         }
+        if (other.gameObject.tag == "DDaeng")
+        {
+            isAttack_once = true;
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -377,6 +373,10 @@ public class small_toll_stage1 : MonoBehaviour
         {
             //Debug.Log("벽 트리거 끝");
             isWall = false;//벽이 없음 
+        }
+        if (other.gameObject.tag == "DDaeng")
+        {
+            isAttack_once = false;
         }
     }
 }

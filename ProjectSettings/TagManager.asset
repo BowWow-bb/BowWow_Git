@@ -24,6 +24,7 @@ TagManager:
   - tolHp4
   - tolHp5
   - tolHp6
+  - red
   layers:
   - Default
   - TransparentFX

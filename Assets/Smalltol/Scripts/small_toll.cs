@@ -15,7 +15,7 @@ public class small_toll : MonoBehaviour
     Vector3 target;//땡이 위치
     Vector3 me;//스몰톨 위치 
 
-    public float d = 25f;//범위 거리 설정  
+    public float d = 30f;//범위 거리 설정  
     float movePower = 5f;//움직이는 속력
 
     float RateMin = 0.5f;//최소 생성 주기 
@@ -86,27 +86,16 @@ public class small_toll : MonoBehaviour
         StartCoroutine("ChangeMovement");//다른 움직임 또 하게 호출 
     }
 
-    IEnumerator MoveStop()
+    IEnumerator MoveStop()//멈춘 후 파이어볼 발사 
     {
-        timeball = 0;
-        while (true)
+        yield return new WaitForSeconds(0.25f);
+        if (isBall == false)//0.25초 지나 정지했다가. 공이 한개만 있는지 체크  
         {
-            timeball += Time.deltaTime;
-            transform.position += Vector3.zero;
+            FireballMake();//파이어볼 발사
 
-            //Debug.Log("timeball: " + timeball);
-
-            if (timeball >= 0.3f && isBall ==false)//0.25초 지나 정지했다가. 공이 한개만 있는지 체크  
-            {
-                FireballMake();//파이어볼 발사
-
-                timeAfter = 0;
-                isStop = false;
-
-                break;
-            }
-            yield return null;//다시 움직임 시작 
-        }  
+            timeAfter = 0;
+            isStop = false;
+        }
     }
 
     //스몰톨이 카메라 벗어나지 않게 제한 
@@ -179,7 +168,7 @@ public class small_toll : MonoBehaviour
         {
             st.gameObject.SetActive(true);
 
-            isTracing = true;
+            isTracing = true;//추적 시작 
             isAttack = false;//근접 공격 
         }
 
@@ -244,10 +233,11 @@ public class small_toll : MonoBehaviour
         {
             if (isTracing && isY &&!isWall|| isHeart)//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
             {
+                //파이어볼 발사 
                 if (timeAfter >= Rate)
                 {
-                    isStop = true;//멈춤 후 공격
-                    StartCoroutine("MoveStop");
+                    isStop = true;//멈춤 후
+                    isBall = false;
                 }
 
                 //추격 중에 Y값 조건 체크 
@@ -260,20 +250,20 @@ public class small_toll : MonoBehaviour
                     isY = false;
                 }
 
-                if (isAttack)//근접 공격 속도 설정 
+                //근접 공격 속도 설정 
+                if (isAttack)
                 {
                     if (timeAfter >= Rate)
                     {
                         isStop = true;//멈춤 후 공격
                         isBall = false;
-                        StartCoroutine("MoveStop");
                     }
                     movePower = 50;
                     isAttack = false;
                 }
                 else
                 {
-                    movePower = 10;//추적 시에 속도 빠르게
+                    movePower = 13;//추적 시에 속도 빠르게
                 }
 
                 if (target.x < me.x)//땡이가 왼쪽이면
@@ -281,12 +271,6 @@ public class small_toll : MonoBehaviour
                     if (isHeart)
                     {
                         StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
-                    }
-                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
-                    {
-                        isStop = true;//멈춤 후 공격 
-                        isBall = false;
-                        StartCoroutine("MoveStop");
                     }
                     else
                     {
@@ -299,12 +283,6 @@ public class small_toll : MonoBehaviour
                     if(isHeart)
                     {
                         StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
-                    }
-                    if (timeAfter >= Rate)//설정해 둔 파이어볼 생성 주기보다 timeAfter가 크면 
-                    {
-                        isStop = true;//멈춤 후 공격 
-                        isBall = false;
-                        StartCoroutine("MoveStop");
                     }
                     else
                     {
@@ -333,8 +311,8 @@ public class small_toll : MonoBehaviour
                     dist = "Left";
                 else if (movementFlag == 2)
                     dist = "Right";
-
             }
+
             //좌우 이동 
             if (dist == "Left")
             {
@@ -346,10 +324,10 @@ public class small_toll : MonoBehaviour
             }
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }
-
-        else//정지 상태인 경우 isStop =true 인 경우 
+        else if(isStop ==true)//정지 상태인 경우 isStop =true 인 경우 
         {
-            StartCoroutine("MoveStop");//멈춰서 파이어볼 쏨 
+            movePower = 0;
+            StartCoroutine("MoveStop");//멈추고
         }
     }
     

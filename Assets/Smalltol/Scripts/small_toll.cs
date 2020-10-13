@@ -74,6 +74,11 @@ public class small_toll : MonoBehaviour
         st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
 
+        /*if()//floor0 인 경우와 아닌 경우 나누기 
+        {
+
+        }*/
+
         StartCoroutine("ChangeMovement");
     }
 
@@ -342,8 +347,9 @@ public class small_toll : MonoBehaviour
     {
         GameObject ball = GameObject.Instantiate(fireballPrefab); //파이어볼 생성
         isBall = true;
-
+        
         ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 16.5f);//파이어볼 초기 위치 z:15
+        Debug.Log("파이어볼 생성 시 스몰 톨 위치 : " + transform.position);
         ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 

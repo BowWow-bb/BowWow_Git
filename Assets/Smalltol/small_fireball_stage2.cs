@@ -13,6 +13,7 @@ public class small_fireball_stage2 : MonoBehaviour
     Vector3 target;
     Vector3 moveVelocity;//공이 나갈 방향 (파이어볼 속도)
 
+    bool notFloor = false;//floor0인지 아닌지
 
     float maxh;
     float minh;
@@ -28,21 +29,31 @@ public class small_fireball_stage2 : MonoBehaviour
     void Start()
     {
         DDaeng = GameObject.Find("DDaeng");
-
+        
         target = DDaeng.transform.position;//생성 당시 땡이의 위치
         me = transform.position;//생성 당시 스몰톨의 위치
-        //Debug.Log("스몰 톨 위치:" + me.x);
+        Debug.Log("파이어볼 생성 위치:" + me);
 
         moveVelocity = Vector3.zero;//공이 나갈 방향
 
-        maxh = smalltall.transform.position.y + 5;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
-        minh = smalltall.transform.position.y + 0.5f;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
+        maxh = me.y + 5;//파이어볼의 최대 위치 : 스몰톨의 위치를 가지고 파악 
+        minh = me.y -1;//파이어볼의 최소 위치 : 바닥에 닿았는지 파악하기 위함
+
+        if (me.y >4)//floor 0 이 아님 
+        {
+            notFloor = true;
+        }
     }
     
     // Update is called once per frame
     void Update()
     {
         ball = transform.position;//파이어볼의 위치
+
+        if (notFloor)//floor0 이 아닌 경우 
+        {
+            movePower = 50;
+        }
 
         //생성 당시에 땡이가 왼쪽
         if (target.x < me.x)
@@ -68,11 +79,12 @@ public class small_fireball_stage2 : MonoBehaviour
 
         if (ball.y <= minh)//땅바닥에 닿았는지 파악해서 충격량 적용
         {
-            //Debug.Log("땅에 닿음");
+            Debug.Log("땅에 닿았을 때 파이어볼 위치 : " + transform.position);
             ball.y = minh;
             transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;
 
             accel = -1 * Mathf.Abs(accel) + gravity;
+
             Destroy(gameObject, 0.7f);
         }
     }

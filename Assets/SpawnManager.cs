@@ -38,7 +38,10 @@ public class SpawnManager : MonoBehaviour
     public void SpawnSmalltoll_stage1(int x)
     {
         enemyCount++;
-        Instantiate(smalltoll_stage1, spawnPoints[x]);
+        GameObject st1_toll = Instantiate(smalltoll_stage1, spawnPoints[x]);
+        string tag_name = ("tolHp" + enemyCount).ToString();
+        st1_toll.transform.Find("HpBar").transform.Find("Hp").tag = tag_name;
+
         isSpawn[x] = true;//같은 자리에 생성 안되게 
     }
 }

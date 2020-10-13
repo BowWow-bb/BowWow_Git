@@ -18,6 +18,12 @@ TagManager:
   - Smalltol_stage1
   - DDaengHp
   - miniwall
+  - tolHp1
+  - tolHp2
+  - tolHp3
+  - tolHp4
+  - tolHp5
+  - tolHp6
   layers:
   - Default
   - TransparentFX

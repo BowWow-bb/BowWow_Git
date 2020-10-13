@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117feb2af5a0f483cb289989834e3e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCount: 4
+  maxCount: 6
   enemyCount: 0
   spawnTime: 2
   curTime: 0

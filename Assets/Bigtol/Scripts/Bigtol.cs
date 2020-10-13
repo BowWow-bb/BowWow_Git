@@ -33,8 +33,8 @@ public class Bigtol : MonoBehaviour
     {
         HP= HPMax;
         hp_bar = GameObject.FindWithTag("BigtolHp");
-        hpbar_sx = GameObject.FindWithTag("BigtolHp").transform.localScale.x;
-        hpbar_tx = GameObject.FindWithTag("BigtolHp").transform.localPosition.x;
+        hpbar_sx = hp_bar.transform.localScale.x;
+        hpbar_tx = hp_bar.transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
 
         move = 7.0f;

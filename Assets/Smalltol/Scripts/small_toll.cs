@@ -55,12 +55,10 @@ public class small_toll : MonoBehaviour
         //h
         HP = HPMax;//체력 설정 
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
-        //Debug.Log("tagname: " + tag_name);
         hp_bar = GameObject.FindWithTag(tag_name);
 
-        hpbar_sx = GameObject.FindWithTag(tag_name).transform.localScale.x;
-        //Debug.Log("hpbar_sx : " + hpbar_sx);
-        hpbar_tx = GameObject.FindWithTag(tag_name).transform.localPosition.x;
+        hpbar_sx = hp_bar.transform.localScale.x;
+        hpbar_tx = hp_bar.transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
         //
 

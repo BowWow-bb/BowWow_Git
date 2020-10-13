@@ -51,17 +51,18 @@ public class small_toll_stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("위치: " + gameObject.transform.position);world 좌표임
+        //Debug.Log("위치: " + gameObject.transform.position); //world 좌표임
 
-        /*//h
+        //h
         HP = HPMax;//체력 설정 
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);
+        //Debug.Log(transform.Find("HpBar").transform.Find("Hp").tag);
 
-        hpbar_sx = GameObject.FindWithTag(tag_name).transform.localScale.x;
-        hpbar_tx = GameObject.FindWithTag(tag_name).transform.localPosition.x;
+        hpbar_sx = hp_bar.transform.localScale.x;
+        hpbar_tx = hp_bar.transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
-        //*/
+        //
 
         DDaeng = GameObject.Find("DDaeng");
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class small_toll : MonoBehaviour
 {
+    //스몰톨 스테이지2
+
     public GameObject fireballPrefab;//파이어볼 프리팹
     public GameObject DDaeng;//땡이
     public GameObject smalltoll;//스몰톨
@@ -36,6 +38,7 @@ public class small_toll : MonoBehaviour
     bool isBall = false;//공 한번만
     bool isAttack_once = false;//근접 공격 한번만 적용
     bool isAttack = false;//근접 공격 여부
+    bool isTouch = false;
     bool isY = false;//y값 비교, 추적, 공격 여부
     bool isWall = false;//벽 파악 
 
@@ -75,11 +78,6 @@ public class small_toll : MonoBehaviour
         st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
 
-        /*if()//floor0 인 경우와 아닌 경우 나누기 
-        {
-
-        }*/
-
         StartCoroutine("ChangeMovement");
     }
 
@@ -110,7 +108,7 @@ public class small_toll : MonoBehaviour
         movementFlag = 1;
         //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3f);//3초 동안 왼쪽 으로 
 
         StartCoroutine("ChangeMovement");
     }
@@ -123,6 +121,14 @@ public class small_toll : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         StartCoroutine("ChangeMovement");
+    }
+
+    IEnumerator Heart()
+    {
+        st.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
+
+        isHeart = false;//isHeart 플래그 끄기
     }
 
     // Update is called once per frame
@@ -161,6 +167,15 @@ public class small_toll : MonoBehaviour
         float distance = Vector3.Distance(target, transform.position);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
+        if(distance<=6)
+        {
+            isTouch = true;
+        }
+        else
+        {
+            isTouch = false;
+        }
+
         if (Ypos <= 5)//y값 비교 
         {
             isY = true;//같은 층에 있음. 공격, 추적 가능 
@@ -176,12 +191,12 @@ public class small_toll : MonoBehaviour
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d &&isY && distance>9 &&isY)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
+        if (Enter == true && distance <= d &&isY && distance>9 && isY && !isWall)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
         {
             st.gameObject.SetActive(true);
 
             isTracing = true;//추적 시작 
-            isAttack = false;//근접 공격 
+            isAttack = false;//근접 공격
         }
 
         if (isTracing == true && distance > d &&isY)//거리 벗어나면 
@@ -192,19 +207,20 @@ public class small_toll : MonoBehaviour
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
 
-        if (distance <= 10 && isY)//빠르게 움직여서 근접 공격 
+        if (distance <= 10 && isY &&!isWall)//빠르게 움직여서 근접 공격
         {
             isAttack = true;//근접 공격 플래그 -> 속도 빠르게 
         }
 
-        if (distance<=6 &&isY) //공격 후 닿은 시점 ->근접 공격 
+        if (distance<=6 &&isY && !isWall && isAttack) //공격 후 닿은 시점 ->근접 공격 
         {
             isAttack = false;//공격 했으니까 Attack 플래그 꺼줌 -> 속도 느리게 
             isTracing = false;//추적 그만
+            isTouch = true;
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
 
-            if (target.x < me.x)
+            if (target.x <= me.x)
             {
                 StartCoroutine("ClipMovementright");//오른쪽으로
             }
@@ -239,10 +255,11 @@ public class small_toll : MonoBehaviour
 
         if(isStop ==false)
         {
-            if (isTracing && isY &&!isWall|| isHeart)//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
+            if ((isTracing && isY && !isWall&&!isTouch)||(isY && !isWall && isHeart&&!isTouch))//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
             {
+                Debug.Log("들어왓나?");
                 //파이어볼 발사 
-                if (timeAfter >= Rate)
+                if (timeAfter >= Rate && !isHeart)
                 {
                     isStop = true;//멈춤 후
                     isBall = false;
@@ -276,43 +293,30 @@ public class small_toll : MonoBehaviour
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
-                    if (isHeart)
-                    {
-                        StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
-                    }
-                    else
-                    {
-                        dist = "Left";//왼쪽으로 가라 
-                    }
+                    dist = "Left";//왼쪽으로 가라 
                 }
 
                 else if (target.x > me.x)//땡이가 오른쪽이면
                 {
-                    if(isHeart)
-                    {
-                        StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
-                    }
-                    else
-                    {
-                        dist = "Right";
-                    }
+                    dist = "Right";
                 }
             }
+           
             else//거리 밖이면 (평소)
             {
                 st.gameObject.SetActive(false);
 
-                movePower = 5;
+                movePower = 5;//평소 이동 속도 
 
                 if (me.x >= 40)
                 {
                     StopCoroutine("ChangeMovement");
-                    StartCoroutine("ClipMovementleft");
+                    StartCoroutine("ClipMovementleft");//movementFlag = 1
                 }
                 else if (me.x <= -40)
                 {
                     StopCoroutine("ChangeMovement");
-                    StartCoroutine("ClipMovementright");
+                    StartCoroutine("ClipMovementright");//movementFlag = 2
                 }
 
                 if (movementFlag == 1)
@@ -372,9 +376,21 @@ public class small_toll : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
         }
+
         if(other.gameObject.tag =="DDaeng")
         {
             isAttack_once = true;
+        }
+
+        if(other.gameObject.tag =="SoundWave")
+        {
+            if(!isTouch && isY && !isWall)//땡이랑 닿지 않았을 때 
+            {
+                Debug.Log("isHeart켜짐");
+                StopCoroutine("ChangeMovement"); 
+                isHeart = true;
+                StartCoroutine("Heart");
+            }  
         }
     }
     private void OnTriggerStay(Collider other)
@@ -382,12 +398,14 @@ public class small_toll : MonoBehaviour
         if (other.gameObject.tag == "miniwall")
         {
             isWall = true;
-            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementright");
             }
             else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementleft");
             }
         }

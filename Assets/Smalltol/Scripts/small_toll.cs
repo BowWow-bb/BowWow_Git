@@ -41,7 +41,7 @@ public class small_toll : MonoBehaviour
     bool isTouch = false;
     bool isY = false;//y값 비교, 추적, 공격 여부
     bool isWall = false;//벽 파악 
-
+  
     public int HP;        //HP
     int HPMax;            //최대 체력
 
@@ -93,10 +93,15 @@ public class small_toll : MonoBehaviour
     IEnumerator MoveStop()//멈춘 후 파이어볼 발사 
     {
         yield return new WaitForSeconds(0.25f);
+
         if (isBall == false)//0.25초 지나 정지했다가. 공이 한개만 있는지 체크  
         {
             FireballMake();//파이어볼 발사
 
+            if(isAttack)//근접 공격 중이면 파이어볼 쏘고 멈췄다가 근접 공격
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
             timeAfter = 0;
             isStop = false;
         }
@@ -108,9 +113,12 @@ public class small_toll : MonoBehaviour
         movementFlag = 1;
         //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(3f);//3초 동안 왼쪽 으로 
+        yield return new WaitForSeconds(3f);//3초 동안 왼쪽 으로
 
-        StartCoroutine("ChangeMovement");
+        if(!isAttack_once)
+        {
+            StartCoroutine("ChangeMovement");
+        }
     }
 
     IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
@@ -119,8 +127,10 @@ public class small_toll : MonoBehaviour
         //Debug.Log("코루틴 right");
 
         yield return new WaitForSeconds(3f);
-
-        StartCoroutine("ChangeMovement");
+        if (!isAttack_once)
+        {
+            StartCoroutine("ChangeMovement");
+        }
     }
 
     IEnumerator Heart()
@@ -167,15 +177,6 @@ public class small_toll : MonoBehaviour
         float distance = Vector3.Distance(target, transform.position);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
-        if(distance<=6)
-        {
-            isTouch = true;
-        }
-        else
-        {
-            isTouch = false;
-        }
-
         if (Ypos <= 5)//y값 비교 
         {
             isY = true;//같은 층에 있음. 공격, 추적 가능 
@@ -183,6 +184,15 @@ public class small_toll : MonoBehaviour
         else
         {
             isY = false;
+        }
+
+        if(distance<=6.5f)
+        {
+            isTouch = true;
+        }
+        else
+        {
+            isTouch = false;
         }
 
         if (distance <= d && isY &&!isWall)//범위 내에 처음 들어오면
@@ -199,36 +209,17 @@ public class small_toll : MonoBehaviour
             isAttack = false;//근접 공격
         }
 
-        if (isTracing == true && distance > d &&isY)//거리 벗어나면 
-        {
-            Enter = false;
-            isTracing = false;
-            isY = false;
-            StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
-        }
-
         if (distance <= 10 && isY &&!isWall)//빠르게 움직여서 근접 공격
         {
             isAttack = true;//근접 공격 플래그 -> 속도 빠르게 
         }
 
-        if (distance<=6 &&isY && !isWall && isAttack) //공격 후 닿은 시점 ->근접 공격 
+        if (isTouch &&isY && !isWall) //공격 후 닿은 시점 ->근접 공격 
         {
             isAttack = false;//공격 했으니까 Attack 플래그 꺼줌 -> 속도 느리게 
             isTracing = false;//추적 그만
-            isTouch = true;
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
-
-            if (target.x <= me.x)
-            {
-                StartCoroutine("ClipMovementright");//오른쪽으로
-            }
-            else if (target.x > me.x)
-            {
-                StartCoroutine("ClipMovementleft");
-            }
-
             //데미지 텍스트 설정 
             if (target.x > me.x)//땡이가 오른쪽이면 
             {
@@ -239,12 +230,29 @@ public class small_toll : MonoBehaviour
                 dd.head.position = DDaeng.GetComponent<Move>().headright.position;//기본 head
             }
 
-            if(isAttack_once)//한 번 만 공격 
+            if (target.x <= me.x)
+            {
+                StartCoroutine("ClipMovementright");//오른쪽으로
+            }
+            else if (target.x > me.x)
+            {
+                StartCoroutine("ClipMovementleft");
+            }
+
+            if(isAttack_once)//한 번 만 공격 -> 텍스트 데미지 한번만 뜨게  
             {
                 dd.TakeDamage(5);//텍스트 데미지 
                 dd.hpMove(5);
             }
             isAttack_once = false;
+        }
+        
+        if (isTracing == true && distance > d &&isY)//거리 벗어나면 
+        {
+            Enter = false;
+            isTracing = false;
+            isY = false;
+            StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
     }
 
@@ -255,11 +263,12 @@ public class small_toll : MonoBehaviour
 
         if(isStop ==false)
         {
-            if ((isTracing && isY && !isWall&&!isTouch)||(isY && !isWall && isHeart&&!isTouch))//일정 거리 내 이거나 공격 받으면 플레이어 쪽으로 이동  
+            //1. 일정 거리 내에 추적 중. 같은 층. 벽에 닿지 않음. 땡이랑 닿지 앟음
+            //2. 근접 공격 중이 아님. 같은 층. 땡이한테 맞음. 땡이랑 닿지 않음 
+            if ((isTracing && isY && !isWall&&!isTouch)||(!isAttack&&!isTracing && isY && !isWall && isHeart&&!isTouch))
             {
-                Debug.Log("들어왓나?");
                 //파이어볼 발사 
-                if (timeAfter >= Rate && !isHeart)
+                if (timeAfter >= Rate && !isHeart)//heart인 경우에는 파이어볼 안쏨 
                 {
                     isStop = true;//멈춤 후
                     isBall = false;
@@ -356,7 +365,7 @@ public class small_toll : MonoBehaviour
         isBall = true;
         
         ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 16.5f);//파이어볼 초기 위치 z:15
-        Debug.Log("파이어볼 생성 시 스몰 톨 위치 : " + transform.position);
+        //Debug.Log("파이어볼 생성 시 스몰 톨 위치 : " + transform.position);
         ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 
@@ -379,14 +388,15 @@ public class small_toll : MonoBehaviour
 
         if(other.gameObject.tag =="DDaeng")
         {
+            Debug.Log(other.gameObject.transform.position.x-transform.position.x);
             isAttack_once = true;
+            isTouch = true;
         }
 
         if(other.gameObject.tag =="SoundWave")
         {
             if(!isTouch && isY && !isWall)//땡이랑 닿지 않았을 때 
             {
-                Debug.Log("isHeart켜짐");
                 StopCoroutine("ChangeMovement"); 
                 isHeart = true;
                 StartCoroutine("Heart");

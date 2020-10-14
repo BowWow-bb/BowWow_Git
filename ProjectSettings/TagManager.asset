@@ -25,6 +25,7 @@ TagManager:
   - tolHp5
   - tolHp6
   - red
+  - SoundWave
   layers:
   - Default
   - TransparentFX

@@ -201,7 +201,7 @@ public class small_toll : MonoBehaviour
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
         }
 
-        if (Enter == true && distance <= d &&isY && distance>9 && isY && !isWall)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
+        if (Enter == true && distance <= d &&isY && distance>9 && !isWall)//들어 온 상태이고 범위 내에 계속 있으면 (닿진 않았고)
         {
             st.gameObject.SetActive(true);
 

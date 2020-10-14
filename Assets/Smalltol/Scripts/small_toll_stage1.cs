@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class small_toll_stage1 : MonoBehaviour
 {
+    //스몰톨 스테이지1
+
     public GameObject DDaeng;//땡이
     public GameObject DamageText;
-
-    public Transform head;//데미지 텍스트 뜨는 위치 
+    public GameObject smalltoll;//스몰톨
+    
+    public Transform head;//데미지 텍스트 뜨는 위치
+    Transform st;
 
     Vector3 target;//땡이 위치
     Vector3 me;//스몰톨 위치 
 
     public float d = 20f;//범위 거리 설정
-    private float time;
     float movePower = 5f;//움직이는 속력
     float RateMin = 0.5f;//최소 생성 주기 
     float RateMax = 3f;//최대 생성 주기
     float Rate;//파이어볼 생성 주기
     float Ypos;
-
-    private float timeAfter;//발사 후 지난 시간
+    float timeAfter;//발사 후 지난 시간
 
     int movementFlag = 0;//0: 정지, 1: 왼쪽, 2: 오른쪽
     string dist = "";//이동 방향 
@@ -32,6 +34,7 @@ public class small_toll_stage1 : MonoBehaviour
     bool isAttack = false;//공격 여부
     bool isAttack_once = false;//근접 공격 한번만 적용
     bool isY = false;//y값 비교, 추적, 공격 여부
+    bool isTouch = false;
     bool isWall = false;//벽 파악 
 
     public int HP;              //HP
@@ -46,8 +49,7 @@ public class small_toll_stage1 : MonoBehaviour
     string tag_name;    //hp바 태그
     //
 
-    public GameObject smalltoll;//스몰톨
-    Transform st;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -92,7 +94,6 @@ public class small_toll_stage1 : MonoBehaviour
 
         timeAfter = 0;
         isStop = false;
-
     }
     //스몰톨이 카메라 벗어나지 않게 제한 
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
@@ -102,7 +103,10 @@ public class small_toll_stage1 : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        StartCoroutine("ChangeMovement");
+        if (!isAttack_once)
+        {
+            StartCoroutine("ChangeMovement");
+        }
     }
 
     IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
@@ -112,7 +116,18 @@ public class small_toll_stage1 : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        StartCoroutine("ChangeMovement");
+        if (!isAttack_once)
+        {
+            StartCoroutine("ChangeMovement");
+        }
+    }
+
+    IEnumerator Heart()
+    {
+        st.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
+
+        isHeart = false;//isHeart 플래그 끄기
     }
 
     // Update is called once per frame
@@ -160,17 +175,66 @@ public class small_toll_stage1 : MonoBehaviour
             isY = false;
         }
 
+        if (distance <= 6.5f)
+        {
+            isTouch = true;
+        }
+        else
+        {
+            isTouch = false;
+        }
+
         if (distance <= d && isY && !isWall)//범위 내에 처음 들어오면. 벽이랑 접해있지 않을 때 
         {
             st.gameObject.SetActive(true);
             Enter = true;
-            StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작 
+            StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작
         }
 
-        if (Enter == true && distance <= d && distance > 9 && isY)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 9 && isY &&!isWall)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;//추격 중 
             isAttack = false;
+        }
+
+        if(distance <=11 && isY&&! isWall)//빠르게 움직
+        {
+            isAttack = true;
+        }
+
+        if (isTouch && isY && !isWall)//공격 범위 내이면 
+        {
+            isAttack = false;//공격 후
+            isTracing = false;
+
+            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();//땡이 스크립트 가져오기
+
+            //데미지 텍스트 설정 
+            if (target.x > me.x)//땡이가 오른쪽이면 
+            {
+                dd.head.position = DDaeng.GetComponent<Move>().headleft.position;
+            }
+            else
+            {
+                dd.head.position = DDaeng.GetComponent<Move>().headright.position;//기본 head
+            }
+
+            if (target.x <= me.x)//땡이가 왼쪽이면 
+            {
+                StartCoroutine("ClipMovementright");
+            }
+
+            else if (target.x > me.x)//땡이가 오른쪽이면 
+            {
+                StartCoroutine("ClipMovementleft");
+            }
+
+            if (isAttack_once)//한 번 만 공격 
+            {
+                dd.TakeDamage(5);//텍스트 데미지 
+                dd.hpMove(5);
+            }
+            isAttack_once = false;
         }
 
         if (isTracing == true && distance > d && isY)//거리 벗어나면 
@@ -181,58 +245,18 @@ public class small_toll_stage1 : MonoBehaviour
             isY = false;
             StartCoroutine("ChangeMovement");
         }
-
-        if(distance <=11 && isY)//빠르게 움직
-        {
-            isAttack = true;
-        }
-
-        if (distance <= 6 && isY)//공격 범위 내이면 
-        {
-            isAttack = false;//공격 후
-            isTracing = false;
-
-            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();//땡이 스크립트 가져오기
-
-            if (target.x < me.x)//땡이가 왼쪽이면 
-            {
-                StartCoroutine("ClipMovementright");
-            }
-
-            else if (target.x > me.x)//땡이가 오른쪽이면 
-            {
-                StartCoroutine("ClipMovementleft");
-            }
-
-            //데미지 텍스트 설정 
-            if (target.x>me.x)//땡이가 오른쪽이면 
-            {
-                dd.head.position = DDaeng.GetComponent<Move>().headleft.position;
-            }
-            else
-            {
-                dd.head.position = DDaeng.GetComponent<Move>().headright.position;//기본 head
-            }
-
-            if (isAttack_once)//한 번 만 공격 
-            {
-                dd.TakeDamage(5);//텍스트 데미지 
-                dd.hpMove(5);
-            }
-            isAttack_once = false;
-        }
     }
 
     void Move()
     {
-        //Debug.Log("movePower: " + movePower);
         Vector3 moveVelocity = Vector3.zero;
 
         if (isStop == false)
         {
-            if (isTracing && isY &&!isWall || isHeart)//일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
+            //일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
+            if ((isTracing && isY && !isWall && !isTouch) || (!isAttack && !isTracing && isY && !isWall && isHeart && !isTouch))
             {
-                if (timeAfter >= Rate)
+                if (timeAfter >= Rate && !isHeart)
                 {
                     isStop = true;//멈춤 후 공격 
                 }
@@ -264,26 +288,12 @@ public class small_toll_stage1 : MonoBehaviour
 
                 if (target.x < me.x)//땡이가 왼쪽이면
                 {
-                    if (isHeart)//맞았으면 
-                    {
-                        StartCoroutine("ClipMovementleft");//3초동안 왼쪽으로 
-                    }
-                    else
-                    {
-                        dist = "Left";
-                    }
+                    dist = "Left";
                 }
 
                 else if (target.x > me.x)//땡이가 오른쪽이면
                 {
-                    if (isHeart)
-                    {
-                        StartCoroutine("ClipMovementright");//3초동안 오른쪽으로 
-                    }
-                    else
-                    {
-                        dist = "Right";
-                    }
+                    dist = "Right";
                 }
 
             }
@@ -321,7 +331,7 @@ public class small_toll_stage1 : MonoBehaviour
             }
             transform.position += moveVelocity * movePower * Time.deltaTime;
         }
-        else//정지 상태인 경우 
+        else if(isStop == true)//정지 상태인 경우 
         {
             movePower = 0;
             StartCoroutine("MoveStop");
@@ -349,9 +359,22 @@ public class small_toll_stage1 : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
         }
+
         if (other.gameObject.tag == "DDaeng")
         {
+            Debug.Log(other.gameObject.transform.position.x - transform.position.x);
             isAttack_once = true;
+            isTouch = true;
+        }
+
+        if (other.gameObject.tag == "SoundWave")
+        {
+            if (!isTouch && isY && !isWall)//땡이랑 닿지 않았을 때 
+            {
+                StopCoroutine("ChangeMovement");
+                isHeart = true;
+                StartCoroutine("Heart");
+            }
         }
     }
     private void OnTriggerStay(Collider other)
@@ -361,10 +384,12 @@ public class small_toll_stage1 : MonoBehaviour
             isWall = true;
             if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementright");
             }
             else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementleft");
             }
         }

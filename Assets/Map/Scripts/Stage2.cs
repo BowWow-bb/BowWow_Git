@@ -17,7 +17,7 @@ public class Stage2 : MonoBehaviour
         if (DD.HP <= 0)//땡이가 죽은 경우
             SceneManager.LoadScene("Die");
 
-        GameObject st2_tol = GameObject.FindWithTag("smalltol");
+        GameObject st2_tol = GameObject.FindWithTag("smalltall");
         if (st2_tol.transform == null)
             SceneManager.LoadScene("StageBoss");
     }

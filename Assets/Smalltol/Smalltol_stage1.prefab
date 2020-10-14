@@ -408,12 +408,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DDaeng: {fileID: 4905388451839237879, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
   DamageText: {fileID: 3081082159912447374, guid: 18990fc5420934c108be3fb2f13e8023, type: 3}
+  smalltoll: {fileID: 3518118489950884775}
   head: {fileID: 4599839632400876187}
-  d: 20
-  HPMax: 100
+  d: 25
   HP: 0
   Power_run: 0
-  smalltoll: {fileID: 3518118489950884775}
 --- !u!65 &7069248873417797837
 BoxCollider:
   m_ObjectHideFlags: 0

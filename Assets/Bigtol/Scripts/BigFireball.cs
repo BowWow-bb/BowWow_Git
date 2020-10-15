@@ -101,22 +101,27 @@ public class BigFireball : MonoBehaviour
         else if(!mini_flag) //이동 완료
         {
             Destroy(gameObject, 0.000001f);  //**초뒤 빅파이어볼 비활성화
-            for(int i=0; i<mini_n; i++)
-            {
-                GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 n개 생성
-                minifireball.transform.position = transform.position;   //미니 파이어볼 초기 위치 = 빅 파이어볼 현재 위치
-            }
+            Minifire(); //미니 파이어볼 생성
             mini_flag = true;
         }
 
         t += 0.02f;
+    }
+    void Minifire()
+    {
+        for (int i = 0; i < mini_n; i++)
+        {
+            GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 생성
+            minifireball.transform.position = transform.position;   //미니 파이어볼 초기 위치 = 빅 파이어볼 현재 위치
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
-            Destroy(gameObject);    //파이어볼 사라짐
+            Minifire();
+            Destroy(gameObject,0.5f);    //파이어볼 사라짐
 
             Debug.Log("빅파이어볼 맞음");
             Move DD = GameObject.Find("DDaeng").GetComponent<Move>();

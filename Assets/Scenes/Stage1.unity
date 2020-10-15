@@ -738,6 +738,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 110630177771155172, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1972887571221256254, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 2630333352458885354, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -782,13 +790,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2638959604029394676, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 3711903974596270386, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_Name
       value: Stage1_2
       objectReference: {fileID: 0}
+    - target: {fileID: 4437569547116469107, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437569547116469107, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6302295715721581736, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 7422809902625489754, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810403438979331788, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938946673017497456, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
+      propertyPath: m_TagString
+      value: Floor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edf550bce5680fa4c83fcced806df64c, type: 3}
@@ -1103,15 +1135,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3026818631872111004, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -46
+      value: 9.47
       objectReference: {fileID: 0}
     - target: {fileID: 3026818631872111004, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 15.1
       objectReference: {fileID: 0}
     - target: {fileID: 3026818631872111004, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 3026818631872111004, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
       propertyPath: m_LocalRotation.x

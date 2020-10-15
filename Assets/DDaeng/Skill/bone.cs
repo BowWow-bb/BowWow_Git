@@ -83,22 +83,17 @@ public class bone : MonoBehaviour
                 float distance = Vector3.Distance(DD.transform.position, transform.position);
                 if (distance <= 1f)
                 {
-                    Debug.Log('x');
                     Destroy(gameObject, 0);
                 }
                 else if (distance > 0)
                 {
-                  //  Debug.Log('x');
+
                     gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
                         , transform.position.y + (trace.y * velocity),DD.transform.position.z);
                     check += 0.00001f;
                     Debug.Log(distance);
                 }
 
-                //if (position.x+check <= DD.transform.position.x && DD.transform.position.x>0) {
-                //    gameObject.transform.position = trace*check;
-                //    check += 0.1f;
-                //}
             }
         }
 

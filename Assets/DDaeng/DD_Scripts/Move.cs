@@ -6,31 +6,31 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    GameObject Ground;
-    GameObject[] Floor;
+    GameObject Ground; // 땅바닥 오브젝트
+    GameObject[] Floor; // 계단 오브젝트
 
-    public GameObject SoundWave = null;
-    public GameObject bone = null;
+    public GameObject SoundWave = null; // 음파 오브젝트
+    public GameObject bone = null; // 뼈다귀 오브젝트
     public GameObject DamageText;
     public Transform head;//데미지 텍스트 뜨는 위치
     public Transform headleft;//데미지 텍스트 반전 위함
     public Transform headright;
-    Vector3 position;
+    Vector3 position; // 오브젝트 위치 저장
     float G; // 중력 가속도
-    float Velocityg; // 떨어지는 속도
+    float Velocityg; // 떨어지는 속도(중력)
     float TimeScale;//타임 스케일 조정
-    float distance_floor;
-    int floor;
-    float jump_y;
-    float past_y;
-    float big;
-    float time;
-    bool isUp;
-    bool isDown;
-    bool isFloor;
-    bool onFloor;
-    bool isbig;
-    bool left;
+    float distance_floor; // 계단과의 위치
+    int floor; // 계단배열의 인덱스값
+    float jump_y; // 점프 한 거리
+    float past_y; // 점프 하기 전 y축좌표(높이)
+    float scale; // 오브젝트의 scale 값
+    float time; // 시간세는 변수
+    bool isUp; // 지금 위로 가고있는지
+    bool isDown; // 아래로 떨어지고 있는지
+    bool isFloor; // 아래에 계단이 있는지
+    bool onFloor; // 현재 계단위에 올라와 있는지
+    bool isbig; // 빅보 스킬 활성화 중인지?
+    bool left; // 캐릭터의 좌우 저장
 
     //h
     public int HP;        //HP
@@ -52,16 +52,16 @@ public class Move : MonoBehaviour
         hpbar_tx = GameObject.FindWithTag("DDaengHp").transform.localPosition.x;
         hpbar_tmp = hpbar_sx / HPMax;
         //\
-        isbig = false;
-        big = 1f;
-        left = true;
-        Ground = GameObject.FindWithTag("Ground");
-        Floor = GameObject.FindGameObjectsWithTag("Floor");
-        TimeScale = 10000.0f;
-        G = 98f / TimeScale * 100f;
+        isbig = false; // 초기화
+        scale = 1f; // 캐릭터의 기본 스케일 1
+        left = true; // 처음엔 왼쪽을 보고 시작
+        Ground = GameObject.FindWithTag("Ground"); // 땅바닥 오브젝트 저장
+        Floor = GameObject.FindGameObjectsWithTag("Floor"); // 계단들의 오브젝트배열 저장
+        TimeScale = 100000.0f; //속도 조정 변수
+        G = 9.8f / TimeScale ; // 중력 가속도 저장
       //  G = 98f / TimeScale;
-        Velocityg = 0;
-        position = gameObject.transform.position;
+        Velocityg = 0; // 초기 중력 0 
+        position = gameObject.transform.position; 
         isUp = false;
         isDown = false;
         onFloor = false;
@@ -73,7 +73,7 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isbig)
+        if(isbig) // 빅보 활성화 중인지
         {
             if ( position.y - Ground.transform.position.y > 6.5f)
             {
@@ -97,9 +97,9 @@ public class Move : MonoBehaviour
                 Velocityg = 0f;
             }
         }
-        else if (position .y- Ground.transform.position.y > 3f)
+        else if (position .y- Ground.transform.position.y > 3f) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
         {
-            if (!isUp && !onFloor )
+            if (!isUp && !onFloor ) //
             {
                 Debug.Log(onFloor);
                 isDown = true;
@@ -366,19 +366,19 @@ public class Move : MonoBehaviour
                 }
             }
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.W)) 
         {
-            isbig = true;
-            time = 0;
+            isbig = true; // 빅보 활성화
+            time = 0; // time 초기화
         }
         if (isbig)
         {
-            if (time >= 20f)
+            if (time >= 20f) //  time 20 이내
             {
-                if (big > 1.0f)
+                if (scale > 1.0f) // 
                 {
-                    big -= 0.01f;
-                    transform.localScale = new Vector3(big, big, 1);
+                    scale -= 0.01f;
+                    transform.localScale = new Vector3(scale, scale, 1);
                 }
                 else
                 {
@@ -386,10 +386,10 @@ public class Move : MonoBehaviour
                     isbig = false;
                 }
             }
-            else if (big < 4f)
+            else if (scale < 4f)
             {
-                transform.localScale = new Vector3(big, big, 1);
-                big += 0.01f;
+                transform.localScale = new Vector3(scale, scale, 1);
+                scale += 0.01f;
             }
 
             else
@@ -399,9 +399,9 @@ public class Move : MonoBehaviour
             }
         }
 
-        position = gameObject.transform.position;
+        position = gameObject.transform.position; // 위치 저장
         Debug.Log("다운 : " + isDown);
-        //Debug.Log("up : " + isUp);
+        Debug.Log("up : " + isUp);
        // Debug.Log("florr :" + isFloor);
         Debug.Log(floor + "ON?? : " + onFloor);
     }

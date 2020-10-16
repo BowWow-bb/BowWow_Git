@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Wave_Move : MonoBehaviour
 {
-    GameObject DD;
-    bool left;
-    Vector3 position;
-    float time = 0f;
+    GameObject DD; // 음파를 발사한 주인공(땡이) 오브젝트
+    bool left;  // 음파가 땡이 보다 왼쪽인지 판단
+    Vector3 position; // 음파의 좌표
+    float rotate = 0f; // 음파가 자전하는 rotate 각 
     // Start is called before the first frame update
     void Start()
     {
-        position = gameObject.transform.position;
-        DD = GameObject.Find("DDaeng");
-        if (DD.transform.position.x > position.x) // 음파가 왼쪽일때
+        position = gameObject.transform.position; // 시작좌표 저장
+        DD = GameObject.Find("DDaeng"); // 땡이 오브젝트를 찾아서 저장
+        if (DD.transform.position.x > position.x) // 음파가 땡이보다 왼쪽일때, 오른쪽일 때 구분
             left = true;
         else
             left = false;
@@ -23,22 +23,23 @@ public class Wave_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Mathf.Abs(DD.transform.position.x - gameObject.transform.position.x) > 50)
+        if(Mathf.Abs(DD.transform.position.x - gameObject.transform.position.x) > 50) // 음파와 땡이사이의 거리가 일정 이상이면 음파 파괴
         {
             Destroy(gameObject);
         }
-        gameObject.transform.localRotation = Quaternion.Euler(time, time, 0);
         if (left) // 음파가 왼쪽일때
         {
-            //gameObject.transform.position = new Vector3(position.x - 0.1f, position.y, position.z);
+            // 왼쪽으로 전진             //gameObject.transform.position = new Vector3(position.x - 0.1f, position.y, position.z);
             gameObject.transform.position = new Vector3(position.x - 10f, position.y, position.z);
         }
-        else
+        else // 오른쪽 일때
         {
+            // 오른쪽으로 전진
             gameObject.transform.position = new Vector3(position.x + 10f, position.y, position.z);
         }
-        position = gameObject.transform.position;
-        time += 3f;
+        position = gameObject.transform.position; // 좌표 저장
+        rotate += 3f; // 음파가 꾸준히 자전하도록 증가
+        gameObject.transform.localRotation = Quaternion.Euler(rotate, rotate, 0); // 자전 적용
     } 
 
     void OnTriggerEnter(Collider other)//몬스터 때리기 

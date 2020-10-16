@@ -41,15 +41,17 @@ public class bone : MonoBehaviour
         rotate += 5f;
         if (!arrival)
         {
-            if (left && gameObject.transform.position.x > -45f)
+            if (left && gameObject.transform.position.x > -60f)
             {
-                gameObject.transform.position = new Vector3(check, (position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (-46 - position.x))), 0);
-                check -= 0.1f;
+                gameObject.transform.position = new Vector3(check, (position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (-60 - position.x))), 0);
+                check -= 1f;
+               // check -= 0.1f;
             }
-            else if (!left && gameObject.transform.position.x < 45f)
+            else if (!left && gameObject.transform.position.x < 60f)
             {
-                gameObject.transform.position = new Vector3(check, position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (46 - position.x)), 0);
-                check += 0.1f;
+                gameObject.transform.position = new Vector3(check, position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (60 - position.x)), 0);
+                check += 1f;
+             //   check += 0.1f;
             }
             else
             {
@@ -63,7 +65,8 @@ public class bone : MonoBehaviour
             if (check <= 20f&& !spin)
             {
                 gameObject.transform.position = new Vector3(position.x + 3 * Mathf.Cos(rotate), position.y + 3 * Mathf.Sin(rotate), 0);
-                check += 0.1f;
+                check += 0.5f;
+               // check += 0.1f;
             }
             else if (check > 20f &&!spin)
             {
@@ -90,7 +93,8 @@ public class bone : MonoBehaviour
 
                     gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
                         , transform.position.y + (trace.y * velocity),DD.transform.position.z);
-                    check += 0.00001f;
+                    check += 0.01f;
+                 //   check += 0.00001f;
                     Debug.Log(distance);
                 }
 

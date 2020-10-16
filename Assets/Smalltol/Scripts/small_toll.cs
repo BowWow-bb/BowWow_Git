@@ -269,7 +269,7 @@ public class small_toll : MonoBehaviour
             Enter = false;
             isTracing = false;
             isY = false;
-            isHeart = false;
+            //isHeart = false;
             
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }

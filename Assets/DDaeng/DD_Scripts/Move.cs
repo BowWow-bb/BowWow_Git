@@ -57,8 +57,8 @@ public class Move : MonoBehaviour
         left = true; // 처음엔 왼쪽을 보고 시작
         Ground = GameObject.FindWithTag("Ground"); // 땅바닥 오브젝트 저장
         Floor = GameObject.FindGameObjectsWithTag("Floor"); // 계단들의 오브젝트배열 저장
-        TimeScale = 100000.0f; //속도 조정 변수
-        G = 9.8f / TimeScale ; // 중력 가속도 저장
+        TimeScale = 1000.0f; //속도 조정 변수
+        G = 98f / TimeScale ; // 중력 가속도 저장
       //  G = 98f / TimeScale;
         Velocityg = 0; // 초기 중력 0 
         position = gameObject.transform.position; 
@@ -241,16 +241,16 @@ public class Move : MonoBehaviour
                 Velocityg -= G;
                 if (position.y + (Velocityg * 0.1f) <=3f)
                 {
-                    gameObject.transform.position = new Vector3(position.x - 1f,3f, position.z);
+                    gameObject.transform.position = new Vector3(position.x - 0.5f,3f, position.z);
                 }
                 else
-                    gameObject.transform.position = new Vector3(position.x - 1f, position.y + (Velocityg * 0.1f), position.z);
+                    gameObject.transform.position = new Vector3(position.x - 0.5f, position.y + (Velocityg * 0.1f), position.z);
                 
             }
             else
             {
                 left = true;
-                gameObject.transform.position = new Vector3(position.x - 1f, position.y, position.z);
+                gameObject.transform.position = new Vector3(position.x - 0.5f, position.y, position.z);
             }
         }
         if (Input.GetKey(KeyCode.RightArrow) && position.x< 60f)
@@ -261,15 +261,15 @@ public class Move : MonoBehaviour
                 Velocityg -= G;
                 if (position.y + (Velocityg * 0.1f) <= 3f)
                 {
-                    gameObject.transform.position = new Vector3(position.x - 1f, 3f, position.z);
+                    gameObject.transform.position = new Vector3(position.x - 0.5f, 3f, position.z);
                 }
                 else
-                    gameObject.transform.position = new Vector3(position.x + 1f, position.y + (Velocityg * 0.1f), position.z);
+                    gameObject.transform.position = new Vector3(position.x + 0.5f, position.y + (Velocityg * 0.1f), position.z);
             }
             else
             {
                 left = false;
-                gameObject.transform.position = new Vector3(position.x + 1f, position.y, position.z);
+                gameObject.transform.position = new Vector3(position.x + 0.5f, position.y, position.z);
             }
         }
 
@@ -286,8 +286,8 @@ public class Move : MonoBehaviour
         {
             if (jump_y < 20f )
             {
-                jump_y += 1f;
-         //       jump_y += 0.1f;
+               
+                jump_y += 0.5f;
                 if (Input.GetKey(KeyCode.RightArrow)&& position.x < 60f)
                 {
                     if (past_y + jump_y >= 65f)
@@ -297,7 +297,7 @@ public class Move : MonoBehaviour
                     else
                     {
                         left = false;
-                        gameObject.transform.position = new Vector3(position.x + 1f, past_y + jump_y, position.z);
+                        gameObject.transform.position = new Vector3(position.x + 0.5f, past_y + jump_y, position.z);
                     }
                 }
                 else if (Input.GetKey(KeyCode.LeftArrow)&& position.x > -60f)
@@ -308,7 +308,7 @@ public class Move : MonoBehaviour
                     }
                     else
                     {
-                        gameObject.transform.position = new Vector3(position.x - 1f, past_y + jump_y, position.z);
+                        gameObject.transform.position = new Vector3(position.x - 0.5f, past_y + jump_y, position.z);
                         left = true;
                     }
                 }

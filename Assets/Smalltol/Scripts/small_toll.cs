@@ -24,6 +24,7 @@ public class small_toll : MonoBehaviour
     float RateMax = 3f;//최대 생성 주기
     float Rate;//파이어볼 생성 주기
     float Ypos;
+    float distance;
 
     private float timeAfter;//발사 후 지난 시간
     float timeball;//파이어볼 생성에 필요한 시간 
@@ -135,14 +136,12 @@ public class small_toll : MonoBehaviour
 
     IEnumerator Heart()
     {
-        if(isHeart)
-        {
-            st.gameObject.SetActive(true);
-            yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
 
-            isHeart = false;//isHeart 플래그 끄기
-            StartCoroutine("ChangeMovement");
-        }
+        st.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
+
+        isHeart = false;//isHeart 플래그 끄기
+        StartCoroutine("ChangeMovement");
     }
 
     // Update is called once per frame
@@ -178,7 +177,7 @@ public class small_toll : MonoBehaviour
     {
         target = DDaeng.transform.position;
 
-        float distance = Vector3.Distance(target, transform.position);
+        distance = Vector3.Distance(target, transform.position);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
         if (Ypos <= 5)//y값 비교 
@@ -252,11 +251,10 @@ public class small_toll : MonoBehaviour
         }
         if (!isTracing && !isY && isAttack)//근접 공격중 땡이가 계단 올라가면  
         {
-            isAttack = false;
-            isTracing = false;
-
             Debug.Log("근접 공격중 땡이 계단 올라감");
             StopAllCoroutines();
+            isAttack = false;
+            isTracing = false;
             StartCoroutine("ChangeMovement");
         }
         if ((isTracing == true && distance > d &&isY)||(isTracing == true && distance > d && !isY))//거리 벗어나면 
@@ -269,7 +267,7 @@ public class small_toll : MonoBehaviour
             Enter = false;
             isTracing = false;
             isY = false;
-            //isHeart = false;
+            isHeart = false;
             
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
@@ -419,9 +417,18 @@ public class small_toll : MonoBehaviour
             if(!isTouch && isY && !isWall)//땡이랑 닿지 않았을 때 
             {
                 StopCoroutine("ChangeMovement"); 
-                isHeart = true;
+                isHeart = true;//달려감 
                 StartCoroutine("Heart");
-            }  
+            }
+            else if (isTracing && distance > d && !isY)
+            {
+                Debug.Log("soundWave쪽");
+               
+                StopAllCoroutines();
+                isTracing = false;
+                isHeart = false;
+                StartCoroutine("ChangeMovement");
+            }
         }
     }
     private void OnTriggerStay(Collider other)

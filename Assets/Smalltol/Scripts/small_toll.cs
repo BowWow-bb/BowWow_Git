@@ -135,10 +135,14 @@ public class small_toll : MonoBehaviour
 
     IEnumerator Heart()
     {
-        st.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
+        if(isHeart)
+        {
+            st.gameObject.SetActive(true);
+            yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
 
-        isHeart = false;//isHeart 플래그 끄기
+            isHeart = false;//isHeart 플래그 끄기
+            StartCoroutine("ChangeMovement");
+        }
     }
 
     // Update is called once per frame
@@ -246,12 +250,27 @@ public class small_toll : MonoBehaviour
             }
             isAttack_once = false;
         }
-        
-        if (isTracing == true && distance > d &&isY)//거리 벗어나면 
+        if (!isTracing && !isY && isAttack)//근접 공격중 땡이가 계단 올라가면  
         {
+            isAttack = false;
+            isTracing = false;
+
+            Debug.Log("근접 공격중 땡이 계단 올라감");
+            StopAllCoroutines();
+            StartCoroutine("ChangeMovement");
+        }
+        if ((isTracing == true && distance > d &&isY)||(isTracing == true && distance > d && !isY))//거리 벗어나면 
+        {
+            StopAllCoroutines();
+            Debug.Log("거리 벗어난 경우");
+            Debug.Log("isTracing : " + isTracing);
+            Debug.Log("isY: " + isY);
+            Debug.Log("isAttack: " + isAttack);
             Enter = false;
             isTracing = false;
             isY = false;
+            isHeart = false;
+            
             StartCoroutine("ChangeMovement");//다시 랜덤 이동 시작 
         }
     }
@@ -378,17 +397,19 @@ public class small_toll : MonoBehaviour
             isWall = true;
             if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementright");
             }
             else if (other.gameObject.transform.position.x > transform.position.x)
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementleft");
             }
         }
 
         if(other.gameObject.tag =="DDaeng")
         {
-            Debug.Log(other.gameObject.transform.position.x-transform.position.x);
+            //Debug.Log(other.gameObject.transform.position.x-transform.position.x);
             isAttack_once = true;
             isTouch = true;
         }

@@ -236,7 +236,16 @@ public class small_toll_stage1 : MonoBehaviour
             }
             isAttack_once = false;
         }
-
+        if(!isTracing&&!isY&&isAttack)//근접 공격중 땡이가 계단 올라가면  
+        {
+            Debug.Log("distance: " + distance);
+            StopAllCoroutines();
+            StartCoroutine("ChangeMovement");
+            isAttack = false;
+            Debug.Log("isY: " + isY);
+            Debug.Log("isAttack: " + isAttack);
+            Debug.Log("isTracing: " + isTracing);
+        }
         if (isTracing == true && distance > d && isY)//거리 벗어나면 
         {
             st.gameObject.SetActive(false);
@@ -362,7 +371,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (other.gameObject.tag == "DDaeng")
         {
-            Debug.Log(other.gameObject.transform.position.x - transform.position.x);
+            //Debug.Log(other.gameObject.transform.position.x - transform.position.x);
             isAttack_once = true;
             isTouch = true;
         }

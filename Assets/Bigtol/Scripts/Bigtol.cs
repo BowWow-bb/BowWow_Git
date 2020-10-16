@@ -150,12 +150,7 @@ public class Bigtol : MonoBehaviour
             GameObject rain_tol = GameObject.Instantiate(Raintol_Perfab); //미니톨 생성
             rain_tol.transform.position = Player.gameObject.transform.position; //미니톨 초기 위치 = 플레이어 현재 위치   
             rain_tol.transform.parent = null;    //독립된 개체
-            StartCoroutine(RainDelay());
         }
-    }
-    IEnumerator RainDelay()
-    {
-        yield return new WaitForSeconds(100000.0f);
     }
     void Summon()   //서먼 테크 스킬
     {
@@ -169,7 +164,6 @@ public class Bigtol : MonoBehaviour
             summon_tol.transform.Find("HpBar").transform.Find("Hp").tag = tag_name;
         }
     }
-
     public void TakeDamage(int damage)//땡이한테 맞기위함 
     {
         GameObject damageText = Instantiate(DamageText);

@@ -95,6 +95,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         timeAfter = 0;
         isStop = false;
+        StartCoroutine("ChangeMovement");
     }
     //스몰톨이 카메라 벗어나지 않게 제한 
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
@@ -102,7 +103,7 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 1;
         //Debug.Log("코루틴 left");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         if (!isAttack_once)
         {
@@ -115,7 +116,7 @@ public class small_toll_stage1 : MonoBehaviour
         movementFlag = 2;
         //Debug.Log("코루틴 right");
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         if (!isAttack_once)
         {

@@ -97,14 +97,25 @@ public class small_toll : MonoBehaviour
 
         if (isBall == false)//0.25초 지나 정지했다가. 공이 한개만 있는지 체크  
         {
+            Debug.Log("MoveStop 코루틴");
             FireballMake();//파이어볼 발사
 
             if(isAttack)//근접 공격 중이면 파이어볼 쏘고 멈췄다가 근접 공격
             {
+                Debug.Log("isAttack: " + isAttack);
                 yield return new WaitForSeconds(0.5f);
             }
             timeAfter = 0;
             isStop = false;
+
+            StartCoroutine("ChangeMovement");
+        }
+        else if(!isAttack)
+        {
+            timeAfter = 0;
+            isStop = false;
+     
+            StartCoroutine("ChangeMovement");
         }
     }
 
@@ -112,9 +123,7 @@ public class small_toll : MonoBehaviour
     IEnumerator ClipMovementleft()//왼쪽으로 가는 코루틴 실행
     {
         movementFlag = 1;
-        //Debug.Log("코루틴 left");
-
-        yield return new WaitForSeconds(3f);//3초 동안 왼쪽 으로
+        yield return new WaitForSeconds(2f);//3초 동안 왼쪽 으로
 
         if(!isAttack_once)
         {
@@ -125,9 +134,8 @@ public class small_toll : MonoBehaviour
     IEnumerator ClipMovementright()//오른쪽으로 가는 코루틴 실행 
     {
         movementFlag = 2;
-        //Debug.Log("코루틴 right");
+        yield return new WaitForSeconds(2f);
 
-        yield return new WaitForSeconds(3f);
         if (!isAttack_once)
         {
             StartCoroutine("ChangeMovement");
@@ -136,7 +144,6 @@ public class small_toll : MonoBehaviour
 
     IEnumerator Heart()
     {
-
         st.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
 
@@ -259,11 +266,8 @@ public class small_toll : MonoBehaviour
         }
         if ((isTracing == true && distance > d &&isY)||(isTracing == true && distance > d && !isY))//거리 벗어나면 
         {
-            StopAllCoroutines();
-            Debug.Log("거리 벗어난 경우");
-            Debug.Log("isTracing : " + isTracing);
-            Debug.Log("isY: " + isY);
-            Debug.Log("isAttack: " + isAttack);
+            StopAllCoroutines();//clip right, clip left, heart 멈추기 
+
             Enter = false;
             isTracing = false;
             isY = false;
@@ -277,7 +281,6 @@ public class small_toll : MonoBehaviour
     {
         me = transform.position;
         Vector3 moveVelocity = Vector3.zero;
-
         if(isStop ==false)
         {
             //1. 일정 거리 내에 추적 중. 같은 층. 벽에 닿지 않음. 땡이랑 닿지 앟음
@@ -365,7 +368,7 @@ public class small_toll : MonoBehaviour
         else if(isStop ==true)//정지 상태인 경우 isStop =true 인 경우 
         {
             movePower = 0;
-            StartCoroutine("MoveStop");//멈추고
+            StartCoroutine("MoveStop");//movepower=0인 상태 몇초간 실행 
         }
     }
     
@@ -382,7 +385,6 @@ public class small_toll : MonoBehaviour
         isBall = true;
         
         ball.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, 16.5f);//파이어볼 초기 위치 z:15
-        //Debug.Log("파이어볼 생성 시 스몰 톨 위치 : " + transform.position);
         ball.transform.parent = null;
 
         Rate = Random.Range(RateMin, RateMax);//다음 번 파이어볼 생성 주기 설정 
@@ -407,7 +409,6 @@ public class small_toll : MonoBehaviour
 
         if(other.gameObject.tag =="DDaeng")
         {
-            //Debug.Log(other.gameObject.transform.position.x-transform.position.x);
             isAttack_once = true;
             isTouch = true;
         }
@@ -452,7 +453,6 @@ public class small_toll : MonoBehaviour
     {
         if (other.gameObject.tag == "miniwall")
         {
-            //Debug.Log("벽 트리거 끝");
             isWall = false;//벽이 없음 
         }
         if(other.gameObject.tag =="DDaeng")

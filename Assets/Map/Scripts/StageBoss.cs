@@ -18,7 +18,7 @@ public class StageBoss : MonoBehaviour
             SceneManager.LoadScene("Die");
 
         GameObject boss = GameObject.FindWithTag("Bigtol");
-        if (boss.transform == null)
+        if (!boss)
             SceneManager.LoadScene("Clear");
     }
 }

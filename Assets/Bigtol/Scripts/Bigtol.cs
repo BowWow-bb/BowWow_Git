@@ -103,12 +103,13 @@ public class Bigtol : MonoBehaviour
 
         //2.레인 커맨드 스킬
         if (Input.GetKeyDown(KeyCode.X))
-        //if (HP % 20 == 0 && HP < 80.0f) //hp에 따른 자동 적용 스킬
+        //if (HP < HPMax - 30) //hp에 따른 자동 적용 스킬
             Rain(Player);
+            
 
         //3. 서먼테크 스킬
         if (Input.GetKeyDown(KeyCode.C))
-        //if (HP % 20 == 0 && HP < 70.0f) //hp에 따른 자동 적용 스킬
+        //if (HP % 100 == 0 && HP < HPMax - 100) //hp에 따른 자동 적용 스킬
             Summon();
     }
 

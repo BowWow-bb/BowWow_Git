@@ -40,10 +40,16 @@ public class Move : MonoBehaviour
     float hpbar_tx;         //hp바 위치 x값
     float hpbar_tmp;        //hp바 감소 정도
     //
+    AudioSource audio;
+    public AudioClip AttackSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        audio = gameObject.AddComponent<AudioSource>();
+        audio.clip = AttackSound;
+        audio.loop = false;
+
         //h
         HPMax = 400;
         HP = HPMax;
@@ -352,6 +358,7 @@ public class Move : MonoBehaviour
             if (SoundWave != null)
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
+                audio.Play();
 
                 if (left)
                 {
@@ -428,10 +435,6 @@ public class Move : MonoBehaviour
        // Debug.Log("florr :" + isFloor);
         Debug.Log(floor + "ON?? : " + onFloor);
     }
-    public void BigBo()
-    {
-
-    }
     
     //h
     public void hpMove(int hp_delta)
@@ -452,6 +455,32 @@ public class Move : MonoBehaviour
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
     }
     //
+
+    void OnTriggerEnter(Collider other)//몬스터 때리기 
+    {
+        if (isbig)  //빅보 활성화 경우만 충돌 적용
+        {
+            if (other.gameObject.GetComponent<small_toll>() != null)    //스테이지2 몬스터와 충돌한 경우
+            {
+                small_toll monster = other.GetComponent<small_toll>();
+                monster.TakeDamage(20);//공격         
+                monster.hpMove(20);
+            }
+            if (other.gameObject.GetComponent<small_toll_stage1>() != null)  //스테이지1 몬스터와 충돌한 경우
+            {
+                small_toll_stage1 monster = other.GetComponent<small_toll_stage1>();
+                monster.TakeDamage(20);
+                monster.hpMove(20);
+            }
+            if (other.gameObject.GetComponent<Bigtol>() != null)
+            {
+                Bigtol monster = other.GetComponent<Bigtol>();
+                monster.TakeDamage(20);
+                monster.hpMove(20);
+            }
+        }
+    }
+
     public void TakeDamage(int damage)//몬스터 들한테 맞기위함 
     {
         

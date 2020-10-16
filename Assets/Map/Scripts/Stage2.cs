@@ -18,7 +18,7 @@ public class Stage2 : MonoBehaviour
             SceneManager.LoadScene("Die");
 
         GameObject st2_tol = GameObject.FindWithTag("smalltall");
-        if (st2_tol.transform == null)
+        if (!st2_tol)   //st2_tol 존재하지 않는 경우
             SceneManager.LoadScene("StageBoss");
     }
 }

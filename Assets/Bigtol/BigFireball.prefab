@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Minifireball_Perfab: {fileID: 8504930283267733822, guid: 0f12968a2cd369e489961105ebf189ad, type: 3}
+  AttackSound: {fileID: 8300000, guid: e359db2bbd601c34fb2baa58aac97ab1, type: 3}
 --- !u!65 &-92818671513463776
 BoxCollider:
   m_ObjectHideFlags: 0

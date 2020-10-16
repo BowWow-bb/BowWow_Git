@@ -75,7 +75,7 @@ public class Move : MonoBehaviour
     {
         if(isbig)
         {
-            if (gameObject.transform.position.y - Ground.transform.position.y > 6.5f)
+            if ( position.y - Ground.transform.position.y > 6.5f)
             {
                 if (!isUp && !onFloor)
                 {
@@ -85,7 +85,7 @@ public class Move : MonoBehaviour
                     gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
                 }
             }
-            else if (gameObject.transform.position.y < 6.5f)
+            else if (position .y< 6.5f)
             {
                  Debug.Log("t");
                 gameObject.transform.position = new Vector3(position.x, 6.5f, position.z);
@@ -97,7 +97,7 @@ public class Move : MonoBehaviour
                 Velocityg = 0f;
             }
         }
-        else if (gameObject.transform.position.y - Ground.transform.position.y > 3f)
+        else if (position .y- Ground.transform.position.y > 3f)
         {
             if (!isUp && !onFloor )
             {
@@ -107,7 +107,7 @@ public class Move : MonoBehaviour
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
         }
-        else if (gameObject.transform.position.y < 3f)
+        else if (position .y< 3f)
         {
             Debug.Log("t");
             gameObject.transform.position = new Vector3(position.x, 3f, position.z);
@@ -121,14 +121,14 @@ public class Move : MonoBehaviour
 
         if(isbig && isFloor)
         {
-            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 6f)
+            if (( position.y - Floor[floor].transform.position.y) > 6f)
             {
                    
                 Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
-            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 6f)
+            else if ((position .y- Floor[floor].transform.position.y) <= 6f)
             {
                 
                 Debug.Log("dd");
@@ -139,13 +139,13 @@ public class Move : MonoBehaviour
         }
         else if (isFloor)
         {
-            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f)
+            if ((position.y - Floor[floor].transform.position.y) > 2.2f)
             {
                 Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
-            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2.1f)
+            else if ((position.y - Floor[floor].transform.position.y) < 2.1f)
             {
                 Debug.Log("dd");
                 onFloor = true;
@@ -161,22 +161,22 @@ public class Move : MonoBehaviour
             int cnt = 0;
             for (int i = 0; i < Floor.Length; i++)
             {
-                if (gameObject.transform.position.x < Floor[i].transform.position.x + 17.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 17.5)
+                if (position.x < Floor[i].transform.position.x + 17.5 && position.x > Floor[i].transform.position.x - 17.5)
                 {
 
-                    if ((Floor[i].transform.position.y + 6f) < gameObject.transform.position.y)
+                    if ((Floor[i].transform.position.y + 6f) < position.y )
                     {
                         if (cnt == 0)
                         {
                             floor = i;
-                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            distance_floor = position .y- Floor[i].transform.position.y;
 
                             cnt++;
                         }
-                        else if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
+                        else if (distance_floor > position.y -  Floor[i].transform.position.y)
                         {
                             floor = i;
-                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            distance_floor = position .y - Floor[i].transform.position.y;
 
                         }
                     }
@@ -194,22 +194,22 @@ public class Move : MonoBehaviour
             int cnt = 0;
             for (int i = 0; i < Floor.Length; i++)
             {
-                if (gameObject.transform.position.x < Floor[i].transform.position.x + 17.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 17.5)
+                if (position .x < Floor[i].transform.position.x + 17.5 && position.x > Floor[i].transform.position.x - 17.5)
                 {
 
-                    if ((Floor[i].transform.position.y + 2.1f) < gameObject.transform.position.y)
+                    if ((Floor[i].transform.position.y + 2.1f) < position.y )
                     {
                         if (cnt ==0)
                         {
                             floor = i;
-                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            distance_floor = position.y - Floor[i].transform.position.y;
                             
                             cnt++;
                         }
-                        else if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
+                        else if (distance_floor > position.y - Floor[i].transform.position.y)
                         {
                             floor = i;
-                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            distance_floor = position.y - Floor[i].transform.position.y;
                             
                         }
                     }
@@ -223,7 +223,7 @@ public class Move : MonoBehaviour
         }
         if(onFloor)
         {
-            if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) > 17.5)
+            if (Mathf.Abs(Floor[floor].transform.position.x - position.x ) > 17.5)
             {
                 onFloor = false;
                 isFloor = false;
@@ -235,7 +235,7 @@ public class Move : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow) && position.x > -60f )
         {
             
-            if (isDown)
+            if (isDown && !onFloor)
             {
                 left = true;
                 Velocityg -= G;
@@ -255,7 +255,7 @@ public class Move : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow) && position.x< 60f)
         {
-            if (isDown)
+            if (isDown && !onFloor)
             {
                 left = false;
                 Velocityg -= G;
@@ -275,10 +275,10 @@ public class Move : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if ((!isUp && !isDown) || (onFloor&&!isUp))
+            if ((!isUp && !isDown) || (onFloor&&!isUp) || (onFloor&& !isDown && isUp && isFloor)) // 마지막은 계단 내려가는도중의 경우
             {
                 isUp = true;
-                past_y = gameObject.transform.position.y;
+                past_y = position.y;
             }
             
         }
@@ -344,7 +344,7 @@ public class Move : MonoBehaviour
                 }
                 else
                 {
-                    wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+                    wave.transform.position = position + new Vector3(+1, 0, 0);
                     wave.transform.parent = null;
                 }
             }
@@ -362,7 +362,7 @@ public class Move : MonoBehaviour
                 }
                 else
                 {
-                    Bone.transform.position = gameObject.transform.position + new Vector3(+5, 0, 0);
+                    Bone.transform.position = position + new Vector3(+5, 0, 0);
                 }
             }
         }
@@ -402,7 +402,7 @@ public class Move : MonoBehaviour
         position = gameObject.transform.position;
         Debug.Log("다운 : " + isDown);
         //Debug.Log("up : " + isUp);
-        Debug.Log("florr :" + isFloor);
+       // Debug.Log("florr :" + isFloor);
         Debug.Log(floor + "ON?? : " + onFloor);
     }
     public void BigBo()

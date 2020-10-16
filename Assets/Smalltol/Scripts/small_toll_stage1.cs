@@ -17,6 +17,7 @@ public class small_toll_stage1 : MonoBehaviour
     Vector3 me;//스몰톨 위치 
 
     public float d = 20f;//범위 거리 설정
+    float distance;
     float movePower = 5f;//움직이는 속력
     float RateMin = 0.5f;//최소 생성 주기 
     float RateMax = 3f;//최대 생성 주기
@@ -128,6 +129,7 @@ public class small_toll_stage1 : MonoBehaviour
         yield return new WaitForSeconds(2f);//2초 동안 땡이 방향으로 빠르게 이동 
 
         isHeart = false;//isHeart 플래그 끄기
+        StartCoroutine("ChangeMovement");
     }
 
     // Update is called once per frame
@@ -163,7 +165,7 @@ public class small_toll_stage1 : MonoBehaviour
         target = DDaeng.transform.position;
         me = transform.position;
 
-        float distance = Vector3.Distance(target, transform.position);//거리 구하는 함수
+        distance = Vector3.Distance(target, transform.position);//거리 구하는 함수
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
         if (Ypos <= 5)
@@ -238,20 +240,22 @@ public class small_toll_stage1 : MonoBehaviour
         }
         if(!isTracing&&!isY&&isAttack)//근접 공격중 땡이가 계단 올라가면  
         {
-            Debug.Log("distance: " + distance);
+            //Debug.Log("distance: " + distance);
             StopAllCoroutines();
-            StartCoroutine("ChangeMovement");
             isAttack = false;
-            Debug.Log("isY: " + isY);
-            Debug.Log("isAttack: " + isAttack);
-            Debug.Log("isTracing: " + isTracing);
+            isTracing = false;
+            StartCoroutine("ChangeMovement");
         }
-        if (isTracing == true && distance > d && isY)//거리 벗어나면 
+        if ((isTracing == true && distance > d && isY) || (isTracing == true && distance > d && !isY))//거리 벗어나면 
         {
+            StopAllCoroutines();
+
             st.gameObject.SetActive(false);
             Enter = false;
             isTracing = false;
             isY = false;
+            isHeart = false;
+
             StartCoroutine("ChangeMovement");
         }
     }
@@ -361,10 +365,12 @@ public class small_toll_stage1 : MonoBehaviour
             isWall = true;
             if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementright");
             }
             else if (other.gameObject.transform.position.x > transform.position.x)
             {
+                StopCoroutine("ChangeMovement");
                 StartCoroutine("ClipMovementleft");
             }
         }
@@ -383,6 +389,15 @@ public class small_toll_stage1 : MonoBehaviour
                 StopCoroutine("ChangeMovement");
                 isHeart = true;
                 StartCoroutine("Heart");
+            }
+            else if (isTracing && distance > d && !isY)
+            {
+                Debug.Log("soundWave쪽");
+
+                StopAllCoroutines();
+                isTracing = false;
+                isHeart = false;
+                StartCoroutine("ChangeMovement");
             }
         }
     }

@@ -46,10 +46,6 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audio = gameObject.AddComponent<AudioSource>();
-        audio.clip = AttackSound;
-        audio.loop = false;
-
         //h
         HPMax = 400;
         HP = HPMax;
@@ -74,6 +70,10 @@ public class Move : MonoBehaviour
         jump_y = 0;
         floor = 150;
         time = 0f;
+
+        audio = gameObject.AddComponent<AudioSource>();
+        audio.clip = AttackSound;
+        audio.loop = false;
     }
 
     // Update is called once per frame

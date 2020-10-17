@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class small_toll : MonoBehaviour
@@ -58,6 +59,9 @@ public class small_toll : MonoBehaviour
     public int Power_run;//런크래쉬 공격력
     public int Power_fireball;//파이어볼 공격력
 
+    AudioSource Apa;
+    public AudioClip ApaSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +90,11 @@ public class small_toll : MonoBehaviour
         }
 
         StartCoroutine("ChangeMovement");
+
+        Apa = gameObject.AddComponent<AudioSource>();
+        Apa.clip = ApaSound;
+        Apa.loop = false;
+
     }
 
     IEnumerator ChangeMovement()
@@ -257,6 +266,7 @@ public class small_toll : MonoBehaviour
 
             if(isAttack_once)//한 번 만 공격 -> 텍스트 데미지 한번만 뜨게  
             {
+                Apa.Play();
                 dd.TakeDamage(5);//텍스트 데미지 
                 dd.hpMove(5);
             }

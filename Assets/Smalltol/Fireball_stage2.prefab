@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e7314b85f546d88eddb7f01c7b023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ApaSound: {fileID: 0}
 --- !u!1 &5778231716065318399
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,3 +251,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smalltall: {fileID: 266613069773289779, guid: 3f74b2b7607984ede944ee08579318cc, type: 3}
   DDaeng: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
+  TongSound: {fileID: 8300000, guid: 77ade360d029f8f4fbf1b3c4b3c48d39, type: 3}

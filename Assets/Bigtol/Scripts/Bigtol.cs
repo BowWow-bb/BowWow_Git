@@ -28,6 +28,8 @@ public class Bigtol : MonoBehaviour
     int raintol_n;          //레인 미니톨 생성 개수
     int summon_n;           //서먼 미니톨 생성 개수
 
+    float timer;            //타이머
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +44,10 @@ public class Bigtol : MonoBehaviour
         move_tmp = 0;
         move_v = 0.8f;
 
-        raintol_n = 5;
-        summon_n = 4;
+        raintol_n = 4;
+        summon_n = 3;
+
+        timer = 0;
     }
 
     // Update is called once per frame
@@ -97,20 +101,20 @@ public class Bigtol : MonoBehaviour
         }
 
         //1. 파이어볼 스킬
-        if (Input.GetKeyDown(KeyCode.Z))
-        //if (Mathf.Abs(Player.transform.position.x - transform.position.x) < 25)   //플레이어가 일정거리 내 접근한 경우
+        if (Mathf.Abs(Player.transform.position.x - transform.position.x) < 25  && timer%200 ==0)   //플레이어가 일정거리 내 접근한 경우
             Bigfire();
 
         //2.레인 커맨드 스킬
-        if (Input.GetKeyDown(KeyCode.X))
-        //if (HP < HPMax - 30) //hp에 따른 자동 적용 스킬
+        if (HP < HPMax - 100 && timer%300 == 0) //hp에 따른 자동 적용 스킬
             Rain(Player);
             
 
         //3. 서먼테크 스킬
-        if (Input.GetKeyDown(KeyCode.C))
-        //if (HP % 100 == 0 && HP < HPMax - 100) //hp에 따른 자동 적용 스킬
+        if (HP < HPMax - 150 && timer % 400 == 0) //hp에 따른 자동 적용 스킬
             Summon();
+
+        timer += 1;
+        Debug.Log(timer);
     }
 
     public void hpMove(int hp_delta)    //hp바 동작 구현
@@ -135,7 +139,6 @@ public class Bigtol : MonoBehaviour
         //            => 스케일 조정한 길이의 1/2만큼 위치이동
         //            => hp바 위치(=Position.x) - -hp바 길이(= scale.x) / 100 /2
     }
-
     void Bigfire()  //빅 파이어볼 스킬
     {
         GameObject bigfireball = GameObject.Instantiate(Bigfireball_Perfab); //빅파이어볼 생성

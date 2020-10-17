@@ -40,7 +40,7 @@ public class Move : MonoBehaviour
     float hpbar_tx;         //hp바 위치 x값
     float hpbar_tmp;        //hp바 감소 정도
     //
-    AudioSource audio;
+    AudioSource Attack;
     public AudioClip AttackSound;
 
     // Start is called before the first frame update
@@ -71,9 +71,9 @@ public class Move : MonoBehaviour
         floor = 150;
         time = 0f;
 
-        audio = gameObject.AddComponent<AudioSource>();
-        audio.clip = AttackSound;
-        audio.loop = false;
+        Attack = gameObject.AddComponent<AudioSource>();
+        Attack.clip = AttackSound;
+        Attack.loop = false;
     }
 
     // Update is called once per frame
@@ -358,7 +358,7 @@ public class Move : MonoBehaviour
             if (SoundWave != null)
             {
                 GameObject wave = GameObject.Instantiate(SoundWave);
-                audio.Play();
+                Attack.Play();
 
                 if (left)
                 {

@@ -61,6 +61,7 @@ MonoBehaviour:
   HP: 0
   Power_run: 0
   Power_fireball: 0
+  ApaSound: {fileID: 8300000, guid: d609597ee150e634282c4a78f44de0b9, type: 3}
 --- !u!65 &-7810780415303722169
 BoxCollider:
   m_ObjectHideFlags: 0

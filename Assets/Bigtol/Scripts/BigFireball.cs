@@ -28,8 +28,12 @@ public class BigFireball : MonoBehaviour
     Vector3 PlayerPos;  //플레이어 초기 위치
     Vector3 BallPos;    //파이어볼 초기 위치
 
-    AudioSource audio;
-    public AudioClip AttackSound;
+    AudioSource Bomb;
+    AudioSource Apa;
+    AudioSource Tong;
+    public AudioClip BombSound;
+    public AudioClip ApaSound;
+    public AudioClip TongSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,9 +57,16 @@ public class BigFireball : MonoBehaviour
         PlayerPos = Player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
         BallPos = transform.position;   //파이어볼 생성 초기 위치
 
-        audio = gameObject.AddComponent<AudioSource>();
-        audio.clip = AttackSound;
-        audio.loop = false;
+        Bomb = gameObject.AddComponent<AudioSource>();
+        Bomb.clip = BombSound;
+        Bomb.loop = false;
+        Apa = gameObject.AddComponent<AudioSource>();
+        Apa.clip = ApaSound;
+        Apa.loop = false;
+        Tong = gameObject.AddComponent<AudioSource>();
+        Tong.clip = TongSound;
+        Tong.loop = false;
+
     }
 
     // Update is called once per frame 
@@ -77,6 +88,7 @@ public class BigFireball : MonoBehaviour
                 //바닥에 닿은 경우 운동방향 바꿔줌
                 if (transform.position.y < 3.3) //바닥과 충돌한 경우
                 {
+                    Tong.Play();
                     Pos.y = 3.3f;
                     transform.position = Pos;
                     now_force = now_force * E * (-1);
@@ -94,6 +106,7 @@ public class BigFireball : MonoBehaviour
                 //바닥에 닿은 경우 운동방향 바꿔줌
                 if (transform.position.y < 3.3) //바닥과 충돌한 경우
                 {
+                    Tong.Play();
                     Pos.y = 3.3f;
                     transform.position = Pos;
                     now_force = now_force * E * (-1);
@@ -115,7 +128,7 @@ public class BigFireball : MonoBehaviour
     }
     void Minifire()
     {
-        audio.Play();
+        Bomb.Play();
         for (int i = 0; i < mini_n; i++)
         {
             GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 생성
@@ -127,18 +140,14 @@ public class BigFireball : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
         {
+            Apa.Play();
             Minifire();
             Destroy(gameObject,0.5f);    //파이어볼 사라짐
 
-            Debug.Log("빅파이어볼 맞음");
             Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
 
             DD.TakeDamage(power);//데미지 텍스트 뜨기 위함 
             DD.hpMove(power);
-            if (DD.HP <= 0)
-            {
-                move_tmp = move;
-            }
         }
     }
 }

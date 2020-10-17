@@ -25,6 +25,9 @@ public class small_fireball_stage2 : MonoBehaviour
 
     bool isUp = false;//처음 생성 시 y 증가 여부 
 
+    AudioSource Tong;
+    public AudioClip TongSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +46,9 @@ public class small_fireball_stage2 : MonoBehaviour
         {
             notFloor = true;
         }
+        Tong = gameObject.AddComponent<AudioSource>();
+        Tong.clip = TongSound;
+        Tong.loop = false;
     }
     
     // Update is called once per frame
@@ -79,6 +85,7 @@ public class small_fireball_stage2 : MonoBehaviour
 
         if (ball.y <= minh)//땅바닥에 닿았는지 파악해서 충격량 적용
         {
+            Tong.Play();
             //Debug.Log("땅에 닿았을 때 파이어볼 위치 : " + transform.position);
             ball.y = minh;
             transform.position = new Vector3(me.x, ball.y, transform.position.z) + moveVelocity;

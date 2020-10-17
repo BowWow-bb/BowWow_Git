@@ -237,6 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda2c7411df7987468b3dec031f3e2a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ApaSound: {fileID: 8300000, guid: d609597ee150e634282c4a78f44de0b9, type: 3}
+  TongSound: {fileID: 8300000, guid: 77ade360d029f8f4fbf1b3c4b3c48d39, type: 3}
 --- !u!65 &341324194590172834
 BoxCollider:
   m_ObjectHideFlags: 0

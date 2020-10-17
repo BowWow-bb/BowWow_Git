@@ -473,6 +473,7 @@ MonoBehaviour:
   headleft: {fileID: 136096288201965365}
   headright: {fileID: 1854829278069958652}
   HP: 0
+  AttackSound: {fileID: 8300000, guid: b495527eae649ec4bbfd2d4fcfd2f703, type: 3}
 --- !u!65 &1168873275736833161
 BoxCollider:
   m_ObjectHideFlags: 0

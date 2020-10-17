@@ -18,6 +18,10 @@ public class MiniFireball : MonoBehaviour
     Vector3 Pos;
     Vector3 now;
 
+    AudioSource Apa;
+    AudioSource Tong;
+    public AudioClip ApaSound;
+    public AudioClip TongSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +31,13 @@ public class MiniFireball : MonoBehaviour
         Pos = transform.position;   //생성 초기위치
 
         setAngle(); //각도 설정
+
+        Apa = gameObject.AddComponent<AudioSource>();
+        Apa.clip = ApaSound;
+        Apa.loop = false;
+        Tong = gameObject.AddComponent<AudioSource>();
+        Tong.clip = TongSound;
+        Tong.loop = false;
 
     }
 
@@ -42,6 +53,7 @@ public class MiniFireball : MonoBehaviour
         //반시계방향으로 돌면서 발사
         if (transform.position.x > 60.0f)  //오른쪽 벽
         {   //위쪽 벽으로 발사
+            Tong.Play();
             x = Random.Range(-60.0f, 60.0f);
             y = 69.0f;
             now = new Vector3(x - Pos.x, y - Pos.y, 0);
@@ -49,6 +61,7 @@ public class MiniFireball : MonoBehaviour
         }
         if (transform.position.y > 69.0f)   //위쪽 벽
         {   //왼쪽 벽으로 발사
+            Tong.Play();
             x = -60.0f;
             y = Random.Range(0, 69.0f);
             now = new Vector3(x - Pos.x, y - Pos.y, 0);
@@ -56,6 +69,7 @@ public class MiniFireball : MonoBehaviour
         }
         if (transform.position.x < -60.0f)  //왼쪽 벽
         {   //바닥 으로 발사
+            Tong.Play();
             x = Random.Range(-60.0f, 60.0f);
             y = 0;
             now = new Vector3(x - Pos.x, y - Pos.y, 0);
@@ -63,6 +77,7 @@ public class MiniFireball : MonoBehaviour
         }
         if (transform.position.y <= 1.5f)   //바닥
         {   //랜덤 방향 발사
+            Tong.Play();
             setAngle(); //발사 각도 재설정
             cnt++;
         }
@@ -85,8 +100,8 @@ public class MiniFireball : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Move>() != null)  //tag 에러 방지! -> 스크립트로 인식?
-        { 
-            Debug.Log("미니파이어볼 맞음");
+        {
+            Apa.Play();
             Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
 
             DD.TakeDamage(power);//데미지 텍스트 뜨기 위함 

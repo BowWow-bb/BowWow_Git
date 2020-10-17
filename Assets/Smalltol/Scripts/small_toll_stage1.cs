@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class small_toll_stage1 : MonoBehaviour
@@ -49,8 +50,9 @@ public class small_toll_stage1 : MonoBehaviour
     float hpbar_tmp;    //hp바 감소 정도
     string tag_name;    //hp바 태그
     //
+    AudioSource Apa;
+    public AudioClip ApaSound;
 
-   
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +80,10 @@ public class small_toll_stage1 : MonoBehaviour
         st.gameObject.SetActive(false);
 
         StartCoroutine("ChangeMovement");
+
+        Apa = gameObject.AddComponent<AudioSource>();
+        Apa.clip = ApaSound;
+        Apa.loop = false;
     }
 
     IEnumerator ChangeMovement()
@@ -234,6 +240,7 @@ public class small_toll_stage1 : MonoBehaviour
 
             if (isAttack_once)//한 번 만 공격 
             {
+                Apa.Play();
                 dd.TakeDamage(5);//텍스트 데미지 
                 dd.hpMove(5);
             }

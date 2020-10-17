@@ -16,6 +16,12 @@ public class RainSmalltol : MonoBehaviour
     float E;            //탄성 계수
     float now_force;    //현재 공이 받고 있는 힘
 
+    AudioSource Apa;
+    AudioSource Tong;
+    public AudioClip ApaSound;
+    public AudioClip TongSound;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +44,13 @@ public class RainSmalltol : MonoBehaviour
         G = 0.098f;
         E = 0.9f;
         now_force = 0;
+
+        Apa = gameObject.AddComponent<AudioSource>();
+        Apa.clip = ApaSound;
+        Apa.loop = false;
+        Tong = gameObject.AddComponent<AudioSource>();
+        Tong.clip = TongSound;
+        Tong.loop = false;
     }
 
     // Update is called once per frame
@@ -54,6 +67,7 @@ public class RainSmalltol : MonoBehaviour
         //바닥에 닿은 경우 운동방향 바꿔줌
         if (Pos.y < Player.transform.position.y) //바닥과 충돌한 경우
         {
+            Tong.Play();
             //Debug.Log("바닥 충돌");
             Pos.y = Player.transform.position.y;
             transform.position = Pos;
@@ -65,8 +79,8 @@ public class RainSmalltol : MonoBehaviour
         //if (dd_flag)
         if(Mathf.Abs(Pos.x-Player.transform.position.x) <6.0f && Mathf.Abs(Pos.y-Player.transform.position.y)<6.0f)
         {
-            Debug.Log("플레이어 충돌");
-
+            Apa.Play();
+            Tong.Play();
             Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
             DD.TakeDamage(power);//데미지 텍스트 뜨기 위함 
             DD.hpMove(power);

@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 625e7314b85f546d88eddb7f01c7b023
+guid: eae04a1aec709a342a5d8427c602cc2f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - ApaSound: {fileID: 8300000, guid: d609597ee150e634282c4a78f44de0b9, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -297,7 +297,7 @@ public class small_toll_stage1 : MonoBehaviour
                 }
                 else
                 {
-                    movePower = 12;//추적 시에 속도 빠르게
+                    movePower = 20;//추적 시에 속도 빠르게
                 }
 
                 if (target.x < me.x)//땡이가 왼쪽이면

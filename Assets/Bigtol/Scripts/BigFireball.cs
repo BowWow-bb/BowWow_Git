@@ -28,6 +28,8 @@ public class BigFireball : MonoBehaviour
     Vector3 PlayerPos;  //플레이어 초기 위치
     Vector3 BallPos;    //파이어볼 초기 위치
 
+    AudioSource audio;
+    public AudioClip AttackSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,7 @@ public class BigFireball : MonoBehaviour
 
         height = transform.position.y;  //빅 파이어볼 초기 y좌표
 
-        mini_n = 5;
+        mini_n = 10;
         mini_flag = false;
 
         G = 0.098f; 
@@ -50,6 +52,10 @@ public class BigFireball : MonoBehaviour
         GameObject Player = GameObject.Find("DDaeng");
         PlayerPos = Player.transform.position;  //파이어볼 생성 당시의 플레이어 위치
         BallPos = transform.position;   //파이어볼 생성 초기 위치
+
+        audio = gameObject.AddComponent<AudioSource>();
+        audio.clip = AttackSound;
+        audio.loop = false;
     }
 
     // Update is called once per frame 
@@ -95,7 +101,7 @@ public class BigFireball : MonoBehaviour
             }
 
             //위치가 같은경우는..?
-            if (Mathf.Abs(transform.position.x) > 46)   //양쪽 벽 경계를 넘어서는 경우 폭팔
+            if (Mathf.Abs(transform.position.x) > 60.0f)   //양쪽 벽 경계를 넘어서는 경우 폭팔
                 move_tmp = move;
         }
         else if(!mini_flag) //이동 완료
@@ -109,6 +115,7 @@ public class BigFireball : MonoBehaviour
     }
     void Minifire()
     {
+        audio.Play();
         for (int i = 0; i < mini_n; i++)
         {
             GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 생성

@@ -19,7 +19,7 @@ public class Stage1 : MonoBehaviour
             SceneManager.LoadScene("Die");
 
         GameObject st1_tol = GameObject.FindWithTag("Smalltol_stage1");
-        if(st1_tol.transform == null)
+        if(!st1_tol)    //st1_tol 존재하지 않는 경우
             SceneManager.LoadScene("Stage2");
 
     }

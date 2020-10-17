@@ -52,7 +52,7 @@ public class small_fireball_stage2 : MonoBehaviour
 
         if (notFloor)//floor0 이 아닌 경우 
         {
-            movePower = 50;
+            movePower = 90;
         }
 
         //생성 당시에 땡이가 왼쪽
@@ -85,7 +85,14 @@ public class small_fireball_stage2 : MonoBehaviour
 
             accel = -1 * Mathf.Abs(accel) + gravity;
 
-            Destroy(gameObject, 0.7f);
+            if(notFloor)//맨 밑바닥이 아닌경우 
+            {
+                Destroy(gameObject, 0.2f);
+            }
+            else
+            {
+                Destroy(gameObject, 0.7f);
+            }
         }
     }
 }

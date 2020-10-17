@@ -41,7 +41,8 @@ public class small_toll : MonoBehaviour
     bool isAttack = false;//근접 공격 여부
     bool isTouch = false;
     bool isY = false;//y값 비교, 추적, 공격 여부
-    bool isWall = false;//벽 파악 
+    bool isWall = false;//벽 파악
+    bool notFloor = false;//0층인지 아닌지 
   
     public int HP;        //HP
     int HPMax;            //최대 체력
@@ -78,6 +79,11 @@ public class small_toll : MonoBehaviour
 
         st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
+
+        if (me.y > 4)//floor 0 이 아님 
+        {
+            notFloor = true;
+        }
 
         StartCoroutine("ChangeMovement");
     }
@@ -315,9 +321,18 @@ public class small_toll : MonoBehaviour
                     movePower = 50;
                     isAttack = false;
                 }
+                //추적시
                 else
                 {
-                    movePower = 13;//추적 시에 속도 빠르게
+                    if(notFloor)//0층이 아닌 경우 
+                    {
+                        movePower = 10;
+                    }
+                    //0층인 경우
+                    else
+                    {
+                        movePower = 25;//추적 시에 속도 빠르게
+                    }
                 }
 
                 if (target.x < me.x)//땡이가 왼쪽이면

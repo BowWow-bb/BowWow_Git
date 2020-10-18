@@ -10,7 +10,9 @@ public class small_toll_stage1 : MonoBehaviour
     public GameObject DDaeng;//땡이
     public GameObject DamageText;
     public GameObject smalltoll;//스몰톨
-    
+    public GameObject Bone_Perfab;
+    public GameObject Bigbo_Perfab;
+
     public Transform head;//데미지 텍스트 뜨는 위치
     Transform st;
 
@@ -152,19 +154,36 @@ public class small_toll_stage1 : MonoBehaviour
     public void hpMove(int hp_delta)
     {
         if (HP <= 0)
+        {
+            //아이템 생성 후 몬스터 소멸
+            itemManager();  
             Destroy(gameObject);
+        }         
 
         HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
-
-        if (HP <= 0)
-            Destroy(gameObject);
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
 
         Vector3 Pos = hp_bar.transform.localPosition;
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
+    }
+    void itemManager()  //아이템생성
+    {
+        int i = Random.Range(0, 2);
+        if (i == 0)   //뼈다귀 스킬 아이템 생성
+        {
+            GameObject Bone = GameObject.Instantiate(Bone_Perfab);
+            Bone.transform.position = transform.position;  //생성위치 = 현재 몬스터 위치
+            Bone.transform.parent = null;
+        }
+        else if (i == 1)   //빅보 스킬 아이템 생성
+        {
+            GameObject Bigbo = GameObject.Instantiate(Bigbo_Perfab);
+            Bigbo.transform.position = transform.position; //생성위치 = 현재 몬스터 위치
+            Bigbo.transform.parent = null;
+        }
     }
     //
 

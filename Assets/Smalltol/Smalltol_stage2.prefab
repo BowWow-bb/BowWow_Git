@@ -56,6 +56,8 @@ MonoBehaviour:
   DDaeng: {fileID: 7320380645002136534, guid: 80ae46d07ba04ab42884b867c19f3e61, type: 3}
   smalltoll: {fileID: 266613069773289779}
   DamageText: {fileID: 3081082159912447374, guid: 18990fc5420934c108be3fb2f13e8023, type: 3}
+  Bone_Perfab: {fileID: 8399075875314940094, guid: da3ef34fc382f9a4dad5ea79940b92da, type: 3}
+  Bigbo_Perfab: {fileID: 2639002704160812073, guid: 42bd2eebce3122242bc43de710d2ed8a, type: 3}
   head: {fileID: 3813225679490485576}
   d: 40
   HP: 0

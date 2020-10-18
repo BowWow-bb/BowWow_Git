@@ -25,6 +25,8 @@ TagManager:
   - SoundWave
   - itemBone
   - itemBigbo
+  - Q
+  - W
   layers:
   - Default
   - TransparentFX

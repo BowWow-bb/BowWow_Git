@@ -358,6 +358,14 @@ public class Move : MonoBehaviour
             }
         }
 
+        position = gameObject.transform.position; // 위치 저장
+     //   Debug.Log("다운 : " + isDown);
+     //   Debug.Log("up : " + isUp);
+       // Debug.Log("florr :" + isFloor);
+      //  Debug.Log(floor + "ON?? : " + onFloor);
+    }
+    private void Update()
+    {
         //음파 발사
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -369,7 +377,7 @@ public class Move : MonoBehaviour
                 if (left)
                 {
                     // 플레이어가 좌를 보고 있다면 왼쪽에 생성
-                    wave.transform.position = transform.position + new Vector3(-1, 0, 0); 
+                    wave.transform.position = transform.position + new Vector3(-1, 0, 0);
                     wave.transform.parent = null;
                 }
                 else
@@ -380,12 +388,12 @@ public class Move : MonoBehaviour
                 }
             }
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(bone !=null)
+            if (bone != null)
             {
                 GameObject Bone = GameObject.Instantiate(bone);
-                
+
                 if (left)// 플레이어가 좌를 보고 있다면 왼쪽에 생성
                 {
                     Bone.transform.position = transform.position + new Vector3(-5, 0, 0);
@@ -398,7 +406,7 @@ public class Move : MonoBehaviour
                 }
             }
         }
-        if(Input.GetKeyDown(KeyCode.W)) 
+        if (Input.GetKeyDown(KeyCode.W))
         {
             isbig = true; // 빅보 활성화
             time = 0; // time 초기화
@@ -434,14 +442,7 @@ public class Move : MonoBehaviour
                 time += 0.01f;
             }
         }
-
-        position = gameObject.transform.position; // 위치 저장
-     //   Debug.Log("다운 : " + isDown);
-     //   Debug.Log("up : " + isUp);
-       // Debug.Log("florr :" + isFloor);
-      //  Debug.Log(floor + "ON?? : " + onFloor);
     }
-    
     //h
     public void hpMove(int hp_delta)
     {

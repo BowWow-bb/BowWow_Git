@@ -133,6 +133,7 @@ public class BigFireball : MonoBehaviour
         {
             GameObject minifireball = GameObject.Instantiate(Minifireball_Perfab); //미니 파이어볼 생성
             minifireball.transform.position = transform.position;   //미니 파이어볼 초기 위치 = 빅 파이어볼 현재 위치
+            minifireball.transform.parent = null;    //독립된 개체
         }
     }
 

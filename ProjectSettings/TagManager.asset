@@ -23,6 +23,8 @@ TagManager:
   - tolHp6
   - red
   - SoundWave
+  - itemBone
+  - itemBigbo
   layers:
   - Default
   - TransparentFX

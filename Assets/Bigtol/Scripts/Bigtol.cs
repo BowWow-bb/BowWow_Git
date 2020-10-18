@@ -125,9 +125,6 @@ public class Bigtol : MonoBehaviour
         HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
 
-        if (HP <= 0)
-            Destroy(gameObject);
-
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
 

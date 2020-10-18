@@ -60,10 +60,10 @@ public class Move : MonoBehaviour
         Ground = GameObject.FindWithTag("Ground"); // 땅바닥 오브젝트 저장
         Floor = GameObject.FindGameObjectsWithTag("Floor"); // 계단들의 오브젝트배열 저장
         TimeScale = 400.0f; //속도 조정 변수
-        G = 98f / TimeScale ; // 중력 가속도 저장
-      //  G = 98f / TimeScale;
+        G = 98f / TimeScale; // 중력 가속도 저장
+                             //  G = 98f / TimeScale;
         Velocityg = 0; // 초기 중력 0 
-        position = gameObject.transform.position; 
+        position = gameObject.transform.position;
         isUp = false;
         isDown = false;
         onFloor = false;
@@ -106,32 +106,32 @@ public class Move : MonoBehaviour
         }
         else if (gameObject.transform.position.y - Ground.transform.position.y > 3f) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
         {
-            if (!isUp && !onFloor ) // 점프하고 있을때 혹은 계단위에선 적용X
+            if (!isUp && !onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
             {
-                Debug.Log(onFloor+"D");
+                Debug.Log(onFloor + "D");
                 // 중력적용 - 상태를 내려가고 있음으로 체크
                 isDown = true;
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
         }
-        else if (gameObject.transform.position.y< 3f)
+        else if (gameObject.transform.position.y < 3f)
         {
             // 땅바닥을 뚫는걸 방지 , 바닥보다 내려간다면 위치 고정
-        //    Debug.Log("t");
+            //    Debug.Log("t");
             gameObject.transform.position = new Vector3(position.x, 3f, position.z);
         }
         else
         {
             //땅에 내려왔을시 - isDown 다시 false , 중력가속도 0
-           // Debug.Log("ttt");
+            // Debug.Log("ttt");
             isDown = false;
             Velocityg = 0f;
         }
 
-       
 
-        if(isbig)
+
+        if (isbig)
         {
             distance_floor = 0;
             int cnt = 0;
@@ -140,19 +140,19 @@ public class Move : MonoBehaviour
                 if (gameObject.transform.position.x < Floor[i].transform.position.x + 17.5 && position.x > Floor[i].transform.position.x - 17.5)
                 {
 
-                    if ((Floor[i].transform.position.y + 6f) < position.y )
+                    if ((Floor[i].transform.position.y + 6f) < position.y)
                     {
                         if (cnt == 0)
                         {
                             floor = i;
-                            distance_floor = position .y- Floor[i].transform.position.y;
+                            distance_floor = position.y - Floor[i].transform.position.y;
 
                             cnt++;
                         }
-                        else if (distance_floor > position.y -  Floor[i].transform.position.y)
+                        else if (distance_floor > position.y - Floor[i].transform.position.y)
                         {
                             floor = i;
-                            distance_floor = position .y - Floor[i].transform.position.y;
+                            distance_floor = position.y - Floor[i].transform.position.y;
 
                         }
                     }
@@ -164,7 +164,7 @@ public class Move : MonoBehaviour
                 isFloor = true;
             }
         }
-        else if (isDown && !isUp && !isFloor ) // 점프중이 아닌 내려오는중 일때 계단인식
+        else if (isDown && !isUp && !isFloor) // 점프중이 아닌 내려오는중 일때 계단인식
         {
             distance_floor = 0; // 계단과의 거리 초기화
             int cnt = 0;
@@ -174,20 +174,20 @@ public class Move : MonoBehaviour
                 if (gameObject.transform.position.x < Floor[i].transform.position.x + 17.5 && gameObject.transform.position.x > Floor[i].transform.position.x - 17.5)
                 {
                     // 그 다음 플레이어 제일 가까이 아래에 있는 계단의 인덱스를 찾는다.
-                    if ((Floor[i].transform.position.y + 3.5f) < gameObject.transform.position.y )
+                    if ((Floor[i].transform.position.y + 3.5f) < gameObject.transform.position.y)
                     {
-                        if (cnt ==0)
+                        if (cnt == 0)
                         {
                             floor = i;
                             distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
-                            
+
                             cnt++;
                         }
                         else if (distance_floor > gameObject.transform.position.y - Floor[i].transform.position.y)
                         {
                             floor = i;
                             distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
-                            
+
                         }
                     }
 
@@ -198,18 +198,18 @@ public class Move : MonoBehaviour
                 isFloor = true;
             }
         }
-         if(isbig && isFloor) //아래 else 문의 빅보가 비활성화 일때와 y의 거리 기준점만 다르고 똑같다.
+        if (isbig && isFloor) //아래 else 문의 빅보가 비활성화 일때와 y의 거리 기준점만 다르고 똑같다.
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 6f)
             {
-                   
+
                 Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
-            else if ((gameObject.transform.position.y- Floor[floor].transform.position.y) <= 6f)
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 6f)
             {
-                
+
                 Debug.Log("dd");
                 onFloor = true;
                 gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 6f, position.z);
@@ -220,14 +220,14 @@ public class Move : MonoBehaviour
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
             {
-           //     Debug.Log("ddd");
+                //     Debug.Log("ddd");
                 // 중력가속도 적용
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (Velocityg * 0.001f), position.z);
             }
             else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2.2f) // 계단위에 플레이어가 올라왔을 때
             {
-              //  Debug.Log("dd");
+                //  Debug.Log("dd");
                 // 올라왔다고 상태체크 , y축고정 , 중력가속도 초기화
                 onFloor = true;
                 gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2.2f, position.z);
@@ -235,9 +235,9 @@ public class Move : MonoBehaviour
             }
 
         }
-        if(onFloor) 
+        if (onFloor)
         {
-            if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x ) > 17.5)
+            if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) > 17.5)
             {
                 // 계단위에 있을때 그 계단의 좌,우에서 벗어나면 on,isFloor 변경 , 떨어지므로 isDown 
                 onFloor = false;
@@ -247,22 +247,22 @@ public class Move : MonoBehaviour
             }
         }
         //좌우이동
-        if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x > -60f ) // 좌로 -60 제한
+        if (Input.GetKey(KeyCode.LeftArrow) && transform.position.x > -60f) // 좌로 -60 제한
         {
-            
+
             if (isDown && !onFloor) // 내려오는 중에 눌렀다면
             {
                 // 중력 적용하면서 좌 이동
                 left = true;
                 Velocityg -= G;
-                if (position.y + (Velocityg * 0.1f) <=3f)
+                if (position.y + (Velocityg * 0.1f) <= 3f)
                 {
                     Debug.Log("*");
-                    gameObject.transform.position = new Vector3(position.x - 0.75f,3f, position.z);
+                    gameObject.transform.position = new Vector3(position.x - 0.75f, 3f, position.z);
                 }
                 else
                     gameObject.transform.position = new Vector3(position.x - 0.75f, transform.position.y + (Velocityg * 0.1f), position.z);
-                
+
             }
             else
             {
@@ -271,7 +271,7 @@ public class Move : MonoBehaviour
                 gameObject.transform.position = new Vector3(position.x - 0.75f, transform.position.y, position.z);
             }
         }
-        if (Input.GetKey(KeyCode.RightArrow) && transform.position.x< 60f) // 우로 60 제한
+        if (Input.GetKey(KeyCode.RightArrow) && transform.position.x < 60f) // 우로 60 제한
         {
             if (isDown && !onFloor)
             {
@@ -296,22 +296,22 @@ public class Move : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow)) //점프 눌렀을시
         {
             // 내려가지도,점프하고있지도 않을때(2단점프 방지) , 계단 위 면서 올라가지 않고있을때 , 계단에서 내려가는 도중 점프 방지
-            if ((!isUp && !isDown) || (onFloor&&!isUp) || (onFloor&& !isDown && isUp && isFloor)) 
+            if ((!isUp && !isDown) || (onFloor && !isUp) || (onFloor && !isDown && isUp && isFloor))
             {
                 //눌렀을 당시 y축좌표 저장 , 점프중인지 확인하는 변수 isUp 변경
                 isUp = true;
                 onFloor = false;
                 past_y = gameObject.transform.position.y;
             }
-            
+
         }
         if (isUp) // 점프중이라면
         {
-            if (jump_y < 20f ) // 점프 거리가 아직 20 이하일때
+            if (jump_y < 20f) // 점프 거리가 아직 20 이하일때
             {
-               
+
                 jump_y += 1f; // 점프 거리 늘림
-                if (Input.GetKey(KeyCode.RightArrow)&& transform.position.x < 60f) // 오른/왼쪽을 누르면서 점프할때
+                if (Input.GetKey(KeyCode.RightArrow) && transform.position.x < 60f) // 오른/왼쪽을 누르면서 점프할때
                 {
                     if (past_y + jump_y >= 65f)
                     {
@@ -325,7 +325,7 @@ public class Move : MonoBehaviour
                         gameObject.transform.position = new Vector3(position.x + 0.5f, past_y + jump_y, position.z);
                     }
                 }
-                else if (Input.GetKey(KeyCode.LeftArrow)&& position.x > -60f)
+                else if (Input.GetKey(KeyCode.LeftArrow) && position.x > -60f)
                 {
                     if (past_y + jump_y >= 65f)
                     {
@@ -339,8 +339,8 @@ public class Move : MonoBehaviour
                 }
                 else
                 {
-                    
-                    if(past_y+jump_y >= 65f) // 점프했을 때의 결과가 천장보다 높다면 고정
+
+                    if (past_y + jump_y >= 65f) // 점프했을 때의 결과가 천장보다 높다면 고정
                     {
                         gameObject.transform.position = new Vector3(position.x, 65f, position.z);
                     }
@@ -358,6 +358,7 @@ public class Move : MonoBehaviour
             }
         }
 
+<<<<<<< HEAD
         position = gameObject.transform.position; // 위치 저장
      //   Debug.Log("다운 : " + isDown);
      //   Debug.Log("up : " + isUp);
@@ -388,6 +389,34 @@ public class Move : MonoBehaviour
                 }
             }
         }
+=======
+        ////음파 발사
+        //if (Input.GetKey(KeyCode.Space))
+        //{
+        //    Debug.Log("움퍼");
+        //    if (SoundWave != null)
+        //    {
+        //        GameObject wave = GameObject.Instantiate(SoundWave);
+        //        Attack.Play();
+
+        //        if (left)
+        //        {
+        //            // 플레이어가 좌를 보고 있다면 왼쪽에 생성
+        //            wave.transform.position = transform.position + new Vector3(-1, 0, 0); 
+        //            wave.transform.parent = null;
+        //        }
+        //        else
+        //        {
+        //            // 우를 보고 있다면 오른쪽에 생성
+        //            wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+        //            wave.transform.parent = null;
+        //        }
+        //    }
+        //}
+
+        
+
+>>>>>>> 5100e33a220ebba0f3f5b985a91217532e693b79
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (bone != null)
@@ -442,7 +471,18 @@ public class Move : MonoBehaviour
                 time += 0.01f;
             }
         }
+<<<<<<< HEAD
     }
+=======
+
+        position = gameObject.transform.position; // 위치 저장
+                                                  //   Debug.Log("다운 : " + isDown);
+                                                  //   Debug.Log("up : " + isUp);
+                                                  // Debug.Log("florr :" + isFloor);
+                                                  //  Debug.Log(floor + "ON?? : " + onFloor);
+    }
+
+>>>>>>> 5100e33a220ebba0f3f5b985a91217532e693b79
     //h
     public void hpMove(int hp_delta)
     {
@@ -452,9 +492,6 @@ public class Move : MonoBehaviour
         HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
 
-        if (HP <= 0)
-            Destroy(gameObject);
-
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
 
@@ -462,7 +499,32 @@ public class Move : MonoBehaviour
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
     }
     //
+    private void Update()
+    {
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("움퍼");
+            if (SoundWave != null)
+            {
+                GameObject wave = GameObject.Instantiate(SoundWave);
+                Attack.Play();
+
+                if (left)
+                {
+                    // 플레이어가 좌를 보고 있다면 왼쪽에 생성
+                    wave.transform.position = transform.position + new Vector3(-1, 0, 0);
+                    wave.transform.parent = null;
+                }
+                else
+                {
+                    // 우를 보고 있다면 오른쪽에 생성
+                    wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+                    wave.transform.parent = null;
+                }
+            }
+        }
+    }
     void OnTriggerEnter(Collider other)//몬스터 때리기 
     {
         if (isbig)  //빅보 활성화 경우만 충돌 적용
@@ -490,7 +552,7 @@ public class Move : MonoBehaviour
 
     public void TakeDamage(int damage)//몬스터 들한테 맞기위함 
     {
-        
+
         GameObject damageText = Instantiate(DamageText);
 
         damageText.transform.position = head.position;//기본 head : 오른쪽 

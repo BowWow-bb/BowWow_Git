@@ -48,6 +48,7 @@ public class small_fireball_stage2 : MonoBehaviour
         }
         Tong = gameObject.AddComponent<AudioSource>();
         Tong.clip = TongSound;
+        Tong.volume = 0.6f;
         Tong.loop = false;
     }
     

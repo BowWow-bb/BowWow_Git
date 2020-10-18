@@ -93,8 +93,9 @@ public class small_toll : MonoBehaviour
 
         StartCoroutine("ChangeMovement");
 
-        Apa = gameObject.AddComponent<AudioSource>();
+        Apa = gameObject.AddComponent<AudioSource>();//땡이 때리는 소리 
         Apa.clip = ApaSound;
+        Apa.volume = 0.3f;
         Apa.loop = false;
 
     }

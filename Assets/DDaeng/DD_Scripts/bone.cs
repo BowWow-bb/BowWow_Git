@@ -15,6 +15,9 @@ public class bone : MonoBehaviour
     float accelaration; // 가속력
     Vector3 trace; // 땡이 추적 벡터
 
+    AudioSource Boomerang;
+    public AudioClip BoomerangSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,11 @@ public class bone : MonoBehaviour
         spin = false; // 초기화
         DD = GameObject.Find("DDaeng"); // 주인공 오브젝트 찾아서 초기화.
 
+        Boomerang = gameObject.AddComponent<AudioSource>();
+        Boomerang.clip = BoomerangSound;
+        Boomerang.loop = false;
+
+        Boomerang.Play();
 
         if (DD.transform.position.x > position.x) // 땡이보다 음파가 왼쪽일때 , 오른쪽일때 판단
             left = true;
@@ -89,6 +97,7 @@ public class bone : MonoBehaviour
                 {
                     // 거리가 1이하가 된다면 오브젝트를 없앤다.
                     Destroy(gameObject, 0);
+                    Boomerang.Stop();
                 }
                 else if (distance > 0)
                 {

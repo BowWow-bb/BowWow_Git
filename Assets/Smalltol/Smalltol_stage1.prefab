@@ -413,7 +413,7 @@ MonoBehaviour:
   d: 40
   HP: 0
   Power_run: 0
-  ApaSound: {fileID: 8300000, guid: d609597ee150e634282c4a78f44de0b9, type: 3}
+  ApaSound: {fileID: 8300000, guid: 75a54874969234c2d9ae8f26d7c2dfc8, type: 3}
 --- !u!65 &7069248873417797837
 BoxCollider:
   m_ObjectHideFlags: 0

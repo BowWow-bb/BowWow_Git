@@ -493,3 +493,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a2107dda25d1a479ca99fdbf1a6024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BoomerangSound: {fileID: 8300000, guid: 3fa70c6adfcab4a20b97055acf85808a, type: 3}

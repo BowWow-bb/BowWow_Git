@@ -358,29 +358,28 @@ public class Move : MonoBehaviour
             }
         }
 
-        ////음파 발사
-        //if (Input.GetKey(KeyCode.Space))
-        //{
-        //    Debug.Log("움퍼");
-        //    if (SoundWave != null)
-        //    {
-        //        GameObject wave = GameObject.Instantiate(SoundWave);
-        //        Attack.Play();
+        //음파 발사
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (SoundWave != null)
+            {
+                GameObject wave = GameObject.Instantiate(SoundWave);
+                Attack.Play();
 
-        //        if (left)
-        //        {
-        //            // 플레이어가 좌를 보고 있다면 왼쪽에 생성
-        //            wave.transform.position = transform.position + new Vector3(-1, 0, 0); 
-        //            wave.transform.parent = null;
-        //        }
-        //        else
-        //        {
-        //            // 우를 보고 있다면 오른쪽에 생성
-        //            wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
-        //            wave.transform.parent = null;
-        //        }
-        //    }
-        //}
+                if (left)
+                {
+                    // 플레이어가 좌를 보고 있다면 왼쪽에 생성
+                    wave.transform.position = transform.position + new Vector3(-1, 0, 0); 
+                    wave.transform.parent = null;
+                }
+                else
+                {
+                    // 우를 보고 있다면 오른쪽에 생성
+                    wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
+                    wave.transform.parent = null;
+                }
+            }
+        }
         if(Input.GetKeyDown(KeyCode.Q))
         {
             if(bone !=null)
@@ -462,32 +461,7 @@ public class Move : MonoBehaviour
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move / 2.0f, Pos.y, Pos.z);
     }
     //
-    private void Update()
-    {
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("움퍼");
-            if (SoundWave != null)
-            {
-                GameObject wave = GameObject.Instantiate(SoundWave);
-                Attack.Play();
-
-                if (left)
-                {
-                    // 플레이어가 좌를 보고 있다면 왼쪽에 생성
-                    wave.transform.position = transform.position + new Vector3(-1, 0, 0);
-                    wave.transform.parent = null;
-                }
-                else
-                {
-                    // 우를 보고 있다면 오른쪽에 생성
-                    wave.transform.position = gameObject.transform.position + new Vector3(+1, 0, 0);
-                    wave.transform.parent = null;
-                }
-            }
-        }
-    }
     void OnTriggerEnter(Collider other)//몬스터 때리기 
     {
         if (isbig)  //빅보 활성화 경우만 충돌 적용

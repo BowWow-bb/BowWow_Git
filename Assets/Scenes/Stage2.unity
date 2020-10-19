@@ -579,6 +579,36 @@ Transform:
   m_Father: {fileID: 1666500950}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &674004536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 674004537}
+  m_Layer: 0
+  m_Name: floor0_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &674004537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674004536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11, y: -2, z: -8.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1666500950}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &715090439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,6 +1299,7 @@ MonoBehaviour:
   - {fileID: 888900560}
   - {fileID: 1573853913}
   - {fileID: 1657180012}
+  - {fileID: 674004537}
   isSpawn: 
   smalltoll_stage1: {fileID: 266613069773289779, guid: 3f74b2b7607984ede944ee08579318cc, type: 3}
 --- !u!4 &1666500950
@@ -1288,6 +1319,7 @@ Transform:
   - {fileID: 1657180012}
   - {fileID: 888900560}
   - {fileID: 1573853913}
+  - {fileID: 674004537}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

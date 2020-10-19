@@ -27,6 +27,7 @@ public class itemBigbo : MonoBehaviour
 
         Item_drop = gameObject.AddComponent<AudioSource>();
         Item_drop.clip = Item_drop_Sound;
+        Item_drop.volume = 0.6f;
         Item_drop.loop = false;
 
         Item_drop.Play();

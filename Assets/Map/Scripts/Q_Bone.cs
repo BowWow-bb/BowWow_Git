@@ -5,12 +5,13 @@ using UnityEngine;
 public class Q_Bone : MonoBehaviour
 {
     public bool isThere;   //존재 유뮤 파악
-
+    Vector3 origin_pos;
     Vector3 Pos;
     Move DD;
     // Start is called before the first frame update
     void Start()
     {
+        origin_pos = gameObject.transform.position;
         Pos = new Vector3(-47.4f, 6.3f, -18.0f);     
         isThere = false;
 
@@ -28,6 +29,10 @@ public class Q_Bone : MonoBehaviour
                 DD.BoneActive = true;
                 isThere = false;
             }
+        }
+        else
+        {
+            gameObject.transform.position = origin_pos;
         }
     }
 }

@@ -34,7 +34,7 @@ public class Move : MonoBehaviour
 
     public bool BoneActive; //뼈다귀스킬 활성화
     public bool BigboActive;    //빅보스킬 활성화
-
+    Q_Bone q_Bone;
     //h
     public int HP;        //HP
     int HPMax;            //최대 체력
@@ -52,6 +52,7 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        q_Bone = GameObject.Find("Q_Bone").GetComponent<Q_Bone>();
         BoneActive = false;
         BigboActive = false;
         //h
@@ -423,62 +424,69 @@ public class Move : MonoBehaviour
             }
         }
 
-
-        if (BoneActive) //뼈다귀 활성화 경우
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (bone != null)
+            if (BoneActive) //뼈다귀 활성화 경우
             {
-                GameObject Bone = GameObject.Instantiate(bone);
+                if (bone != null)
+                {
+                    GameObject Bone = GameObject.Instantiate(bone);
 
-                if (left)// 플레이어가 좌를 보고 있다면 왼쪽에 생성
-                {
-                    Bone.transform.position = transform.position + new Vector3(-5, 0, 0);
-                    Bone.transform.parent = null;
-                }
-                else// 우를 보고 있다면 오른쪽에 생성
-                {
-                    Bone.transform.position = gameObject.transform.position + new Vector3(+5, 0, 0);
-                    Bone.transform.parent = null;
+                    if (left)// 플레이어가 좌를 보고 있다면 왼쪽에 생성
+                    {
+                        Bone.transform.position = transform.position + new Vector3(-5, 0, 0);
+                        Bone.transform.parent = null;
+                    }
+                    else// 우를 보고 있다면 오른쪽에 생성
+                    {
+                        Bone.transform.position = gameObject.transform.position + new Vector3(+5, 0, 0);
+                        Bone.transform.parent = null;
+                    }
                 }
             }
+            BoneActive = false;
+            q_Bone.isThere = false;
         }
-        if (BigboActive)    //빅보 활성화 경우
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            isbig = true; // 빅보 활성화
-            time = 0; // time 초기화
-        }
-        if (isbig) // 빅보 활성화 시
-        {
-            if (time >= 20f) //  time 20 이상이 됐다면
+            if (BigboActive)    //빅보 활성화 경우
             {
-                if (scale > 1.0f) // 아직 scale이 1 이상일 때
+                isbig = true; // 빅보 활성화
+                time = 0; // time 초기화
+            }
+            if (isbig) // 빅보 활성화 시
+            {
+                if (time >= 20f) //  time 20 이상이 됐다면
                 {
-                    scale -= 0.01f; // scale 줄여주고 적용
+                    if (scale > 1.0f) // 아직 scale이 1 이상일 때
+                    {
+                        scale -= 0.01f; // scale 줄여주고 적용
+                        transform.localScale = new Vector3(scale, scale, 1);
+                    }
+                    else
+                    {
+                        // 1이하 됐다면 scale 1 고정, 빅보 비활성화
+                        transform.localScale = new Vector3(1, 1, 1);
+                        isbig = false;
+                    }
+                }
+                else if (scale < 4f)
+                {
+                    // time 20 이하 , 아직 플레이어가 덜 커졌다면 
+                    // scale 키워주고 적용
+                    scale += 0.01f;
                     transform.localScale = new Vector3(scale, scale, 1);
                 }
+
                 else
                 {
-                    // 1이하 됐다면 scale 1 고정, 빅보 비활성화
-                    transform.localScale = new Vector3(1, 1, 1);
-                    isbig = false;
+                    // 빅보로 인해 scale 완전히 커진 상태 , time 세준다.
+                    Debug.Log("?");
+                    time += 0.01f;
                 }
             }
-            else if (scale < 4f)
-            {
-                // time 20 이하 , 아직 플레이어가 덜 커졌다면 
-                // scale 키워주고 적용
-                scale += 0.01f;
-                transform.localScale = new Vector3(scale, scale, 1);
-            }
-
-            else
-            {
-                // 빅보로 인해 scale 완전히 커진 상태 , time 세준다.
-                Debug.Log("?");
-                time += 0.01f;
-            }
+            BigboActive = false;
         }
-
     }
     void OnTriggerEnter(Collider other)//몬스터 때리기 
     {

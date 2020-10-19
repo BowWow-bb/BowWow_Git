@@ -105,7 +105,6 @@ public class bone : MonoBehaviour
                     gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
                         , transform.position.y + (trace.y * velocity),DD.transform.position.z);
                     check += 0.0001f;
-                    Debug.Log(distance);
                 }
 
             }

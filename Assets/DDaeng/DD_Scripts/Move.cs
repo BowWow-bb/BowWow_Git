@@ -41,7 +41,12 @@ public class Move : MonoBehaviour
     float hpbar_tmp;        //hp바 감소 정도
     //
     AudioSource Attack;
+    AudioSource Jump;
+    AudioSource BigBo;
+
     public AudioClip AttackSound;
+    public AudioClip JumpSound;
+    public AudioClip BigBoSound;
 
     // Start is called before the first frame update
     void Start()
@@ -74,6 +79,15 @@ public class Move : MonoBehaviour
         Attack = gameObject.AddComponent<AudioSource>();
         Attack.clip = AttackSound;
         Attack.loop = false;
+
+        Jump = gameObject.AddComponent<AudioSource>();
+        Jump.clip = JumpSound;
+        Jump.volume = 0.6f;
+        Jump.loop = false;
+
+        BigBo = gameObject.AddComponent<AudioSource>();
+        BigBo.clip = BigBoSound;
+        BigBo.loop = false;
     }
 
     // Update is called once per frame
@@ -298,6 +312,8 @@ public class Move : MonoBehaviour
             // 내려가지도,점프하고있지도 않을때(2단점프 방지) , 계단 위 면서 올라가지 않고있을때 , 계단에서 내려가는 도중 점프 방지
             if ((!isUp && !isDown) || (onFloor && !isUp) || (onFloor && !isDown && isUp && isFloor))
             {
+                Jump.Play();
+
                 //눌렀을 당시 y축좌표 저장 , 점프중인지 확인하는 변수 isUp 변경
                 isUp = true;
                 onFloor = false;
@@ -429,6 +445,7 @@ public class Move : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
+            BigBo.Play();
             isbig = true; // 빅보 활성화
             time = 0; // time 초기화
         }

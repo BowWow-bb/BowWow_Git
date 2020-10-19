@@ -29,7 +29,7 @@ public class Move : MonoBehaviour
     bool isDown; // 아래로 떨어지고 있는지
     bool isFloor; // 아래에 계단이 있는지
     bool onFloor; // 현재 계단위에 올라와 있는지
-    bool isbig; // 빅보 스킬 활성화 중인지?
+    public bool isbig; // 빅보 스킬 활성화 중인지?
     bool left; // 캐릭터의 좌우 저장
 
     //h

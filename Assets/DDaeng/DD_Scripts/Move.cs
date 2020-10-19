@@ -45,11 +45,9 @@ public class Move : MonoBehaviour
     //
     AudioSource Attack;
     AudioSource Jump;
-    AudioSource BigBo;
-
+    
     public AudioClip AttackSound;
     public AudioClip JumpSound;
-    public AudioClip BigBoSound;
 
     // Start is called before the first frame update
     void Start()
@@ -89,10 +87,6 @@ public class Move : MonoBehaviour
         Jump.clip = JumpSound;
         Jump.volume = 0.6f;
         Jump.loop = false;
-
-        BigBo = gameObject.AddComponent<AudioSource>();
-        BigBo.clip = BigBoSound;
-        BigBo.loop = false;
     }
 
     // Update is called once per frame
@@ -450,7 +444,6 @@ public class Move : MonoBehaviour
         }
         if (BigboActive)    //빅보 활성화 경우
         {
-            BigBo.Play();
             isbig = true; // 빅보 활성화
             time = 0; // time 초기화
         }

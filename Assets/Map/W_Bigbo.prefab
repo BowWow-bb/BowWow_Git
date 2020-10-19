@@ -109,3 +109,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isThere: 0
+  BigBoSound: {fileID: 8300000, guid: 3140c5eb40d71480983fb12aba883ec5, type: 3}

@@ -8,6 +8,9 @@ public class W_Bigbo : MonoBehaviour
 
     Vector3 Pos;
     Move DD;
+
+    AudioSource BigBo;
+    public AudioClip BigBoSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +18,10 @@ public class W_Bigbo : MonoBehaviour
         isThere = false;
 
         DD = GameObject.FindWithTag("DDaeng").GetComponent<Move>();
+
+        BigBo = gameObject.AddComponent<AudioSource>();
+        BigBo.clip = BigBoSound;
+        BigBo.loop = false;
     }
 
     // Update is called once per frame
@@ -25,6 +32,7 @@ public class W_Bigbo : MonoBehaviour
             gameObject.transform.position = Pos;    //스킬 창 활성화
             if (Input.GetKeyDown(KeyCode.W))
             {
+                BigBo.Play();
                 DD.BigboActive = true;
                 isThere = false;
             }

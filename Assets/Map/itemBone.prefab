@@ -109,6 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce941ffbf1e2db345865f086a8e8079b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageObj: {fileID: 0}
+  myimage: {fileID: 0}
+  Item_Sound: {fileID: 8300000, guid: 7fab07b55515a41bf94172a43543d77e, type: 3}
 --- !u!54 &5586774690614338324
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class itemBigbo : MonoBehaviour
 {
+    AudioSource Item_pick;
+    public AudioClip Item_Sound;
+
     float t;    //타이머
     // Start is called before the first frame update
     void Start()
     {
         t = 0;
+
+        Item_pick = gameObject.AddComponent<AudioSource>();
+        Item_pick.clip = Item_Sound;
+        Item_pick.loop = false;
     }
 
     // Update is called once per frame
@@ -24,6 +31,7 @@ public class itemBigbo : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
+            Item_pick.Play();
             Debug.Log("땡이와 충돌!");
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -46,7 +54,9 @@ public class itemBigbo : MonoBehaviour
             Debug.Log("땡이와 충돌!");
             if(Input.GetKeyDown(KeyCode.Z))
             {
+                
                 Debug.Log("땡이가 먹음");
+                //Item_pick.Play();
                 Destroy(gameObject);
             }
             //Move DD = GameObject.Find("DDaeng").GetComponent<Move>();

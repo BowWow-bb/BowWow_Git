@@ -7,7 +7,7 @@ public class itemBone : MonoBehaviour
 {
     // Start is called before the first frame update
     float t;    //타이머
-    // Start is called before the first frame update
+    Q_Bone q_Bone;
 
     AudioSource Item_pick;
     AudioSource Item_drop;
@@ -15,11 +15,10 @@ public class itemBone : MonoBehaviour
     public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
 
-    GameObject Q;
-
     void Start()
     {
-        Q = GameObject.Find("Q");
+        q_Bone = GameObject.Find("Q_Bone").GetComponent<Q_Bone>();
+
         t = 0;
         Item_pick = gameObject.AddComponent<AudioSource>();
         Item_pick.clip = Item_Sound;
@@ -46,18 +45,11 @@ public class itemBone : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
-            Item_pick.Play();
-            Q.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                Debug.Log("땡이가 먹음");
-                Destroy(gameObject);
-            }
- 
-            //Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
-            //if(DD.eatFlag)    //플레이어가 아이템을 습득한 경우
+            //Item_pick.Play();
+            //Q.SetActive(false);
+            //if (Input.GetKeyDown(KeyCode.Z))
             //{
-            //    DD.eatFlag = false; //다시 초기화
+            //    Item_pick.Play();
             //    Debug.Log("땡이가 먹음");
             //    Destroy(gameObject);
             //}
@@ -69,17 +61,17 @@ public class itemBone : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                
+                getBone();
+                Item_pick.Play();
                 Debug.Log("땡이가 먹음");
-                Destroy(gameObject);
+                Destroy(gameObject, 0.2f);
             }
-            //Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
-            //if(DD.eatFlag)    //플레이어가 아이템을 습득한 경우
-            //{
-            //    DD.eatFlag = false; //다시 초기화
-            //    Debug.Log("땡이가 먹음");
-            //    Destroy(gameObject);
-            //}
         }
+    }
+
+    void getBone()
+    {
+        if(!q_Bone.isThere) //스킬 미습득한 상태
+            q_Bone.isThere = true;  //스킬 습득
     }
 }

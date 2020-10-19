@@ -11,9 +11,13 @@ public class itemBigbo : MonoBehaviour
     public AudioClip Item_Sound;
 
     float t;    //타이머
+
+    W_Bigbo w_Bigbo;
     // Start is called before the first frame update
     void Start()
     {
+        w_Bigbo = GameObject.Find("W_Bigbo").GetComponent<W_Bigbo>();
+
         t = 0;
 
         Item_pick = gameObject.AddComponent<AudioSource>();
@@ -41,17 +45,11 @@ public class itemBigbo : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
-            Item_pick.Play();
-            Debug.Log("땡이와 충돌!");
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                Debug.Log("땡이가 먹음");
-                Destroy(gameObject);
-            }
-            //Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
-            //if (DD.eatFlag)    //플레이어가 아이템을 습득한 경우
+            //Item_pick.Play();
+            //Debug.Log("땡이와 충돌!");
+            //if (Input.GetKeyDown(KeyCode.Z))
             //{
-            //    DD.eatFlag = false; //다시 초기화
+            //    Item_pick.Play();
             //    Debug.Log("땡이가 먹음");
             //    Destroy(gameObject);
             //}
@@ -64,18 +62,16 @@ public class itemBigbo : MonoBehaviour
             Debug.Log("땡이와 충돌!");
             if(Input.GetKeyDown(KeyCode.Z))
             {
-                
+                getBigbo();
+                Item_pick.Play();
                 Debug.Log("땡이가 먹음");
-                //Item_pick.Play();
-                Destroy(gameObject);
+                Destroy(gameObject, 0.2f);
             }
-            //Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
-            //if (DD.eatFlag)    //플레이어가 아이템을 습득한 경우
-            //{
-            //    DD.eatFlag = false; //다시 초기화
-            //    Debug.Log("땡이가 먹음");
-            //    Destroy(gameObject);
-            //}
         }
+    }
+    void getBigbo()
+    {
+        if (!w_Bigbo.isThere) //스킬 미습득한 상태
+            w_Bigbo.isThere = true;  //스킬 습득
     }
 }

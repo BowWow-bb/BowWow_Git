@@ -27,6 +27,7 @@ public class Bigtol : MonoBehaviour
 
     int raintol_n;          //레인 미니톨 생성 개수
     int summon_n;           //서먼 미니톨 생성 개수
+    int tolHptag_n;         //서먼 미니톨 hp바 태그 관리
 
     float timer;            //타이머
 
@@ -46,6 +47,7 @@ public class Bigtol : MonoBehaviour
 
         raintol_n = 4;
         summon_n = 3;
+        tolHptag_n = 1;
 
         timer = 0;
     }
@@ -157,11 +159,14 @@ public class Bigtol : MonoBehaviour
     {
         for (int i = 0; i < summon_n; i++)
         {
+            if (tolHptag_n > 9) //제한된 태그 갯수 초과
+                tolHptag_n = 1;
+
             GameObject summon_tol = GameObject.Instantiate(Summon_Perfab); //미니톨 생성
             summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치 
             summon_tol.transform.parent = null;    //독립된 개체
 
-            string tag_name = ("tolHp" + (i + 1)).ToString();
+            string tag_name = ("tolHp" + tolHptag_n++).ToString();
             summon_tol.transform.Find("HpBar").transform.Find("Hp").tag = tag_name;
         }
     }

@@ -32,6 +32,9 @@ public class Move : MonoBehaviour
     public bool isbig; // 빅보 스킬 활성화 중인지?
     bool left; // 캐릭터의 좌우 저장
 
+    public bool BoneActive; //뼈다귀스킬 활성화
+    public bool BigboActive;    //빅보스킬 활성화
+
     //h
     public int HP;        //HP
     int HPMax;            //최대 체력
@@ -51,8 +54,10 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BoneActive = false;
+        BigboActive = false;
         //h
-        HPMax = 400;
+        HPMax = 900;
         HP = HPMax;
         hp_bar = GameObject.FindWithTag("DDaengHp");
         hpbar_sx = GameObject.FindWithTag("DDaengHp").transform.localScale.x;
@@ -425,7 +430,7 @@ public class Move : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (BoneActive) //뼈다귀 활성화 경우
         {
             if (bone != null)
             {
@@ -443,7 +448,7 @@ public class Move : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (BigboActive)    //빅보 활성화 경우
         {
             BigBo.Play();
             isbig = true; // 빅보 활성화

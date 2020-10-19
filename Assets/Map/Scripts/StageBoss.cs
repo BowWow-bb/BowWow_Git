@@ -8,6 +8,9 @@ public class StageBoss : MonoBehaviour
     Move DD;
     void Start()
     {
+        GameObject Title = GameObject.FindWithTag("title");
+        Destroy(Title, 3.0f);
+
         DD = GameObject.Find("DDaeng").GetComponent<Move>();
     }
 

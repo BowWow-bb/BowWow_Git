@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62fcbd08bc833240b85b2486f6e185f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item_drop_Sound: {fileID: 8300000, guid: 5af0b1eaf84cf41bd937feeeaccbff7c, type: 3}
+  Item_drop_Sound: {fileID: 8300000, guid: 8aa0b2b362df80844adce5ce651fe91c, type: 3}
   Item_Sound: {fileID: 8300000, guid: 7fab07b55515a41bf94172a43543d77e, type: 3}
 --- !u!54 &-1033873266513123652
 Rigidbody:

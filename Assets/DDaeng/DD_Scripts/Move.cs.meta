@@ -3,7 +3,16 @@ guid: 5c94e77cedac87540a9f241f3a67d368
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - SoundWave: {fileID: 8810596478605344045, guid: a35bfae4c1f2c234eb0262a6670c7312, type: 3}
+  - bone: {fileID: 3829114340317951901, guid: b529d5317904c594aaacf6af32005a5a, type: 3}
+  - DamageText: {instanceID: 0}
+  - head: {instanceID: 0}
+  - headleft: {instanceID: 0}
+  - headright: {instanceID: 0}
+  - AttackSound: {instanceID: 0}
+  - JumpSound: {instanceID: 0}
+  - BigBoSound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

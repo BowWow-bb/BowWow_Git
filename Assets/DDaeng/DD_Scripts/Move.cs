@@ -145,7 +145,7 @@ public class Move : MonoBehaviour
 
 
 
-        if (isbig)
+        if (isbig&&(isDown && !isUp && !isFloor))
         {
             distance_floor = 0;
             int cnt = 0;

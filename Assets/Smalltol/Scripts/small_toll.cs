@@ -265,6 +265,7 @@ public class small_toll : MonoBehaviour
             isTracing = false;//추적 그만
 
             Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
+
             //데미지 텍스트 설정 
             if (target.x > me.x)//땡이가 오른쪽이면 
             {
@@ -284,7 +285,7 @@ public class small_toll : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
 
-            if(isAttack_once)//한 번 만 공격 -> 텍스트 데미지 한번만 뜨게  
+            if(isAttack_once&& !dd.isbig)//한 번 만 공격 -> 텍스트 데미지 한번만 뜨게  
             {
                 Apa.Play();
                 dd.TakeDamage(5);//텍스트 데미지 

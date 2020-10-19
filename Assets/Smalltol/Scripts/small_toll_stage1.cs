@@ -258,7 +258,7 @@ public class small_toll_stage1 : MonoBehaviour
                 StartCoroutine("ClipMovementleft");
             }
 
-            if (isAttack_once)//한 번 만 공격 
+            if (isAttack_once&&!dd.isbig)//한 번 만 공격 
             {
                 Apa.Play();
                 dd.TakeDamage(5);//텍스트 데미지 

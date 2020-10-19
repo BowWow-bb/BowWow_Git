@@ -16,13 +16,16 @@ public class ball_trigger : MonoBehaviour
         Apa = gameObject.AddComponent<AudioSource>();
         Apa.clip = ApaSound;
         Apa.loop = false;
+
+        
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Move>() != null)//땡이가 맞을 경우 
+        Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
+
+        if (other.gameObject.GetComponent<Move>() != null && !dd.isbig)//땡이가 맞을 경우 
         {
             Apa.Play();
-            Move dd = GameObject.Find("DDaeng").GetComponent<Move>();
             dd.TakeDamage(10);
             dd.hpMove(10);
         }

@@ -12,6 +12,9 @@ public class itemBone : MonoBehaviour
     public Sprite myimage;
 
     AudioSource Item_pick;
+    AudioSource Item_drop;
+
+    public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
 
     void Start()
@@ -19,7 +22,14 @@ public class itemBone : MonoBehaviour
         t = 0;
         Item_pick = gameObject.AddComponent<AudioSource>();
         Item_pick.clip = Item_Sound;
+        Item_pick.volume = 0.6f;
         Item_pick.loop = false;
+
+        Item_drop = gameObject.AddComponent<AudioSource>();
+        Item_drop.clip = Item_drop_Sound;
+        Item_drop.loop = false;
+
+        Item_drop.Play();
     }
 
     // Update is called once per frame

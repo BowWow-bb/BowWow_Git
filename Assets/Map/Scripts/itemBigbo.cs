@@ -5,6 +5,9 @@ using UnityEngine;
 public class itemBigbo : MonoBehaviour
 {
     AudioSource Item_pick;
+    AudioSource Item_drop;
+
+    public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
 
     float t;    //타이머
@@ -15,7 +18,14 @@ public class itemBigbo : MonoBehaviour
 
         Item_pick = gameObject.AddComponent<AudioSource>();
         Item_pick.clip = Item_Sound;
+        Item_pick.volume = 0.6f;
         Item_pick.loop = false;
+
+        Item_drop = gameObject.AddComponent<AudioSource>();
+        Item_drop.clip = Item_drop_Sound;
+        Item_drop.loop = false;
+
+        Item_drop.Play();
     }
 
     // Update is called once per frame

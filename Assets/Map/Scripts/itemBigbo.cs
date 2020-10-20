@@ -10,6 +10,8 @@ public class itemBigbo : MonoBehaviour
     public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
 
+    bool isDDaeng = false;
+
     float t;    //타이머
 
     W_Bigbo w_Bigbo;
@@ -41,11 +43,19 @@ public class itemBigbo : MonoBehaviour
             Destroy(gameObject);
 
         t += 0.1f;
+        if(isDDaeng&&Input.GetKeyDown(KeyCode.Z))
+        {
+            getBigbo();
+            Item_pick.Play();
+            Debug.Log("땡이가 먹음");
+            Destroy(gameObject, 0.2f);
+        }
     }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
+            isDDaeng = true;
             //Item_pick.Play();
             //Debug.Log("땡이와 충돌!");
             //if (Input.GetKeyDown(KeyCode.Z))
@@ -60,7 +70,8 @@ public class itemBigbo : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
-            Debug.Log("땡이와 충돌!");
+            isDDaeng = true;
+            /*Debug.Log("땡이와 충돌!");
             if(Input.GetKeyDown(KeyCode.Z))
             {
                 getBigbo();
@@ -68,8 +79,18 @@ public class itemBigbo : MonoBehaviour
                 Debug.Log("땡이가 먹음");
                 Destroy(gameObject, 0.2f);
             }
+            */
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<Move>() != null)
+        {
+            isDDaeng = false;
+        }
+    }
+
     void getBigbo()
     {
         if (!w_Bigbo.isThere) //스킬 미습득한 상태

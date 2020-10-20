@@ -15,6 +15,8 @@ public class itemBone : MonoBehaviour
     public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
 
+    bool isDDaeng = false;
+
     void Start()
     {
         q_Bone = GameObject.Find("Q_Bone").GetComponent<Q_Bone>();
@@ -41,11 +43,19 @@ public class itemBone : MonoBehaviour
             Destroy(gameObject);
 
         t += 0.1f;
+        if(isDDaeng&&Input.GetKeyDown(KeyCode.Z))
+        {
+            getBone();
+            Item_pick.Play();
+            Debug.Log("땡이가 먹음");
+            Destroy(gameObject, 0.2f);
+        }
     }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
+            isDDaeng = true;
             //Item_pick.Play();
             //Q.SetActive(false);
             //if (Input.GetKeyDown(KeyCode.Z))
@@ -60,13 +70,22 @@ public class itemBone : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
-            if (Input.GetKey(KeyCode.Z))
+            isDDaeng = true;
+            /*if (Input.GetKey(KeyCode.Z))
             {
                 getBone();
                 Item_pick.Play();
                 Debug.Log("땡이가 먹음");
                 Destroy(gameObject, 0.2f);
             }
+            */
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<Move>() != null)
+        {
+            isDDaeng = false;
         }
     }
 

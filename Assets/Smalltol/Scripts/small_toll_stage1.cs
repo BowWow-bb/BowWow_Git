@@ -171,14 +171,14 @@ public class small_toll_stage1 : MonoBehaviour
     }
     void itemManager()  //아이템생성
     {
-        int i = Random.Range(0, 2);
-        if (i == 0)   //뼈다귀 스킬 아이템 생성
+        int i = Random.Range(0, 30);
+        if (i > 10)   //뼈다귀 스킬 아이템 생성
         {
             GameObject Bone = GameObject.Instantiate(Bone_Perfab);
             Bone.transform.position = transform.position;  //생성위치 = 현재 몬스터 위치
             Bone.transform.parent = null;
         }
-        else if (i == 1)   //빅보 스킬 아이템 생성
+        else if (i < 10)   //빅보 스킬 아이템 생성 (뼈다귀 스킬 보다 확률 더 적게 조정)
         {
             GameObject Bigbo = GameObject.Instantiate(Bigbo_Perfab);
             Bigbo.transform.position = transform.position; //생성위치 = 현재 몬스터 위치

@@ -35,6 +35,7 @@ public class Move : MonoBehaviour
     public bool BoneActive; //뼈다귀스킬 활성화
     public bool BigboActive;    //빅보스킬 활성화
     Q_Bone q_Bone;
+    W_Bigbo w_Bigbo;
     //h
     public int HP;        //HP
     int HPMax;            //최대 체력
@@ -53,6 +54,7 @@ public class Move : MonoBehaviour
     void Start()
     {
         q_Bone = GameObject.Find("Q_Bone").GetComponent<Q_Bone>();
+        w_Bigbo = GameObject.Find("W_Bigbo").GetComponent<W_Bigbo>();
         BoneActive = false;
         BigboActive = false;
         //h
@@ -461,7 +463,8 @@ public class Move : MonoBehaviour
                     time += 0.01f;
                 }
             }
-            BigboActive = false;
+            BoneActive = false;
+            w_Bigbo.isThere = false;
         }
     }
     void OnTriggerEnter(Collider other)//몬스터 때리기 

@@ -199,7 +199,7 @@ public class small_toll : MonoBehaviour
     }
     void itemManager()  //아이템생성
     {
-        int i = Random.Range(0, 1);
+        int i = Random.Range(0, 2);
         if (i == 0)   //뼈다귀 스킬 아이템 생성
         {
             GameObject Bone = GameObject.Instantiate(Bone_Perfab);

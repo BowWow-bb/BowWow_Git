@@ -18,10 +18,9 @@ public class itemBigbo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        w_Bigbo = GameObject.Find("W_Bigbo").GetComponent<W_Bigbo>();
+        w_Bigbo = GameObject.Find("W_Bigbo").GetComponent<W_Bigbo>();  //뼈다귀 스킬 슬롯 오브젝트 찾기
 
         t = 0;
-
         Item_pick = gameObject.AddComponent<AudioSource>();
         Item_pick.clip = Item_Sound;
         Item_pick.volume = 0.6f;
@@ -32,7 +31,7 @@ public class itemBigbo : MonoBehaviour
         Item_drop.volume = 0.6f;
         Item_drop.loop = false;
 
-        Item_drop.Play();
+        Item_drop.Play();   //아이템 생성될때 효과음 재생(스몰톨 죽는 소리)
     }
 
     // Update is called once per frame
@@ -42,28 +41,21 @@ public class itemBigbo : MonoBehaviour
         if (t >= 100.0f)
             Destroy(gameObject);
 
-        t += 0.1f;
-        if(isDDaeng&&Input.GetKeyDown(KeyCode.Z))
+        if (isDDaeng && Input.GetKeyDown(KeyCode.Z))   //땡이와 충돌하면서 Z키를 누른 경우
         {
             getBigbo();
             Item_pick.Play();
             Debug.Log("땡이가 먹음");
             Destroy(gameObject, 0.2f);
         }
+
+        t += 0.1f;
     }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
             isDDaeng = true;
-            //Item_pick.Play();
-            //Debug.Log("땡이와 충돌!");
-            //if (Input.GetKeyDown(KeyCode.Z))
-            //{
-            //    Item_pick.Play();
-            //    Debug.Log("땡이가 먹음");
-            //    Destroy(gameObject);
-            //}
         }
     }
     void OnTriggerStay(Collider other)
@@ -71,21 +63,11 @@ public class itemBigbo : MonoBehaviour
         if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
             isDDaeng = true;
-            /*Debug.Log("땡이와 충돌!");
-            if(Input.GetKeyDown(KeyCode.Z))
-            {
-                getBigbo();
-                Item_pick.Play();
-                Debug.Log("땡이가 먹음");
-                Destroy(gameObject, 0.2f);
-            }
-            */
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<Move>() != null)
+        if (other.gameObject.GetComponent<Move>() != null)  //땡이와 충돌한 경우
         {
             isDDaeng = false;
         }

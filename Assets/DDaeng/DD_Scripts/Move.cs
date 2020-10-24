@@ -25,6 +25,7 @@ public class Move : MonoBehaviour
     float past_y; // 점프 하기 전 y축좌표(높이)
     float scale; // 오브젝트의 scale 값
     float time; // 시간세는 변수
+
     bool isUp; // 지금 위로 가고있는지
     bool isDown; // 아래로 떨어지고 있는지
     bool isFloor; // 아래에 계단이 있는지

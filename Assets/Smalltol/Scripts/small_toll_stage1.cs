@@ -13,6 +13,9 @@ public class small_toll_stage1 : MonoBehaviour
     public GameObject Bone_Perfab;
     public GameObject Bigbo_Perfab;
 
+    GameObject[] Floor;//계단 오브젝트
+    GameObject Ground; // 땅바닥 오브젝트
+
     public Transform head;//데미지 텍스트 뜨는 위치
     public Transform headleft;
     public Transform headright;
@@ -30,6 +33,13 @@ public class small_toll_stage1 : MonoBehaviour
     float Ypos;
     float timeAfter;//발사 후 지난 시간
 
+    float G;//중력 가속도
+    float Velocityg;//떨어지는 속도(중력)
+    float TimeScale;
+    float distance_floor;//계단과의 위치
+
+    int floor;//계단배열들의 인덱스 
+
     int movementFlag = 0;//0: 정지, 1: 왼쪽, 2: 오른쪽
     string dist = "";//이동 방향 
 
@@ -41,7 +51,10 @@ public class small_toll_stage1 : MonoBehaviour
     bool isAttack_once = false;//근접 공격 한번만 적용
     bool isY = false;//y값 비교, 추적, 공격 여부
     bool isTouch = false;
-    bool isWall = false;//벽 파악 
+
+    bool isDown = false;//땡이 추적하면서 바닥에 떨어짐
+    bool isFloor = false;//떨어지면서 계단 파악
+    bool onFloor = false;//현재 계단 위 인지 
 
     public int HP;              //HP
     int HPMax;                  //최대 체력
@@ -76,6 +89,12 @@ public class small_toll_stage1 : MonoBehaviour
         //
 
         DDaeng = GameObject.Find("DDaeng");
+        Ground = GameObject.FindWithTag("Ground"); // 땅바닥 오브젝트 저장
+        Floor = GameObject.FindGameObjectsWithTag("Floor"); // 계단들의 오브젝트배열 저장
+        TimeScale = 400.0f; //속도 조정 변수
+        G = 98f / TimeScale; // 중력 가속도 저장
+                             //  G = 98f / TimeScale;
+
 
         timeAfter = 0f;
         Rate = Random.Range(RateMin, RateMax);
@@ -148,8 +167,98 @@ public class small_toll_stage1 : MonoBehaviour
     void FixedUpdate()
     { 
         timeAfter += Time.deltaTime;//시간 갱신
+        Vector3 position = transform.position;
+
+        
+        if(isDown&& (gameObject.transform.position.y - Ground.transform.position.y > 3f)) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
+        {
+            if (!onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
+            {
+                Debug.Log(onFloor + "D");
+                // 중력적용 - 상태를 내려가고 있음으로 체크
+                Velocityg -= G;
+                gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
+            }
+        }
+        else if (gameObject.transform.position.y < 3f)
+        {
+            // 땅바닥을 뚫는걸 방지 , 바닥보다 내려간다면 위치 고정
+            //    Debug.Log("t");
+            gameObject.transform.position = new Vector3(position.x, 3f, position.z);
+        }
+        else
+        {
+            //땅에 내려왔을시 - isDown 다시 false , 중력가속도 0
+            // Debug.Log("ttt");
+            isDown = false;
+            Velocityg = 0f;
+        }
+
+        if (isDown&&!isFloor)//추락하는 상태이면
+        {
+            distance_floor = 0;//계단과의 거리
+            int cnt = 0;
+            for(int i=0;i<Floor.Length;i++)//계단 인식 
+            {
+                //톨이 주변 계단 찾기
+                if(gameObject.transform.position.x<Floor[i].transform.position.x+17.5&&gameObject.transform.position.x>Floor[i].transform.position.x-17.5)
+                {
+                    if((Floor[i].transform.position.y+3.5f)<gameObject.transform.position.y)
+                    {
+                        if(cnt==0)
+                        {
+                            floor = i;
+                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                            cnt++;
+                        }
+                        else if(distance_floor>gameObject.transform.position.y-Floor[i].transform.position.y)
+                        {
+                            floor = i;
+                            distance_floor = gameObject.transform.position.y - Floor[i].transform.position.y;
+                        }
+                    }
+                }
+            }
+            if(floor !=150)//계단을 찾았는지
+            {
+                isFloor = true;
+            }
+        }
+
+        if(isFloor)//계단발견 한 경우 
+        {
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
+            {
+                //     Debug.Log("ddd");
+                // 중력가속도 적용
+                //   Velocityg -= G;
+                gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (Velocityg * 0.001f), position.z);
+            }
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2.2f) // 계단위에 플레이어가 올라왔을 때
+            {
+                //  Debug.Log("dd");
+                // 올라왔다고 상태체크 , y축고정 , 중력가속도 초기화
+                if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) < 17.5)
+                {
+                    onFloor = true;
+                    gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2.2f, position.z);
+                    Velocityg = 0;
+                }
+            }
+
+            // 계단위에 있을때 그 계단의 좌,우에서 벗어나면 on,isFloor 변경 , 떨어지므로 isDown 
+            if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) > 17.5)
+            {
+                //벗어난경우
+                onFloor = false;
+                isFloor = false;
+                floor = 150;
+            }
+        }
+
         Distance();
         Move();
+ 
     }
 
     //h
@@ -215,25 +324,25 @@ public class small_toll_stage1 : MonoBehaviour
             isTouch = false;
         }
 
-        if (distance <= d && isY && !isWall)//범위 내에 처음 들어오면. 벽이랑 접해있지 않을 때 
+        if (distance <= d && isY)//범위 내에 처음 들어오면.
         {
             st.gameObject.SetActive(true);
             Enter = true;
             StopCoroutine("ChangeMovement");//이동하던 거 멈추고 추적 시작
         }
 
-        if (Enter == true && distance <= d && distance > 9 && isY &&!isWall)//들어 온 상태이고 범위 내에 계속 있으면 
+        if (Enter == true && distance <= d && distance > 9 && isY)//들어 온 상태이고 범위 내에 계속 있으면 
         {
             isTracing = true;//추격 중 
             isAttack = false;
         }
 
-        if(distance <=11 && isY&&! isWall)//빠르게 움직
+        if(distance <=11 && isY)//빠르게 움직
         {
             isAttack = true;
         }
 
-        if (isTouch && isY && !isWall)//공격 범위 내이면 
+        if (isTouch && isY)//공격 범위 내이면 
         {
             isAttack = false;//공격 후
             isTracing = false;
@@ -297,7 +406,7 @@ public class small_toll_stage1 : MonoBehaviour
         if (isStop == false)
         {
             //일정 거리 내이면 추적. 벽이랑 접해있지 않을 때 
-            if ((isTracing && isY && !isWall && !isTouch) || (!isAttack && !isTracing && isY && !isWall && isHeart && !isTouch))
+            if ((isTracing && isY &&!isTouch) || (!isAttack && !isTracing && isY && isHeart && !isTouch))
             {
                 if (timeAfter >= Rate && !isHeart)
                 {
@@ -389,22 +498,7 @@ public class small_toll_stage1 : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "miniwall")
-        {
-            isWall = true;
-            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
-            {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementright");
-            }
-            else if (other.gameObject.transform.position.x > transform.position.x)
-            {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementleft");
-            }
-        }
-
+    { 
         if (other.gameObject.tag == "DDaeng")
         {
             //Debug.Log(other.gameObject.transform.position.x - transform.position.x);
@@ -414,7 +508,7 @@ public class small_toll_stage1 : MonoBehaviour
 
         if (other.gameObject.tag == "SoundWave")
         {
-            if (!isTouch && isY && !isWall)//땡이랑 닿지 않았을 때 
+            if (!isTouch && isY)//땡이랑 닿지 않았을 때 
             {
                 StopCoroutine("ChangeMovement");
                 isHeart = true;
@@ -430,34 +524,63 @@ public class small_toll_stage1 : MonoBehaviour
                 StartCoroutine("ChangeMovement");
             }
         }
+        if(other.gameObject.tag == "miniwall")//미니월 만나면 
+        {
+            //StopCoroutine("ChangeMovement");
+            if(isTracing)
+            {
+                isDown = true;
+            }
+
+            else
+            {
+                if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementright");
+                }
+                else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementleft");
+                }
+            }
+        }
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "miniwall")
+        if (other.gameObject.tag == "miniwall")//미니월 만나면 
         {
-            isWall = true;
-            if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+            //StopCoroutine("ChangeMovement");
+            if (isTracing)
             {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementright");
+                isDown = true;//추적 중인 경우에만 아래로 가는 거 허용 
             }
-            else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
+
+            else
             {
-                StopCoroutine("ChangeMovement");
-                StartCoroutine("ClipMovementleft");
+                if (other.gameObject.transform.position.x <= transform.position.x)//벽이 왼쪽이면 
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementright");
+                }
+                else if (other.gameObject.transform.position.x > transform.position.x)//벽이 오른쪽이면 
+                {
+                    StopCoroutine("ChangeMovement");
+                    StartCoroutine("ClipMovementleft");
+                }
             }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "miniwall")
-        {
-            //Debug.Log("벽 트리거 끝");
-            isWall = false;//벽이 없음 
-        }
         if (other.gameObject.tag == "DDaeng")
         {
             isAttack_once = false;
+        }
+        if (other.gameObject.tag == "miniwall")
+        {
+            isTracing = false;
         }
     }
 }

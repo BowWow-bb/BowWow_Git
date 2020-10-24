@@ -59,7 +59,7 @@ public class Move : MonoBehaviour
         BoneActive = false;
         BigboActive = false;
         //h
-        HPMax = 500;
+        HPMax = 100;
         HP = HPMax;
         hp_bar = GameObject.FindWithTag("DDaengHp");
         hpbar_sx = GameObject.FindWithTag("DDaengHp").transform.localScale.x;

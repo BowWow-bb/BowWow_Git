@@ -6,9 +6,11 @@ public class itemBigbo : MonoBehaviour
 {
     AudioSource Item_pick;
     AudioSource Item_drop;
+    
 
     public AudioClip Item_drop_Sound;
     public AudioClip Item_Sound;
+    
 
     bool isDDaeng = false;
 
@@ -44,7 +46,8 @@ public class itemBigbo : MonoBehaviour
         if (isDDaeng && Input.GetKeyDown(KeyCode.Z))   //땡이와 충돌하면서 Z키를 누른 경우
         {
             getBigbo();
-            Item_pick.Play();
+            Item_pick.PlayOneShot(Item_Sound);
+            
             Debug.Log("땡이가 먹음");
             Destroy(gameObject, 0.2f);
         }

@@ -478,6 +478,7 @@ MonoBehaviour:
   HP: 0
   AttackSound: {fileID: 8300000, guid: b495527eae649ec4bbfd2d4fcfd2f703, type: 3}
   JumpSound: {fileID: 8300000, guid: ae54b94a1000a413a91aff96635cfaf5, type: 3}
+  BigBo_Sound: {fileID: 8300000, guid: 3140c5eb40d71480983fb12aba883ec5, type: 3}
 --- !u!65 &1168873275736833161
 BoxCollider:
   m_ObjectHideFlags: 0

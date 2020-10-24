@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Item_drop_Sound: {fileID: 8300000, guid: 8aa0b2b362df80844adce5ce651fe91c, type: 3}
   Item_Sound: {fileID: 8300000, guid: 7fab07b55515a41bf94172a43543d77e, type: 3}
+  BigBo_Sound: {fileID: 8300000, guid: 3140c5eb40d71480983fb12aba883ec5, type: 3}
 --- !u!54 &-1033873266513123652
 Rigidbody:
   m_ObjectHideFlags: 0

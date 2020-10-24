@@ -26,8 +26,8 @@ public class ball_trigger : MonoBehaviour
         if (other.gameObject.GetComponent<Move>() != null && !dd.isbig)//땡이가 맞을 경우 
         {
             Apa.Play();
-            dd.TakeDamage(10);
-            dd.hpMove(10);
+            dd.TakeDamage(20);
+            dd.hpMove(20);
         }
     }
 }

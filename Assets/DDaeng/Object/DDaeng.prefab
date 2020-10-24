@@ -468,14 +468,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoundWave: {fileID: 8810596478605344045, guid: a35bfae4c1f2c234eb0262a6670c7312, type: 3}
   bone: {fileID: 3829114340317951901, guid: b529d5317904c594aaacf6af32005a5a, type: 3}
-  DamageText: {fileID: 3081082159912447374, guid: 18990fc5420934c108be3fb2f13e8023, type: 3}
+  DamageText: {fileID: 3081082159912447374, guid: a2548e99423ef4ddfa739072e1f298f0, type: 3}
   head: {fileID: 5121804240295524664}
   headleft: {fileID: 136096288201965365}
   headright: {fileID: 1854829278069958652}
+  isbig: 0
+  BoneActive: 0
+  BigboActive: 0
   HP: 0
   AttackSound: {fileID: 8300000, guid: b495527eae649ec4bbfd2d4fcfd2f703, type: 3}
   JumpSound: {fileID: 8300000, guid: ae54b94a1000a413a91aff96635cfaf5, type: 3}
-  BigBoSound: {fileID: 8300000, guid: 3140c5eb40d71480983fb12aba883ec5, type: 3}
 --- !u!65 &1168873275736833161
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,7 +14,9 @@ public class small_toll : MonoBehaviour
     public GameObject Bone_Perfab;
     public GameObject Bigbo_Perfab;
 
-    public Transform head;//데미지 텍스트 뜨는 위치 
+    public Transform head;//데미지 텍스트 뜨는 위치
+    public Transform headleft;
+    public Transform headright;//데미지 텍스트 뜨는 위치 
     Transform st;
 
     Vector3 target;//땡이 위치
@@ -288,8 +290,8 @@ public class small_toll : MonoBehaviour
             if(isAttack_once&& !dd.isbig)//한 번 만 공격 -> 텍스트 데미지 한번만 뜨게  
             {
                 Apa.Play();
-                dd.TakeDamage(5);//텍스트 데미지 
-                dd.hpMove(5);
+                dd.TakeDamage(10);//텍스트 데미지 
+                dd.hpMove(10);
             }
             isAttack_once = false;
         }

@@ -47,12 +47,28 @@ public class Wave_Move : MonoBehaviour
         if (other.gameObject.GetComponent<small_toll>() != null)    //스테이지2 몬스터와 충돌한 경우
         {
             small_toll monster = other.GetComponent<small_toll>();
+            if(monster.transform.position.x> DD.transform.position.x)//땡이가 왼쪽이면 
+            {
+                monster.head.position = monster.headright.position;
+            }
+            else//땡이가 오른쪽이면 
+            {
+                monster.head.position = monster.headleft.position;
+            }
             monster.TakeDamage(10);//공격         
             monster.hpMove(10);
         }
         if(other.gameObject.GetComponent<small_toll_stage1>() != null)  //스테이지1 몬스터와 충돌한 경우
         {
             small_toll_stage1 monster = other.GetComponent<small_toll_stage1>();
+            if (monster.transform.position.x > DD.transform.position.x)//땡이가 왼쪽이면 
+            {
+                monster.head.position = monster.headright.position;
+            }
+            else//땡이가 오른쪽이면 
+            {
+                monster.head.position = monster.headleft.position;
+            }
             monster.TakeDamage(10);
             monster.hpMove(10);
         }

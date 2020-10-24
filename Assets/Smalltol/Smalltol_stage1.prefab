@@ -81,6 +81,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1875731766884687315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7422696478857482414}
+  m_Layer: 0
+  m_Name: head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7422696478857482414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875731766884687315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.62, y: 4.87, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4137296928917589912}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1954291584936221739
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4599839632400876187}
   m_Layer: 0
-  m_Name: head
+  m_Name: head_left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954291584936221739}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.94, y: 4.87, z: 0}
+  m_LocalPosition: {x: -5.62, y: 4.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4137296928917589912}
@@ -391,6 +421,7 @@ Transform:
   - {fileID: 7864449681171771249}
   - {fileID: 4599839632400876187}
   - {fileID: 440120672268759335}
+  - {fileID: 7422696478857482414}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -411,7 +442,9 @@ MonoBehaviour:
   smalltoll: {fileID: 3518118489950884775}
   Bone_Perfab: {fileID: 8399075875314940094, guid: da3ef34fc382f9a4dad5ea79940b92da, type: 3}
   Bigbo_Perfab: {fileID: 2639002704160812073, guid: 42bd2eebce3122242bc43de710d2ed8a, type: 3}
-  head: {fileID: 4599839632400876187}
+  head: {fileID: 7422696478857482414}
+  headleft: {fileID: 4599839632400876187}
+  headright: {fileID: 440120672268759335}
   d: 40
   HP: 0
   Power_run: 0

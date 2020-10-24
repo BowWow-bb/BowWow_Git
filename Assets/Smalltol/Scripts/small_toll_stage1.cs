@@ -169,8 +169,9 @@ public class small_toll_stage1 : MonoBehaviour
         timeAfter += Time.deltaTime;//시간 갱신
         Vector3 position = transform.position;
 
-        
-        if(isDown&& (gameObject.transform.position.y - Ground.transform.position.y > 3f)) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
+        Distance();
+
+        if (isDown&& (gameObject.transform.position.y - Ground.transform.position.y > 3f)) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
         {
             if (!onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
             {
@@ -225,7 +226,7 @@ public class small_toll_stage1 : MonoBehaviour
             }
         }
 
-        if(isFloor)//계단발견 한 경우 
+        if (isFloor)//계단발견 한 경우 
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
             {
@@ -241,7 +242,7 @@ public class small_toll_stage1 : MonoBehaviour
                 if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) < 17.5)
                 {
                     onFloor = true;
-                    gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2.2f, position.z);
+                    gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2f, position.z);
                     Velocityg = 0;
                 }
             }
@@ -255,10 +256,7 @@ public class small_toll_stage1 : MonoBehaviour
                 floor = 150;
             }
         }
-
-        Distance();
         Move();
- 
     }
 
     //h
@@ -303,7 +301,7 @@ public class small_toll_stage1 : MonoBehaviour
         target = DDaeng.transform.position;
         me = transform.position;
 
-        distance = Vector3.Distance(target, transform.position);//거리 구하는 함수
+        distance = Mathf.Abs(target.x - me.x);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
         if (Ypos <= 5)
@@ -527,7 +525,7 @@ public class small_toll_stage1 : MonoBehaviour
         if(other.gameObject.tag == "miniwall")//미니월 만나면 
         {
             //StopCoroutine("ChangeMovement");
-            if(isTracing)
+            if(isTracing&&isY)
             {
                 isDown = true;
             }
@@ -552,7 +550,7 @@ public class small_toll_stage1 : MonoBehaviour
         if (other.gameObject.tag == "miniwall")//미니월 만나면 
         {
             //StopCoroutine("ChangeMovement");
-            if (isTracing)
+            if (isTracing&&isY)
             {
                 isDown = true;//추적 중인 경우에만 아래로 가는 거 허용 
             }

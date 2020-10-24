@@ -23,7 +23,7 @@ public class small_toll : MonoBehaviour
     Transform st;
 
     Vector3 target;//땡이 위치
-    Vector3 me;//스몰톨 위치 
+    Vector3 me;//스몰톨 위치
 
     public float d = 30f;//범위 거리 설정  
     float movePower = 5f;//움직이는 속력
@@ -57,7 +57,6 @@ public class small_toll : MonoBehaviour
     bool isTouch = false;
     bool isY = false;//y값 비교, 추적, 공격 여부
 
-    bool notFloor = false;//0층인지 아닌지
     bool isDown = false;//땡이 추적하면서 바닥에 떨어짐
     bool isFloor = false;//떨어지면서 계단 파악
     bool onFloor = false;//현재 계단 위 인지 
@@ -105,11 +104,6 @@ public class small_toll : MonoBehaviour
 
         st = smalltoll.transform.Find("warning");//warning 활성/비활성화 위함
         st.gameObject.SetActive(false);
-
-        if (me.y > 4)//floor 0 이 아님 
-        {
-            notFloor = true;
-        }
 
         StartCoroutine("ChangeMovement");
 
@@ -197,6 +191,8 @@ public class small_toll : MonoBehaviour
 
         Distance();//거리파악.트리거 대신 
 
+        //추적하다가 바닥에 떨어지기
+
         if (isDown && (gameObject.transform.position.y - Ground.transform.position.y > 3f)) // 현재 위치가 땅바닥과 떨어져있는가? ( 3f 가 주인공의 기본 y좌표)
         {
             if (!onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
@@ -253,7 +249,6 @@ public class small_toll : MonoBehaviour
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
             {
-                //     Debug.Log("ddd");
                 // 중력가속도 적용
                 //   Velocityg -= G;
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (Velocityg * 0.001f), position.z);
@@ -275,7 +270,7 @@ public class small_toll : MonoBehaviour
                 //벗어난경우
                 onFloor = false;
                 isFloor = false;
-                floor = 150;
+                floor = 150;//초기값 지정 
             }
         }
         Move();//파이어볼 발사와 무브 
@@ -325,7 +320,7 @@ public class small_toll : MonoBehaviour
         distance = Vector3.Distance(target, transform.position);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
-        if (Ypos <= 5)//y값 비교 
+        if (Ypos <= 8)//y값 비교 
         {
             isY = true;//같은 층에 있음. 공격, 추적 가능 
         }
@@ -435,7 +430,7 @@ public class small_toll : MonoBehaviour
                 }
 
                 //추격 중에 Y값 조건 체크 
-                if (Ypos <= 5)
+                if (Ypos <= 8)
                 {
                     isY = true;
                 }
@@ -457,16 +452,8 @@ public class small_toll : MonoBehaviour
                 }
                 //추적시
                 else
-                {
-                    if(notFloor)//0층이 아닌 경우 
-                    {
-                        movePower = 10;
-                    }
-                    //0층인 경우
-                    else
-                    {
-                        movePower = 25;//추적 시에 속도 빠르게
-                    }
+                { 
+                      movePower = 25;//추적 시에 속도 빠르게
                 }
 
                 if (target.x < me.x)//땡이가 왼쪽이면

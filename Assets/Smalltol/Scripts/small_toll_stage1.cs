@@ -304,7 +304,7 @@ public class small_toll_stage1 : MonoBehaviour
         distance = Mathf.Abs(target.x - me.x);
         Ypos = Mathf.Abs(target.y - transform.position.y);//절댓값(땡이의 y값 - 스몰 톨의 y값)
 
-        if (Ypos <= 5)
+        if (Ypos <= 8)
         {
             isY = true;
         }
@@ -412,7 +412,7 @@ public class small_toll_stage1 : MonoBehaviour
                 }
 
                 //추격 중에 Y값 조건 체크 
-                if (Ypos <= 5)
+                if (Ypos <= 8)
                 {
                     isY = true;
                 }
@@ -433,7 +433,7 @@ public class small_toll_stage1 : MonoBehaviour
                 }
                 else
                 {
-                    movePower = 20;//추적 시에 속도 빠르게
+                    movePower = 25;//추적 시에 속도 빠르게
                 }
 
                 if (target.x < me.x)//땡이가 왼쪽이면

@@ -35,7 +35,6 @@ public class Move : MonoBehaviour
     public bool BoneActive; //뼈다귀스킬 활성화
     public bool BigboActive;    //빅보스킬 활성화
     Q_Bone q_Bone;
-    W_Bigbo w_Bigbo;
     //h
     public int HP;        //HP
     int HPMax;            //최대 체력
@@ -46,7 +45,7 @@ public class Move : MonoBehaviour
     //
     AudioSource Attack;
     AudioSource Jump;
-    
+
     public AudioClip AttackSound;
     public AudioClip JumpSound;
 
@@ -54,7 +53,6 @@ public class Move : MonoBehaviour
     void Start()
     {
         q_Bone = GameObject.Find("Q_Bone").GetComponent<Q_Bone>();
-        w_Bigbo = GameObject.Find("W_Bigbo").GetComponent<W_Bigbo>();
         BoneActive = false;
         BigboActive = false;
         //h
@@ -102,6 +100,7 @@ public class Move : MonoBehaviour
             {
                 if (!isUp && !onFloor)
                 {
+                    //     Debug.Log(onFloor);
                     isDown = true;
                     Velocityg -= G;
                     gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
@@ -109,10 +108,12 @@ public class Move : MonoBehaviour
             }
             else if (gameObject.transform.position.y < 6.5f)
             {
+                //       Debug.Log("t");
                 gameObject.transform.position = new Vector3(position.x, 6.5f, position.z);
             }
             else
             {
+                //      Debug.Log("ttt");
                 isDown = false;
                 Velocityg = 0f;
             }
@@ -121,6 +122,7 @@ public class Move : MonoBehaviour
         {
             if (!isUp && !onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
             {
+                Debug.Log(onFloor + "D");
                 // 중력적용 - 상태를 내려가고 있음으로 체크
                 isDown = true;
                 Velocityg -= G;
@@ -130,18 +132,20 @@ public class Move : MonoBehaviour
         else if (gameObject.transform.position.y < 3f)
         {
             // 땅바닥을 뚫는걸 방지 , 바닥보다 내려간다면 위치 고정
+            //    Debug.Log("t");
             gameObject.transform.position = new Vector3(position.x, 3f, position.z);
         }
         else
         {
             //땅에 내려왔을시 - isDown 다시 false , 중력가속도 0
+            // Debug.Log("ttt");
             isDown = false;
             Velocityg = 0f;
         }
 
 
 
-        if (isbig&&(isDown && !isUp && !isFloor))
+        if (isbig && (isDown && !isUp && !isFloor))
         {
             distance_floor = 0;
             int cnt = 0;
@@ -212,11 +216,15 @@ public class Move : MonoBehaviour
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 6f)
             {
+
+                Debug.Log("ddd");
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
             }
             else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) <= 6f)
             {
+
+                Debug.Log("dd");
                 onFloor = true;
                 gameObject.transform.position = new Vector3(position.x, Floor[floor].transform.position.y + 6f, position.z);
                 Velocityg = 0;
@@ -226,12 +234,14 @@ public class Move : MonoBehaviour
         {
             if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
             {
+                //     Debug.Log("ddd");
                 // 중력가속도 적용
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (Velocityg * 0.001f), position.z);
             }
             else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2.2f) // 계단위에 플레이어가 올라왔을 때
             {
+                //  Debug.Log("dd");
                 // 올라왔다고 상태체크 , y축고정 , 중력가속도 초기화
                 onFloor = true;
                 gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2.2f, position.z);
@@ -261,6 +271,7 @@ public class Move : MonoBehaviour
                 Velocityg -= G;
                 if (position.y + (Velocityg * 0.1f) <= 3f)
                 {
+                    Debug.Log("*");
                     gameObject.transform.position = new Vector3(position.x - 0.75f, 3f, position.z);
                 }
                 else
@@ -320,10 +331,12 @@ public class Move : MonoBehaviour
                 {
                     if (past_y + jump_y >= 65f)
                     {
+                        Debug.Log("*");
                         gameObject.transform.position = new Vector3(position.x, 65f, position.z);
                     }
                     else
                     {
+                        Debug.Log("*");
                         left = false; // 좌/우로 이동시켜주면서 점프 해줌
                         gameObject.transform.position = new Vector3(position.x + 0.5f, past_y + jump_y, position.z);
                     }
@@ -354,12 +367,50 @@ public class Move : MonoBehaviour
             else // 점프거리가 20 이상이 됐을 때
             {
                 // isFloor 초기화 ( 다시 계단 인식을 위해 ) ,isUp 초기화 ,점프거리 초기화
+                Debug.Log("R낄");
                 isFloor = false;
                 isUp = false;
                 jump_y = 0;
             }
         }
-        position = gameObject.transform.position; 
+        if (isbig) // 빅보 활성화 시
+        {
+            if (time >= 5f) //  time 20 이상이 됐다면
+            {
+                if (scale > 1.0f) // 아직 scale이 1 이상일 때
+                {
+                    scale -= 0.05f; // scale 줄여주고 적용
+                    transform.localScale = new Vector3(scale, scale, 1);
+                }
+                else
+                {
+                    // 1이하 됐다면 scale 1 고정, 빅보 비활성화
+                    transform.localScale = new Vector3(1, 1, 1);
+                    isbig = false;
+                }
+            }
+            else if (scale < 4f)
+            {
+                // time 20 이하 , 아직 플레이어가 덜 커졌다면 
+                // scale 키워주고 적용
+                scale += 0.05f;
+                transform.localScale = new Vector3(scale, scale, 1);
+            }
+
+            else
+            {
+                // 빅보로 인해 scale 완전히 커진 상태 , time 세준다.
+                Debug.Log("?");
+                time += 0.01f;
+            }
+        }
+
+
+        position = gameObject.transform.position; // 위치 저장
+                                                  //   Debug.Log("다운 : " + isDown);
+                                                  //   Debug.Log("up : " + isUp);
+                                                  // Debug.Log("florr :" + isFloor);
+                                                  //  Debug.Log(floor + "ON?? : " + onFloor);
     }
 
     //h
@@ -432,39 +483,10 @@ public class Move : MonoBehaviour
             {
                 isbig = true; // 빅보 활성화
                 time = 0; // time 초기화
+                BigboActive = false;
             }
-            if (isbig) // 빅보 활성화 시
-            {
-                if (time >= 20f) //  time 20 이상이 됐다면
-                {
-                    if (scale > 1.0f) // 아직 scale이 1 이상일 때
-                    {
-                        scale -= 0.01f; // scale 줄여주고 적용
-                        transform.localScale = new Vector3(scale, scale, 1);
-                    }
-                    else
-                    {
-                        // 1이하 됐다면 scale 1 고정, 빅보 비활성화
-                        transform.localScale = new Vector3(1, 1, 1);
-                        isbig = false;
-                    }
-                }
-                else if (scale < 4f)
-                {
-                    // time 20 이하 , 아직 플레이어가 덜 커졌다면 
-                    // scale 키워주고 적용
-                    scale += 0.01f;
-                    transform.localScale = new Vector3(scale, scale, 1);
-                }
 
-                else
-                {
-                    // 빅보로 인해 scale 완전히 커진 상태 , time 세준다.
-                    time += 0.01f;
-                }
-            }
-            BoneActive = false;
-            w_Bigbo.isThere = false;
+
         }
     }
     void OnTriggerEnter(Collider other)//몬스터 때리기 

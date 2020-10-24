@@ -83,7 +83,7 @@ public class small_toll : MonoBehaviour
     void Start()
     {
         //h
-        HPMax = 200;
+        HPMax = 100;
         HP = HPMax;
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);
@@ -201,7 +201,6 @@ public class small_toll : MonoBehaviour
         {
             if (!onFloor) // 점프하고 있을때 혹은 계단위에선 적용X
             {
-                Debug.Log(onFloor + "D");
                 // 중력적용 - 상태를 내려가고 있음으로 체크
                 Velocityg -= G;
                 gameObject.transform.position = new Vector3(position.x, position.y + (Velocityg * 0.1f), position.z);
@@ -210,13 +209,11 @@ public class small_toll : MonoBehaviour
         else if (gameObject.transform.position.y < 3f)
         {
             // 땅바닥을 뚫는걸 방지 , 바닥보다 내려간다면 위치 고정
-            //    Debug.Log("t");
             gameObject.transform.position = new Vector3(position.x, 3f, position.z);
         }
         else
         {
             //땅에 내려왔을시 - isDown 다시 false , 중력가속도 0
-            // Debug.Log("ttt");
             isDown = false;
             Velocityg = 0f;
         }
@@ -248,22 +245,21 @@ public class small_toll : MonoBehaviour
             }
             if (floor != 150)//계단을 찾았는지
             {
-                isFloor = true;
+                isFloor = true;//계단 찾음 
             }
         }
 
         if (isFloor)//계단발견 한 경우 
         {
-            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2.2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
+            if ((gameObject.transform.position.y - Floor[floor].transform.position.y) > 2f) // 계단과 플레이어의 수직거리가 일정 거리 이상일 때
             {
                 //     Debug.Log("ddd");
                 // 중력가속도 적용
                 //   Velocityg -= G;
                 gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (Velocityg * 0.001f), position.z);
             }
-            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2.2f) // 계단위에 플레이어가 올라왔을 때
+            else if ((gameObject.transform.position.y - Floor[floor].transform.position.y) < 2f) // 계단위에 플레이어가 올라왔을 때
             {
-                //  Debug.Log("dd");
                 // 올라왔다고 상태체크 , y축고정 , 중력가속도 초기화
                 if (Mathf.Abs(Floor[floor].transform.position.x - gameObject.transform.position.x) < 17.5)
                 {
@@ -548,9 +544,10 @@ public class small_toll : MonoBehaviour
         if (other.gameObject.tag == "miniwall")//미니월 만나면 
         {
             //StopCoroutine("ChangeMovement");
-            if (isTracing && isY)
+            if (isTracing && onFloor)
             {
                 isDown = true;
+                onFloor = false;
             }
 
             else
@@ -600,7 +597,8 @@ public class small_toll : MonoBehaviour
             //StopCoroutine("ChangeMovement");
             if (isTracing && isY)
             {
-                isDown = true;//추적 중인 경우에만 아래로 가는 거 허용 
+                isDown = true;//추적 중인 경우에만 아래로 가는 거 허용
+                onFloor = false;
             }
 
             else

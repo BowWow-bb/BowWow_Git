@@ -77,7 +77,7 @@ public class small_toll_stage1 : MonoBehaviour
         //Debug.Log("위치: " + gameObject.transform.position); //world 좌표임
 
         //h
-        HPMax = 200;
+        HPMax = 100;
         HP = HPMax;
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);
@@ -525,9 +525,11 @@ public class small_toll_stage1 : MonoBehaviour
         if(other.gameObject.tag == "miniwall")//미니월 만나면 
         {
             //StopCoroutine("ChangeMovement");
-            if(isTracing&&isY)
+            if(onFloor&&isTracing)
             {
+                //Debug.Log("isOnFloor: " + onFloor);
                 isDown = true;
+                onFloor = false;
             }
 
             else

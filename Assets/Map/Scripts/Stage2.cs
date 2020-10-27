@@ -33,6 +33,6 @@ public class Stage2 : MonoBehaviour
     IEnumerator stay()
     {
         yield return new WaitForSeconds(2.0f);
-        SceneManager.LoadScene("Boss");
+        SceneManager.LoadScene("StageBoss");
     }
 }

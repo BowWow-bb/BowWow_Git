@@ -22,6 +22,12 @@ public class StageBoss : MonoBehaviour
 
         GameObject boss = GameObject.FindWithTag("Bigtol");
         if (!boss)  //boss 존재하지 않는 경우
-            SceneManager.LoadScene("Clear");
+            StartCoroutine("stay");
+    }
+
+    IEnumerator stay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene("Clear");
     }
 }

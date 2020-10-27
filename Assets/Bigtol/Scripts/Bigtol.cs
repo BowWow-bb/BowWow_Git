@@ -121,22 +121,17 @@ public class Bigtol : MonoBehaviour
 
     public void hpMove(int hp_delta)    //hp바 동작 구현
     {
-        if (HP <= 0)
+        if (HP-hp_delta <= 0)
             Destroy(gameObject);
 
-        HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+        HP -= hp_delta;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
 
         Vector3 Pos = hp_bar.transform.localPosition;
         hp_bar.transform.localPosition = new Vector3(hpbar_tx - move/2.0f, Pos.y, Pos.z);
-
-        //hp 원상태 =100
-        //hp -1 => - hp바 길이(=scale.x)/100
-        //            => 스케일 조정한 길이의 1/2만큼 위치이동
-        //            => hp바 위치(=Position.x) - -hp바 길이(= scale.x) / 100 /2
     }
     void Bigfire()  //빅 파이어볼 스킬
     {

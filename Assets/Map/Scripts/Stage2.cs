@@ -27,6 +27,12 @@ public class Stage2 : MonoBehaviour
         yield return new WaitForSeconds(10.0f);
         GameObject st2_tol = GameObject.FindWithTag("smalltall");
         if (!st2_tol)   //st2_tol 존재하지 않는 경우
-            SceneManager.LoadScene("StageBoss");
+            StartCoroutine("stay");
+    }
+
+    IEnumerator stay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene("Boss");
     }
 }

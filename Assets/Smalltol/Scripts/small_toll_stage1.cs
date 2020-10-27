@@ -262,15 +262,15 @@ public class small_toll_stage1 : MonoBehaviour
     //h
     public void hpMove(int hp_delta)
     {
-        if (HP <= 0)
+        if (HP - hp_delta <= 0)
         {
             //아이템 생성 후 몬스터 소멸
-            itemManager();  
+            itemManager();
             Destroy(gameObject);
-        }         
+        }
 
-        HP -= hp_delta;
         float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
+        HP -= hp_delta;
 
         Vector3 Scale = hp_bar.transform.localScale;
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);

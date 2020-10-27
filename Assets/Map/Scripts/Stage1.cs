@@ -22,8 +22,13 @@ public class Stage1 : MonoBehaviour
             SceneManager.LoadScene("Die");
 
         GameObject st1_tol = GameObject.FindWithTag("Smalltol_stage1");
-        if(!st1_tol)    //st1_tol 존재하지 않는 경우
-            SceneManager.LoadScene("Stage2");
+        if (!st1_tol)    //st1_tol 존재하지 않는 경우
+            StartCoroutine("stay");
+    }
 
+    IEnumerator stay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene("Stage2");
     }
 }

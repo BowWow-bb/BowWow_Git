@@ -486,10 +486,9 @@ public class Move : MonoBehaviour
                 BigBo.Play();
                 isbig = true; // 빅보 활성화
                 time = 0; // time 초기화
-                BigboActive = false;
             }
 
-
+            BigboActive = false;
         }
     }
     void OnTriggerEnter(Collider other)//몬스터 때리기 

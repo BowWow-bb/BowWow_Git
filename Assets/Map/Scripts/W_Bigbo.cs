@@ -15,7 +15,7 @@ public class W_Bigbo : MonoBehaviour
     void Start()
     {
         origin_pos = gameObject.transform.position; //기존 스킬 창 위치 : 화면 밖
-        Pos = new Vector3(-42.5f,6.38f,-18.0f); //스킬 습득 시 창 위치 (화면 내에 보이게)
+        Pos = new Vector3(-42.4f,7.1f,-18.0f); //스킬 습득 시 창 위치 (화면 내에 보이게)
         isThere = false;
 
         DD = GameObject.FindWithTag("DDaeng").GetComponent<Move>();

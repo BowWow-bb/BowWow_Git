@@ -35,7 +35,7 @@ public class Wave_Move : MonoBehaviour
         else // 오른쪽 일때
         {
             // 오른쪽으로 전진
-            gameObject.transform.position = new Vector3(position.x +1f, position.y, position.z);
+            gameObject.transform.position = new Vector3(position.x + 1f, position.y, position.z);
         }
         position = gameObject.transform.position; // 좌표 저장
         rotate += 3f; // 음파가 꾸준히 자전하도록 증가

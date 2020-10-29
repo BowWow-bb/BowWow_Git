@@ -85,7 +85,7 @@ public class bone : MonoBehaviour
                 spin = true;
                 position = gameObject.transform.position;
             }
-            else if(spin)
+            else if(spin) // 이부분 HP회복넣어줘
             { 
                 // 땡이와 뼈다귀의 위치를 빼서 위치벡터를 만들고 normalize 해준 벡터를 trace 저장
                 trace = (DD.transform.position - transform.position).normalized;

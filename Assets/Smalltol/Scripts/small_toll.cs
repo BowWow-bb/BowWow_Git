@@ -82,7 +82,7 @@ public class small_toll : MonoBehaviour
     void Start()
     {
         //h
-        HPMax = 100;
+        HPMax = 200;
         HP = HPMax;
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);

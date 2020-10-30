@@ -35,7 +35,7 @@ public class Bigtol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HPMax = 400;
+        HPMax = 1000;
         HP = HPMax;
         hp_bar = GameObject.FindWithTag("BigtolHp");
         hpbar_sx = hp_bar.transform.localScale.x;

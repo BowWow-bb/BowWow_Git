@@ -77,7 +77,7 @@ public class small_toll_stage1 : MonoBehaviour
         //Debug.Log("위치: " + gameObject.transform.position); //world 좌표임
 
         //h
-        HPMax = 100;
+        HPMax = 150;
         HP = HPMax;
         tag_name = transform.Find("HpBar").transform.Find("Hp").tag;
         hp_bar = GameObject.FindWithTag(tag_name);

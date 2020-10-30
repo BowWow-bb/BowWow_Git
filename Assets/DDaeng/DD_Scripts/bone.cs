@@ -52,14 +52,14 @@ public class bone : MonoBehaviour
                 // check의 값을 x 좌표의 왼쪽방향으로 늘려줘서 x축은 왼쪽으로 전진
                 // check값(x좌표) 값이 변화함에 따라 y축의 좌표는 던지는 기준에서 위로 포물선을 그리게 설정
                 gameObject.transform.position = new Vector3(check, (position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (-60 - position.x))), 0);
-                check -= 0.5f;
+                check -= 1.5f;
             }
             else if (!left && gameObject.transform.position.x < 60f) // 뼈다귀가 오른쪽으로 날라가야 하고 , 화면의 끝에 닿지 않았을 때
             {
                 // check의 값을 x 좌표의 오른쪽방향으로 늘려줘서 x축은 왼쪽으로 전진
                 // check값(x좌표) 값이 변화함에 따라 y축의 좌표는 던지는 기준에서 위로 포물선을 그리게 설정
                 gameObject.transform.position = new Vector3(check, position.y + (6f) * Mathf.Sin(3.14f * (check - position.x) / (60 - position.x)), 0);
-                check += 0.5f;
+                check += 1.5f;
             }
             else
             {
@@ -85,7 +85,7 @@ public class bone : MonoBehaviour
                 spin = true;
                 position = gameObject.transform.position;
             }
-            else if(spin) // 이부분 HP회복넣어줘
+            else if(spin) 
             { 
                 // 땡이와 뼈다귀의 위치를 빼서 위치벡터를 만들고 normalize 해준 벡터를 trace 저장
                 trace = (DD.transform.position - transform.position).normalized;
@@ -106,7 +106,7 @@ public class bone : MonoBehaviour
                     // 거리가 멀다면 x,y 좌표를 trace 벡터*속도를 해서 오브젝트와의 거리를 좁힌다. z좌표는 그냥 땡이의 z좌표.
                     gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
                         , transform.position.y + (trace.y * velocity),DD.transform.position.z);
-                    check += 0.0001f;
+                    check += 0.001f;
                 }
 
             }

@@ -113,7 +113,6 @@ public class BigFireball : MonoBehaviour
                 }
             }
 
-            //위치가 같은경우는..?
             if (Mathf.Abs(transform.position.x) > 60.0f)   //양쪽 벽 경계를 넘어서는 경우 폭팔
                 move_tmp = move;
         }

@@ -70,7 +70,7 @@ public class Bigtol : MonoBehaviour
     {
         move_Rdir = 0;
         yield return new WaitForSeconds(1.5f);
-        StartCoroutine("MoveRandom");       
+        StartCoroutine("MoveRandom");       //방향 재설정       
     }
     IEnumerator MoveRandom_Right()
     {
@@ -89,7 +89,7 @@ public class Bigtol : MonoBehaviour
         else if (Player.transform.position.x > transform.position.x)
             StartCoroutine("MoveTrace_Right"); //오른쪽 이동
         else
-            StartCoroutine("MoveRandom");
+            StartCoroutine("MoveRandom");   //위치 일치하는 경우 대비
 
         yield return new WaitForSeconds(2f);
     }
@@ -97,13 +97,13 @@ public class Bigtol : MonoBehaviour
     {
         move_Tdir = 0;
         yield return new WaitForSeconds(1.5f);
-        StartCoroutine("MoveTrace");
+        StartCoroutine("MoveTrace");    //추적이동 재시작
     }
     IEnumerator MoveTrace_Right()
     {
         move_Tdir = 1;
         yield return new WaitForSeconds(1.5f);
-        StartCoroutine("MoveTrace");  
+        StartCoroutine("MoveTrace");    //추적이동 재시작  
 
     }
 
@@ -179,24 +179,24 @@ public class Bigtol : MonoBehaviour
             Summon();
 
         timer += 1;
-        if (timer >= 400)
-            timer = 0;
+        if (timer >= 400)   //타이머 조건 중복 방지
+            timer = 0;  //타이머 초기화
         Debug.Log(timer);
     }
 
     public void hpMove(int hp_delta)    //hp바 동작 구현
     {
-        if (HP-hp_delta <= 0)
+        if (HP-hp_delta <= 0)   //0이하로 내려가는 경우 죽은걸로 판단
             Destroy(gameObject);
 
-        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp;
-        HP -= hp_delta;
+        float move = ((HPMax - HP) + hp_delta) * hpbar_tmp; //hp바 이동할 크기
+        HP -= hp_delta; //hp 재설정
 
-        Vector3 Scale = hp_bar.transform.localScale;
+        Vector3 Scale = hp_bar.transform.localScale;    //현재 스케일 값
         hp_bar.transform.localScale = new Vector3(hpbar_sx - move, Scale.y, Scale.z);
 
-        Vector3 Pos = hp_bar.transform.localPosition;
-        hp_bar.transform.localPosition = new Vector3(hpbar_tx - move/2.0f, Pos.y, Pos.z);
+        Vector3 Pos = hp_bar.transform.localPosition;   //현재 포지션 값
+        hp_bar.transform.localPosition = new Vector3(hpbar_tx - move/2.0f, Pos.y, Pos.z);   //스케일 변화의 절반 만큼 이동시, 자연스러운 감소효과 나타낼 수 o
     }
     void Bigfire()  //빅 파이어볼 스킬
     {
@@ -226,8 +226,8 @@ public class Bigtol : MonoBehaviour
             summon_tol.transform.position = transform.position;   //미니톨 초기 위치 = 빅톨 현재 위치 
             summon_tol.transform.parent = null;    //독립된 개체
 
-            string tag_name = ("tolHp" + tolHptag_n++).ToString();
-            summon_tol.transform.Find("HpBar").transform.Find("Hp").tag = tag_name;
+            string tag_name = ("tolHp" + tolHptag_n++).ToString();  //개별 태그 설정
+            summon_tol.transform.Find("HpBar").transform.Find("Hp").tag = tag_name; //설정한 태그값으로 변경
         }
     }
     public void TakeDamage(int damage)//땡이한테 맞기위함 

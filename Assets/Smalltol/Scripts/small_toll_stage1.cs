@@ -287,7 +287,7 @@ public class small_toll_stage1 : MonoBehaviour
             Bone.transform.position = transform.position;  //생성위치 = 현재 몬스터 위치
             Bone.transform.parent = null;
         }
-        else if (i < 10)   //빅보 스킬 아이템 생성 (뼈다귀 스킬 보다 확률 더 적게 조정)
+        else if (i <= 10)   //빅보 스킬 아이템 생성 (뼈다귀 스킬 보다 확률 더 적게 조정)
         {
             GameObject Bigbo = GameObject.Instantiate(Bigbo_Perfab);
             Bigbo.transform.position = transform.position; //생성위치 = 현재 몬스터 위치

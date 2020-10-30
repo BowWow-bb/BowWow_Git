@@ -7,7 +7,7 @@ public class bone : MonoBehaviour
     bool left; // 뼈다귀가 땡이 보다 왼쪽인지 판단
     bool arrival; // 던진 뼈다귀가 끝에 도착했는지 판단
     bool spin; // 던진 뼈다귀가 돌았는지 판단
-    GameObject DD; // 뼈다귀를 발사한 주인공 ( 땡이 ) 오브젝트
+    public GameObject DD; // 뼈다귀를 발사한 주인공 ( 땡이 ) 오브젝트
     Vector3 position; // 오브젝트의 위치
     float check; 
     float rotate; // 뼈다귀 자체가 도는 rotation 값 ( 자전 ) 
@@ -96,6 +96,8 @@ public class bone : MonoBehaviour
                 if (distance <= 1f)
                 {
                     // 거리가 1이하가 된다면 오브젝트를 없앤다.
+                    Move DD = GameObject.Find("DDaeng").GetComponent<Move>();
+                    DD.hpMove(-20); //부메랑이 다시 돌아오면  체력회복됨
                     Destroy(gameObject, 0);
                     Boomerang.Stop();
                 }

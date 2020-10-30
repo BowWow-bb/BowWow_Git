@@ -11,8 +11,8 @@ public class Bigtol : MonoBehaviour
 
     public Transform head;  //데미지 텍스트 뜨는 위치 
 
-    public int HP;        //HP
-    int HPMax;            //최대 체력
+    public int HP;          //HP
+    int HPMax;              //최대 체력
     GameObject hp_bar;      //hp바
     float hpbar_sx;         //hp바 스케일 x값
     float hpbar_tx;         //hp바 위치 x값
@@ -20,10 +20,11 @@ public class Bigtol : MonoBehaviour
 
     float move;             //일정 이동거리
     float move_tmp;         //현재 이동 거리(일정 이동거리 도달 여부)
-    float move_v;           //이동 속도
+    float move_v;           //이동 속도 조절
 
     Vector3 dir;            //이동 벡터
-    int move_dir;           //랜덤 이동방향 0:왼쪽, 1:오른쪽
+    int move_Rdir;          //랜덤 이동방향 0:왼쪽, 1:오른쪽
+    int move_Tdir;           //추적 이동방향 0:왼쪽, 1:오른쪽
 
     int raintol_n;          //레인 미니톨 생성 개수
     int summon_n;           //서먼 미니톨 생성 개수
@@ -39,67 +40,129 @@ public class Bigtol : MonoBehaviour
         hp_bar = GameObject.FindWithTag("BigtolHp");
         hpbar_sx = hp_bar.transform.localScale.x;
         hpbar_tx = hp_bar.transform.localPosition.x;
-        hpbar_tmp = hpbar_sx / HPMax;
+        hpbar_tmp = hpbar_sx / HPMax;   //최대 체력에 따른 hp바 이동량 설정
 
-        move = 7.0f;
-        move_tmp = 0;
-        move_v = 0.8f;
+        move = 10.0f;
+        move_v = 0.02f;
 
         raintol_n = 4;
         summon_n = 3;
         tolHptag_n = 1;
 
         timer = 0;
+
+        StartCoroutine("MoveRandom");
+        StartCoroutine("MoveTrace");
+    }
+
+    IEnumerator MoveRandom()    //랜덤 이동
+    { 
+        move_Rdir = Random.Range(0, 2);  //랜덤 방향 설정: 0 or 1
+
+        if (move_Rdir == 0)
+            StartCoroutine("MoveRandom_Left");  //왼쪽 이동
+        else //move_Tdir == 1
+            StartCoroutine("MoveRandom_Right"); //오른쪽 이동
+
+        yield return new WaitForSeconds(2f);
+    }
+    IEnumerator MoveRandom_Left()
+    {
+        move_Rdir = 0;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine("MoveRandom");       
+    }
+    IEnumerator MoveRandom_Right()
+    {
+        move_Rdir = 1;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine("MoveRandom");       //방향 재설정
+
+    }
+
+    IEnumerator MoveTrace() //추적 이동
+    {
+        GameObject Player = GameObject.Find("DDaeng");  //현재 플레이어의 위치 받기
+
+        if (Player.transform.position.x < transform.position.x)
+            StartCoroutine("MoveTrace_Left");  //왼쪽 이동
+        else if (Player.transform.position.x > transform.position.x)
+            StartCoroutine("MoveTrace_Right"); //오른쪽 이동
+        else
+            StartCoroutine("MoveRandom");
+
+        yield return new WaitForSeconds(2f);
+    }
+    IEnumerator MoveTrace_Left()
+    {
+        move_Tdir = 0;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine("MoveTrace");
+    }
+    IEnumerator MoveTrace_Right()
+    {
+        move_Tdir = 1;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine("MoveTrace");  
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        GameObject Player = GameObject.Find("DDaeng");
+        GameObject Player = GameObject.Find("DDaeng");  //현재 플레이어의 위치 받기
 
         //hp손상 + 일정반경 내에 플레이어가 있는 경우 - 플레이어 향해 이동
-        if (HP < HPMax && Mathf.Abs(transform.position.x - Player.transform.position.x) < 30)
+        if (HP < HPMax && Mathf.Abs(transform.position.x - Player.transform.position.x) < 35)
         {
-            if(Player.transform.position.x < transform.position.x)  //플레이어가 빅톨의 왼쪽에 위치
+            if (move_Tdir == 0)  //왼쪽 이동
             {
-                if(transform.position.x - move * Time.deltaTime * move_v > -56.0f)  //왼쪽 벽 경계 이동 제한
-                    transform.position = new Vector3(transform.position.x - move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
+                if (transform.position.x - move * move_v < -56.0f)  //왼쪽 벽 경계 이동제한
+                {
+                    StopCoroutine("MoveTrace_Left");   //왼쪽 이동 중지
+                    StopCoroutine("MoveTrace");
+                    StartCoroutine("MoveTrace");       //방향 재설정
+                }
+                else
+                    transform.position = new Vector3(transform.position.x - move * move_v, transform.position.y, transform.position.z);
             }
-            else
+            else if (move_Tdir == 1)   //오른쪽 이동
             {
-                if(transform.position.x + move * Time.deltaTime * move_v < 56.0f)    //오른쪽 벽 경계 이동 제한
-                    transform.position = new Vector3(transform.position.x + move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
+                if (transform.position.x + move * move_v > 56.0f)   //오른쪽 벽 경계 이동제한
+                {
+                    StopCoroutine("MoveTrace_Right");  //오른쪽 이동 중지
+                    StopCoroutine("MoveTrace");
+                    StartCoroutine("MoveTrace");   //방향 재설정
+                }
+                else
+                    transform.position = new Vector3(transform.position.x + move * move_v, transform.position.y, transform.position.z);
             }
         }
+
         else
-        {
-            //hp손상 X or 일정반경 내에 플레이어가 없는 경우 - 좌우 랜덤 이동
-            if (move_tmp == 0.0f)   //랜덤 방향 이동 완료된 경우
-                move_dir = Random.Range(0, 2);  //랜덤 방향 설정: 0 or 1
-
-            if (move_dir == 0)  //왼쪽 이동
+        {   //hp손상 X or 일정반경 내에 플레이어가 없는 경우 - 좌우 랜덤 이동
+            if (move_Rdir == 0)  //왼쪽 이동
             {
-                if (transform.position.x - move * Time.deltaTime * move_v < -56.0f)  //왼쪽 벽 경계 이동제한
-                    move_tmp = move;
-                else
+                if (transform.position.x - move * move_v < -56.0f)  //왼쪽 벽 경계 이동제한
                 {
-                    transform.position = new Vector3(transform.position.x - move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
-                    move_tmp += move * Time.deltaTime * move_v;  //현재 이동거리 업데이트
+                    StopCoroutine("MoveRandom_Left");   //왼쪽 이동 중지
+                    StopCoroutine("MoveRandom");
+                    StartCoroutine("MoveRandom");       //방향 재설정
                 }
+                else
+                    transform.position = new Vector3(transform.position.x - move * move_v, transform.position.y, transform.position.z);
             }
-            else if (move_dir == 1)  //오른쪽 이동
+            else if(move_Rdir == 1)  //오른쪽 이동
             {
-                if (transform.position.x + move * Time.deltaTime * move_v > 56.0f)   //오른쪽 벽 경계 이동제한
-                    move_tmp = move;
-                else
+                if (transform.position.x + move * move_v > 56.0f)   //오른쪽 벽 경계 이동제한
                 {
-                    transform.position = new Vector3(transform.position.x + move * Time.deltaTime * move_v, transform.position.y, transform.position.z);
-                    move_tmp += move * Time.deltaTime * move_v;  //현재 이동거리 업데이트
+                    StopCoroutine("MoveRandom_Right");  //오른쪽 이동 중지
+                    StopCoroutine("MoveRandom");
+                    StartCoroutine("MoveRandom");   //방향 재설정
                 }
+                else
+                    transform.position = new Vector3(transform.position.x + move * move_v, transform.position.y, transform.position.z);
             }
-
-            if (move_tmp >= move)    //일정거리 이동 완료한 경우
-                move_tmp = 0.0f;    //현재 이동거리 초기화
         }
 
         //1. 파이어볼 스킬
@@ -116,6 +179,8 @@ public class Bigtol : MonoBehaviour
             Summon();
 
         timer += 1;
+        if (timer >= 400)
+            timer = 0;
         Debug.Log(timer);
     }
 

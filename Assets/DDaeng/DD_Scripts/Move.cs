@@ -398,6 +398,10 @@ public class Move : MonoBehaviour
                     isbig = false;
                     BigboActive = false;
                     w_Bigbo.isThere = false;
+                    if (onFloor)
+                        gameObject.transform.position = new Vector3(transform.position.x, Floor[floor].transform.position.y + 2.2f, transform.position.z);
+                    else
+                        gameObject.transform.position = new Vector3(transform.position.x, 3f, transform.position.z);
                 }
             }
             else if (scale < 4f)

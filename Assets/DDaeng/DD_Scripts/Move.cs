@@ -411,7 +411,7 @@ public class Move : MonoBehaviour
             else
             {
                 // 빅보로 인해 scale 완전히 커진 상태 , time 세준다.
-                time += 0.01f;
+                time += 0.02f;
             }
         }
 

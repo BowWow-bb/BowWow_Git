@@ -106,7 +106,7 @@ public class bone : MonoBehaviour
                     // 거리가 멀다면 x,y 좌표를 trace 벡터*속도를 해서 오브젝트와의 거리를 좁힌다. z좌표는 그냥 땡이의 z좌표.
                     gameObject.transform.position = new Vector3(transform.position.x + (trace.x * velocity)
                         , transform.position.y + (trace.y * velocity),DD.transform.position.z);
-                    check += 0.001f;
+                    check += 0.0075f;
                 }
 
             }

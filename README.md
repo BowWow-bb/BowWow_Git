@@ -1,5 +1,5 @@
 # BowWow
-implement in C#/Unity3D # without using Unity Physics Engine
+implement in C#/Unity3D **without using Unity Physics Engine**
 
 -플레이어인 강아지들의 짖는 소리(Bow) + 감탄사(Wow)가 나오는 게임 의미
 

@@ -16,6 +16,6 @@ Unity 기반의 아케이드/슈팅 게임입니다.
 
 ScreenShots
 ----- 
-![image](https://user-images.githubusercontent.com/66946182/97954432-d2211880-1de6-11eb-8e62-8f833d4bfa07.png)
+<img src="https://user-images.githubusercontent.com/66946182/97954432-d2211880-1de6-11eb-8e62-8f833d4bfa07.png" width = "60%">
 
-![image](https://user-images.githubusercontent.com/66946182/97954441-d9482680-1de6-11eb-875e-413305137340.png)
+<img src="https://user-images.githubusercontent.com/66946182/97954441-d9482680-1de6-11eb-875e-413305137340.png" width = "60%">

@@ -5,7 +5,7 @@ implement in C#/Unity
 
 -모티브가 된 게임: 버블버블 + 갤러그
 
-![image](https://user-images.githubusercontent.com/66946182/97954315-879f9c00-1de6-11eb-919e-34c08610e76b.png)
+<img src="https://user-images.githubusercontent.com/66946182/97954315-879f9c00-1de6-11eb-919e-34c08610e76b.png" width = "60%">
 
 
 Unity 기반의 아케이드/슈팅 게임입니다.

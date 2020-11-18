@@ -17,15 +17,15 @@ Unity 기반의 아케이드/슈팅 게임입니다.
 ScreenShots
 ----- 
 
-1) 보스 몬스터의 레인 커맨드 스킬 시전
+1 ) 보스 몬스터의 레인 커맨드 스킬 시전
 
 <img width="519" alt="1" src="https://user-images.githubusercontent.com/66946182/97954859-034e1880-1de8-11eb-8b42-38e52c6a78ca.png">
 
-2) 몬스터의 추적+런 크래쉬 스킬 시전
+2 ) 몬스터의 추적+런 크래쉬 스킬 시전
 
 <img width="522" alt="무제 2" src="https://user-images.githubusercontent.com/66946182/97954862-05b07280-1de8-11eb-8a6f-471cca1ba389.png">
 
-3) 플레이어의 빅보 스킬 시전
+3 ) 플레이어의 빅보 스킬 시전
 
 <img width="558" alt="무제 3" src="https://user-images.githubusercontent.com/66946182/97954863-06490900-1de8-11eb-9076-0b640ace18b2.png">
 
